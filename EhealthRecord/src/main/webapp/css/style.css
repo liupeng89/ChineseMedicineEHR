@@ -1,7 +1,6 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,100);
 
 body {
-  background: url(https://dl.dropboxusercontent.com/u/23299152/Wallpapers/wallpaper-22705.jpg) no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -195,3 +194,113 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 		-moz-border-radius-bottomright:5px;
 		-webkit-border-bottom-right-radius:5px; /* Saf3-4 */
 	}
+	#input {
+	
+		float:left;
+		width:35%;
+		height:800px;
+	}
+	
+	#zhenxing {
+		float:left;
+		width:100%;
+	}
+	#description {
+		float:left;
+		width:100%;
+	}
+	
+	#table1{
+		
+		width:100%;
+		border:1px;
+	}
+	#table2 {
+	
+		width:100%;
+		border:1px;
+	}
+	
+	#output {
+	
+		float:right;
+		width:65%;
+	}
+	#similayrecords {
+		float:left;
+		width:100%;
+	}
+	#similarytable {
+		float:left;
+		width:100%;
+	}
+	#left {
+		float:left;
+		width:55%;
+	}
+	#right {
+		float:right;
+		width:45%;
+	}
+	#left_left {
+		float:left;
+		width:60%;
+	}
+	#left_right {
+		float:right;
+		width:40%;
+	}
+	
+	.spinner {
+  margin: 100px auto;
+  width: 30px;
+  height: 40px;
+  text-align: center;
+  font-size: 10px;
+  display: none;
+}
+ 
+.spinner > div {
+  background-color: #67CF22;
+  height: 100%;
+  width: 6px;
+  display: inline-block;
+   
+  -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
+  animation: stretchdelay 1.2s infinite ease-in-out;
+}
+ 
+.spinner .rect2 {
+  -webkit-animation-delay: -1.1s;
+  animation-delay: -1.1s;
+}
+ 
+.spinner .rect3 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+ 
+.spinner .rect4 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+ 
+.spinner .rect5 {
+  -webkit-animation-delay: -0.8s;
+  animation-delay: -0.8s;
+}
+ 
+@-webkit-keyframes stretchdelay {
+  0%, 40%, 100% { -webkit-transform: scaleY(0.4) } 
+  20% { -webkit-transform: scaleY(1.0) }
+}
+ 
+@keyframes stretchdelay {
+  0%, 40%, 100% {
+    transform: scaleY(0.4);
+    -webkit-transform: scaleY(0.4);
+  }  20% {
+    transform: scaleY(1.0);
+    -webkit-transform: scaleY(1.0);
+  }
+}
