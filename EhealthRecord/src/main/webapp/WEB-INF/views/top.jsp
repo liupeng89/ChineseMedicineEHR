@@ -18,6 +18,10 @@ and open the template in the editor.
         div {
             text-align: left;
         }
+        a{
+        	text-decoration:none;
+        	color:#ffffff;
+        }
     </style>
     <head>
         <title>TODO supply a title</title>
@@ -26,7 +30,7 @@ and open the template in the editor.
     </head>
     <body >
         <div>
-        	<h1>E-HealthRecords</h1>
+        	<a href="mainquery" target="showme"><h1>E-HealthRecords</h1></a>
         </div>
     </body>
 </html>

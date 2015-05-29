@@ -17,6 +17,7 @@
 <body>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/jquery-2.1.4.min.js"></script>
+	<div class="container">
 	<div id="left">
 		<div>
 			<h1>处方预测</h1>
@@ -40,7 +41,7 @@
 			    		</p>
 			    		<hr>
 						<p>证型</p>
-						<table id="table1">
+						<table class="table" border="1px">
 							<tr>
 								<td><label>虚:</label></td>
 								<td>
@@ -83,7 +84,7 @@
 					<div id="">
 						<hr>
 						<p>症状</p>
-						<table id="table2">
+						<table class="table" border="1px">
 							<tr>
 								<td><label>寒热：</label></td>
 								<td>
@@ -357,7 +358,7 @@
 			<div id="similayrecords">
 				<hr>
 				<h3>相似病历：</h3>
-				<table id="similarytable" border="1px">
+				<table class="table" border="1px">
 					<tr>
 						<th>序号</th>
 						<th>挂号号</th>
@@ -380,7 +381,7 @@
 	
 	</div>
 	</div>
-	
+	</div>
 	<script>
 		$("#predictButton").click(){
 			$(".spinner").show();
