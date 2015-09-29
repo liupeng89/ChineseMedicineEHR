@@ -15,12 +15,12 @@
 		<script type="text/javascript" src="js/query.js"></script>
 		<script type="text/javascript">
 			
-		function queryRecord(){
+		/* function queryRecord(){
 				var url = 'recordquery?batch='+ $("#recordbatch").val() + '&pname='+$("#tags").val();
 				$.get(url, function(data){
 					$('#contents').html(data);
 				});
-			}
+			} */
 		</script>
 	</head>
 	<body class="container">
@@ -29,7 +29,7 @@
 	    		<h1>病历查询</h1>
 	    	</div>
 	    	<div>
-	    		<!-- <form action="recordquery" method="get"> -->
+	    		<form action="recordquery" method="get">
 	    			年度：
 	    			<select id="recordbatch" name="batch">  
         				<c:forEach items="${batchList }" var="item">  
@@ -38,8 +38,8 @@
     				</select>  
 					<label for="tags">姓名： </label>
 					<input id="tags" type="text"  name="pname" />
-	    			<button id="query" onClick='queryRecord()' class="btn btn-success btn-sm" >查询</button>
-	        	<!-- </form> -->
+	    			<button id="query" type="submit" class="btn btn-success btn-sm" >查询</button>
+	        	</form>
 	    	</div>
 	    	
 		</div>

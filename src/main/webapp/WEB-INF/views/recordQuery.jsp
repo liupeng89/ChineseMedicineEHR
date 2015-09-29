@@ -18,7 +18,7 @@
     </head>
     <body>
         <table class="table table-bordered">
-        	 <tr>
+        	 <tr class="info">
                 <th>编号</th>
                 <th>信息</th>
                 <th>详细</th>

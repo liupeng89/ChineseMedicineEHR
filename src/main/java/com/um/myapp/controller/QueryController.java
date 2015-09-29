@@ -97,7 +97,6 @@ public class QueryController {
 			FindIterable<Document> iterable = collection.find(conditions);
 			
 			Document document = iterable.first();
-			System.out.println(document);
 			if(document != null){
 				eHealthRecord = EhealthRecordConverter.toEHealthRecord(document);
 				eHealthRecord = EhealthRecordConverter.protectPatientInfo(eHealthRecord);

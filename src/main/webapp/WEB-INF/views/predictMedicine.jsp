@@ -24,7 +24,7 @@
 					<!-- 症型 -->
 					<h1>处方预测</h1>
 					<hr>
-			<div>
+					<div>
 						<p>
 							年度：
 			    			<select name="batch">  
@@ -45,9 +45,9 @@
 			    		</p>
 			    		<hr>
 						<p>证型</p>
-						<table class="table table-striped" border="0px">
+						<table class="table table-bordered">
 							<tr>
-								<td><label>虚:</label></td>
+								<td class="info"><label>虚:</label></td>
 								<td>
 									<select name="xu">
 										<option value="气虚">气虚</option>
@@ -57,14 +57,14 @@
 								</td>
 							</tr>
 							<tr>
-								<td><label>痰瘀</label></td>
+								<td class="info"><label>痰瘀</label></td>
 								<td>
 									<input type="radio" name="tanyu" value="yes">有
 									<input type="radio" name="tanyu" value="no" checked>无
 								</td>
 							</tr>
 							<tr>
-								<td><label>痰湿</label></td>
+								<td class="info"><label>痰湿</label></td>
 								<td>
 									<input type="radio" name="tanshi" value="yes">有
 									<input type="radio" name="tanshi" value="no" checked>无
@@ -88,10 +88,10 @@
 					<div id="">
 						<hr>
 						<p>症状</p>
-						<table class="table table-striped" border="0px">
+						<table class="table table-bordered">
 							
 							<tr>
-								<td><label>纳：</label></td>
+								<td class="info"><label>纳：</label></td>
 								<td>
 								<select name="na">
 									<option value="okna" selected>正常</option>
@@ -102,7 +102,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td><label>舌：</label></td>
+								<td class="info"><label>舌：</label></td>
 								<td>
 									<label>舌色：</label>
 									<select name="tonguecolor">
@@ -127,7 +127,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td><label>脉：</label></td>
+								<td class="info"><label>脉：</label></td>
 								<td>
 									<label><input name="pulse" type="checkbox" value="floatpulse" checked/>浮</label>&nbsp;&nbsp;
 									<label><input name="pulse" type="checkbox" value="sinkpulse"/>沉</label>&nbsp;&nbsp;
@@ -140,7 +140,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td><label>痰量：</label></td>
+								<td class="info"><label>痰量：</label></td>
 								<td>
 									<select name="sputumamount">
 										<option value="oksputumamount" selected>正常</option>
@@ -150,7 +150,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td><label>痰色：</label></td>
+								<td class="info"><label>痰色：</label></td>
 								<td>
 									<select name="sputumcolor">
 										<option value="defalutsputumcolor">正常</option>
@@ -163,7 +163,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td><label>咳嗽：</label></td>
+								<td class="info"><label>咳嗽：</label></td>
 								<td>
 									<select name="cough">
 										<option value="okcough" selected>正常</option>
@@ -174,7 +174,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td><label>大便：</label></td>
+								<td class="info"><label>大便：</label></td>
 								<td>
 									<select name="defecate" >
 										<option value="defaultdefecate" selected>无便秘</option>
@@ -186,7 +186,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td><label>小便：</label></td>
+								<td class="info"><label>小便：</label></td>
 								<td>
 									<select name="urinate" >
 										<option value="okurinate" selected>小便正常</option>
@@ -197,7 +197,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td><label>痛：</label></td>
+								<td class="info"><label>痛：</label></td>
 								<td>
 									<select name="xonglei">
 										<option value="noxonglei" selected>胸肋痛（无）</option>
@@ -231,7 +231,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td><label>眠：</label></td>
+								<td class="info"><label>眠：</label></td>
 								<td>
 									<select name="sleep">
 										<option value="oksleep" selected>正常</option>
@@ -243,7 +243,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td><label>寒热：</label></td>
+								<td class="info"><label>寒热：</label></td>
 								<td>
 									<select name="hanre">
 										<option value="hanwu" selected>寒（无）</option>
@@ -257,7 +257,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td><label>汗：</label></td>
+								<td class="info"><label>汗：</label></td>
 								<td>
 									<select name="sweat">
 										<option value="sweat">有</option>
@@ -269,7 +269,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td><label>气力：</label></td>
+								<td class="info"><label>气力：</label></td>
 								<td>
 									<select name="energy">
 										<option value="okenergy" selected>正常</option>
@@ -279,7 +279,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td><label>口渴：</label></td>
+								<td class="info"><label>口渴：</label></td>
 								<td>
 									<select name="thirst">
 										<option value="okthirst" selected>口不渴</option>
@@ -289,7 +289,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td><label>口味：</label></td>
+								<td class="info"><label>口味：</label></td>
 								<td>
 									<select name="taste">
 										<option value="lighttaste">口淡</option>
