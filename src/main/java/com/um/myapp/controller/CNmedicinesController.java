@@ -21,8 +21,7 @@ public class CNmedicinesController {
 	@RequestMapping(value="cnmedicinestatis",method=RequestMethod.GET)
 	public ModelAndView cnMedicineStatis(String batch){
 		
-		CWRelationMapping cwRelationMapping = new CWRelationMapping();// database process
-		List<EHealthRecord> allRecords = cwRelationMapping.queryEhealthDataByCollection(DataBaseSetting.ehealthcollection);
+		List<EHealthRecord> allRecords = CWRelationMapping.queryEhealthDataByCollection(DataBaseSetting.ehealthcollection);
 		
 		// 年度
 		// 1.2 选取批次

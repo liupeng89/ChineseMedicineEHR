@@ -14,13 +14,11 @@ import java.util.Set;
 import org.bson.Document;
 
 import com.mongodb.Block;
-import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
-import com.mongodb.client.MongoDatabase;
 import com.um.classify.DiagnosticsClassify;
 import com.um.dao.ConnectionDB;
+import com.um.data.DataBaseSetting;
 import com.um.data.DiagClassifyData;
 import com.um.model.ChineseMedicine;
 import com.um.model.EHealthRecord;
@@ -54,34 +52,27 @@ public class CWRelationMapping {
 	 *  	： 连接数据库，并进行数据的读取
 	 * @return
 	 */
-	public List<EHealthRecord> queryEhealthData(){
+	public static List<EHealthRecord> queryEhealthData(){
 		
-		List<EHealthRecord> results =  new ArrayList<EHealthRecord>();
+		final List<EHealthRecord> results =  new ArrayList<EHealthRecord>();
 		
-		MongoClient client = new MongoClient("localhost",27017);
+		MongoCollection<Document> collection = ConnectionDB.getCollections(DataBaseSetting.ehealthcollection);
+		FindIterable<Document> iterable = collection.find();
 		
-		try {
-			 MongoDatabase database = client.getDatabase("db");
-		        
-		     MongoCollection<Document> collection = database.getCollection("ehealthdata");
-		     
-		     MongoCursor<Document> cursor = collection.find().iterator();
-				
-		        while(cursor.hasNext()){
-		        	
-		        	EHealthRecord eHealthRecord = EhealthRecordConverter.toEHealthRecord(cursor.next());
-		        	
-		        	if(eHealthRecord != null){
-		        		results.add(eHealthRecord);
-		        	}
-		        }		
-				return results;
-		        
-		     
-		} finally {
-			// TODO: handle finally clause
-			client.close();
-		}
+		iterable.forEach(new Block<Document>() {
+
+			@Override
+			public void apply(Document document) {
+				// TODO Auto-generated method stub
+				EHealthRecord eHealthRecord = EhealthRecordConverter.toEHealthRecord(document);
+	        	
+	        	if(eHealthRecord != null){
+	        		results.add(eHealthRecord);
+	        	}
+			}
+		});
+		
+		return results;
 	}
 	
 	/**
@@ -89,7 +80,7 @@ public class CWRelationMapping {
 	 * @param ehealthcollection
 	 * @return
 	 */
-	public List<EHealthRecord> queryEhealthDataByCollection(String collectionString){
+	public static List<EHealthRecord> queryEhealthDataByCollection(String collectionString){
 		if(collectionString == "" || collectionString.equals("")){
 			return null;
 		}
@@ -98,6 +89,7 @@ public class CWRelationMapping {
 		
 		MongoCollection<Document> collection = ConnectionDB.getCollections(collectionString);
 		FindIterable<Document> iterable = collection.find();
+		
 		iterable.forEach(new Block<Document>() {
 
 			@Override
@@ -371,7 +363,7 @@ public class CWRelationMapping {
 		/**
 		 * 1.病历信息
 		 */
-		List<EHealthRecord> eHealthList = cwRelationMapping.queryEhealthData();
+		List<EHealthRecord> eHealthList = CWRelationMapping.queryEhealthData();
 		
 		System.out.println(eHealthList.size());
 		

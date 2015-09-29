@@ -1,7 +1,5 @@
 package com.um.dao;
 
-import javax.print.Doc;
-
 import org.bson.Document;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -9,7 +7,6 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.um.data.DataBaseSetting;
 
 public class ConnectionDB {
 	

@@ -16,6 +16,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,22 +46,20 @@ public class EhealthRecordConverter {
     
     /**
      *  convert bsonobject to ehealthrecord
-     * @param bSONObject
+     * @param document
      * @return 
      */
-    public static EHealthRecord toEHealthRecord(Document bSONObject){
-        if(bSONObject == null){
+    @SuppressWarnings("unchecked")
+	public static EHealthRecord toEHealthRecord(Document document){
+        if(document == null){
             return null;
         }
-        ObjectId _id = (ObjectId) bSONObject.get("_id");
+        ObjectId _id = (ObjectId) document.get("_id");
         
-        Document ehealrecordDocument = (Document) bSONObject.get("ehealthrecord");
+        Document ehealrecordDocument = (Document) document.get("ehealthrecord");
         
         Document patientInfoDoc = (Document) ehealrecordDocument.get("patientinfo");
         
-//        Document medicines = (Document) ehealrecordDocument.get("medicine");
-//        Document chineseMedicines = (Document) medicines.get("chineseMedicines");
-//        Document westernMedicines = (Document) medicines.get("westernMedicines");
         Document medicines = null;
         Document chineseMedicines = null;
         Document westernMedicines = null;
@@ -70,7 +69,6 @@ public class EhealthRecordConverter {
             westernMedicines = (Document) medicines.get("westernMedicines");
 		} catch (Exception e) {
 			// TODO: handle exception
-//			System.out.println();
 		}
         
         //诊断doc
@@ -79,7 +77,6 @@ public class EhealthRecordConverter {
         String westerndiagnostics = diagnostics.getString("westerndiagnostics");
         
         
-        @SuppressWarnings("unchecked")
         List<Document> cMedicineList = null;
         Document cMedicine = null;
         
@@ -151,13 +148,6 @@ public class EhealthRecordConverter {
         String medicineservice = ehealrecordDocument.getString("medicineservice"); // 科室
         String process = ehealrecordDocument.getString("process"); // 处理
         String registrationno = ehealrecordDocument.getString("registrationno"); //  挂号号
-//        String registrationno = (String) ehealrecordDocument.get("registrationno");
-////        DecimalFormat df = new DecimalFormat("#############.##");
-////        try {
-////        	registrationno = df.format(ehealrecordDocument.get("registrationno")); //  挂号号
-////		} catch (Exception e) {
-////			// TODO: handle exception
-////		}
         String hospitalString = ehealrecordDocument.getString("hospital");// 医院
         String conditionsdescribed = ehealrecordDocument.getString("conditionsdescribed"); // 病症描述
         
@@ -331,38 +321,4 @@ public class EhealthRecordConverter {
     	}
     	return e;
     }
-    
-    
-    /**
-     * 
-     * @param ags
-     * @return 
-     */
-    public static int main(String[] ags){
-        
-        
-        MongoClient client = new MongoClient("localhost",27017);
-		
-        System.out.println("success");
-		
-        MongoDatabase database = client.getDatabase("db");
-		
-	if( database == null){
-            System.out.println("db is null");
-	}else {
-            System.out.println("db is not null");
-	}
-		
-	MongoCollection<Document> collection = database.getCollection("ehealth");
-		
-	MongoCursor<Document> cursor = collection.find(new BasicDBObject("ehealthrecord.registrationno",Long.parseLong("600025873102"))).iterator();
-		
-	while(cursor.hasNext()){
-            System.out.println(cursor.next());
-	}
-        
-        
-        return 0;
-    }
-    
 }

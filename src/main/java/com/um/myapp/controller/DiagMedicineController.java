@@ -49,8 +49,7 @@ public class DiagMedicineController {
 		
 		List<String> batchList = DiagMedicineProcess.getBatch();
 		mv.addObject("batchList", batchList);
-		CWRelationMapping cwRelationMapping = new CWRelationMapping();
-		int allcount = cwRelationMapping.queryEhealthData().size();
+		int allcount = CWRelationMapping.queryEhealthData().size();
 		mv.addObject("allcount",allcount);
 		mv.addObject("medicines", medicieList);
 		mv.addObject("diagnose", diagnose);
@@ -91,8 +90,7 @@ public class DiagMedicineController {
 		List<String> batchList = DiagMedicineProcess.getBatch();
 		mv.addObject("batchList", batchList);
 		// 病例数量
-		CWRelationMapping cwRelationMapping = new CWRelationMapping();
-		int allcount = cwRelationMapping.queryEhealthData().size();
+		int allcount = CWRelationMapping.queryEhealthData().size();
 		mv.addObject("allcount",allcount);
 		
 		mv.addObject("batch", batch);
@@ -132,8 +130,7 @@ public class DiagMedicineController {
 		// 4. 获取批次
 		List<String> batchList = DiagMedicineProcess.getBatch();
 		mv.addObject("batchList", batchList);
-		CWRelationMapping cwRelationMapping = new CWRelationMapping();
-		int allcount = cwRelationMapping.queryEhealthData().size();
+		int allcount = CWRelationMapping.queryEhealthData().size();
 		mv.addObject("allcount",allcount);
 		mv.addObject("batch", batch);
 		mv.addObject("medicines", medicieList);
@@ -223,8 +220,7 @@ public class DiagMedicineController {
 		// 2. 查找病例
 		
 		// 1.1 读取数据库种病例数据
-		CWRelationMapping cwRelationMapping = new CWRelationMapping();
-		List<EHealthRecord> allEHealthRecords = cwRelationMapping.queryEhealthDataByCollection(DataBaseSetting.ehealthcollection); // 全部病例
+		List<EHealthRecord> allEHealthRecords = CWRelationMapping.queryEhealthDataByCollection(DataBaseSetting.ehealthcollection); // 全部病例
 		List<EHealthRecord> aList = new ArrayList<EHealthRecord>();
 		
 		for(EHealthRecord e:allEHealthRecords){
@@ -351,8 +347,7 @@ public class DiagMedicineController {
 		// 2. 查找病例
 		
 		// 1.1 读取数据库种病例数据
-		CWRelationMapping cwRelationMapping = new CWRelationMapping();
-		List<EHealthRecord> allEHealthRecords = cwRelationMapping.queryEhealthDataByCollection(DataBaseSetting.ehealthcollection); // 全部病例
+		List<EHealthRecord> allEHealthRecords = CWRelationMapping.queryEhealthDataByCollection(DataBaseSetting.ehealthcollection); // 全部病例
 		List<EHealthRecord> aList = new ArrayList<EHealthRecord>();
 		
 		for(EHealthRecord e:allEHealthRecords){

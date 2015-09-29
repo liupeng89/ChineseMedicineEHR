@@ -17,6 +17,7 @@ import java.util.Set;
 import com.um.classify.CMDescriptionClassify;
 import com.um.classify.CWRelationMapping;
 import com.um.classify.DiagnosticsClassify;
+import com.um.data.DataBaseSetting;
 import com.um.data.DiagClassifyData;
 import com.um.model.ChineseMedicine;
 import com.um.model.EHealthRecord;
@@ -55,8 +56,7 @@ public class DiagMedicineProcess {
 	 * @return
 	 */
 	public static List<String> getBatch(){
-		CWRelationMapping cwRelationMapping = new CWRelationMapping();
-		List<EHealthRecord> eHealthRecords = cwRelationMapping.queryEhealthDataByCollection("ehealthdata");
+		List<EHealthRecord> eHealthRecords = CWRelationMapping.queryEhealthDataByCollection(DataBaseSetting.ehealthcollection);
 		
 		Set<String> batchSet = new HashSet<String>();
 		
@@ -1146,8 +1146,7 @@ public class DiagMedicineProcess {
 			return null;
 		}
 		// 2、获取全部病历数据
-		CWRelationMapping cMapping = new CWRelationMapping();		
-		List<EHealthRecord> allRecrods = cMapping.queryEhealthData();
+		List<EHealthRecord> allRecrods = CWRelationMapping.queryEhealthData();
 		
 		// 3. 计算数值
 		if(names.length > 1){
@@ -1324,8 +1323,7 @@ public class DiagMedicineProcess {
 			return null;
 		}
 		// 2、获取全部病历数据
-		CWRelationMapping cMapping = new CWRelationMapping();		
-		List<EHealthRecord> allRecrods = cMapping.queryEhealthData();
+		List<EHealthRecord> allRecrods = CWRelationMapping.queryEhealthData();
 		
 		// 3. 计算数值
 		if(names.length > 1){
@@ -1542,7 +1540,7 @@ public class DiagMedicineProcess {
 		
 		CWRelationMapping cwRelationMapping = new CWRelationMapping();
 		// 1.   读取病历信息
-		List<EHealthRecord> eHealthList = cwRelationMapping.queryEhealthData();
+		List<EHealthRecord> eHealthList = CWRelationMapping.queryEhealthData();
 		// 2. 诊断类型构建
 		List<DiagnosticsClassify> chineseDiagnostics = cwRelationMapping.createDiagnostics(DiagClassifyData.cnDiagClassify); // 中医诊断分类
 		// 3. 中医诊断分类

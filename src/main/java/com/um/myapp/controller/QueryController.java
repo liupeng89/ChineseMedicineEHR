@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.print.Doc;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,11 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.mongodb.BasicDBObject;
 import com.mongodb.Block;
 import com.mongodb.DBObject;
-import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
-import com.mongodb.client.MongoDatabase;
 import com.um.dao.ConnectionDB;
 import com.um.data.DataBaseSetting;
 import com.um.model.EHealthRecord;

@@ -35,8 +35,7 @@ public class MedicineByDescription {
 		 *  1. 统计所有的中药处方，并排序
 		 */
 		// 1.2、读取病例数据
-		CWRelationMapping cwRelationMapping = new CWRelationMapping();
-		List<EHealthRecord> allEHealthRecords = cwRelationMapping.queryEhealthData();
+		List<EHealthRecord> allEHealthRecords = CWRelationMapping.queryEhealthData();
 		
 		// 所有的中药处方统计 <名称，数量>
 		Map<String, Integer> allMedicineMap = DiagMedicineProcess.statisEhealthMedicine(allEHealthRecords);
@@ -203,8 +202,7 @@ public class MedicineByDescription {
 		 * 1. 对中医处方进行统计，选择出现概率大于90%的中药作为结果输出；
 		 */
 		// 1.1 读取数据库种病例数据
-		CWRelationMapping cwRelationMapping = new CWRelationMapping();
-		List<EHealthRecord> eHealthRecordsByBatch = cwRelationMapping.queryEhealthData();
+		List<EHealthRecord> eHealthRecordsByBatch = CWRelationMapping.queryEhealthData();
 		
 		// 1.2 选取批次
 		
@@ -499,8 +497,7 @@ public class MedicineByDescription {
 			return null;
 		}
 		// 1.1 读取数据库种病例数据
-		CWRelationMapping cwRelationMapping = new CWRelationMapping();
-		List<EHealthRecord> allEHealthRecords = cwRelationMapping.queryEhealthDataByCollection(DataBaseSetting.ehealthcollection); // 全部病例
+		List<EHealthRecord> allEHealthRecords = CWRelationMapping.queryEhealthDataByCollection(DataBaseSetting.ehealthcollection); // 全部病例
 		// 1.2 选取批次
 		List<EHealthRecord> eHealthRecordsByBatch = null;
 		if(batch.equals("null")){

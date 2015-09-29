@@ -54,8 +54,7 @@ public class FrameController {
 	public ModelAndView displayDiagMedicine(){
 		ModelAndView mv = new ModelAndView("predictMedicine");
 		List<String> batchList = DiagMedicineProcess.getBatch();
-		CWRelationMapping cwRelationMapping = new CWRelationMapping();
-		int allcount = cwRelationMapping.queryEhealthData().size();
+		int allcount = CWRelationMapping.queryEhealthData().size();
 		mv.addObject("allcount",allcount);
 		mv.addObject("batchList", batchList);
 		return mv;
@@ -68,8 +67,7 @@ public class FrameController {
 			List<String> batchList = DiagMedicineProcess.getBatch();
 			System.out.println(batchList);
 			
-			CWRelationMapping cwRelationMapping = new CWRelationMapping();
-			List<EHealthRecord> allEHealthRecords = cwRelationMapping.queryEhealthDataByCollection(DataBaseSetting.ehealthcollection); // 全部病例
+			List<EHealthRecord> allEHealthRecords = CWRelationMapping.queryEhealthDataByCollection(DataBaseSetting.ehealthcollection); // 全部病例
 			List<EHealthRecord> aList = new ArrayList<EHealthRecord>();
 			
 			for(EHealthRecord e:allEHealthRecords){

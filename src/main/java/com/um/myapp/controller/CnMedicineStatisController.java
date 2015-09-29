@@ -31,8 +31,7 @@ public class CnMedicineStatisController {
 		 * 1. 对中医处方进行统计，选择出现概率大于90%的中药作为结果输出；
 		 */
 		// 1.1 读取数据库种病例数据
-		CWRelationMapping cwRelationMapping = new CWRelationMapping();
-		List<EHealthRecord> allEHealthRecords = cwRelationMapping.queryEhealthDataByCollection(DataBaseSetting.ehealthcollection); // 全部病例
+		List<EHealthRecord> allEHealthRecords = CWRelationMapping.queryEhealthDataByCollection(DataBaseSetting.ehealthcollection); // 全部病例
 		
 		// 1.2 选取批次
 		List<EHealthRecord> eHealthRecordsByBatch = null; // 符合某一批次的全部病历
@@ -65,8 +64,7 @@ public class CnMedicineStatisController {
 		Map<String, String> resultMap = DiagMedicineProcess.statisMedicProbability(medicines,eHealthRecordsByBatch);
 		List<String> descriptionList = null;
 		
-		CWRelationMapping cMapping = new CWRelationMapping();		
-		List<EHealthRecord> allRecrods = cMapping.queryEhealthData();
+		List<EHealthRecord> allRecrods = CWRelationMapping.queryEhealthData();
 		
 		if(resultMap.isEmpty() || resultMap == null){
 			

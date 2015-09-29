@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
  * @author heermaster
  *
  */
-
 @Configuration
 public class DaoConfig {
 	

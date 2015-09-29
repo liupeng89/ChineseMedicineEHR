@@ -108,7 +108,16 @@ public class MedicineStatics {
 		 }
 		 return resultList;
 	}  
-	//从字符数组中第begin个字符开始挑选number个字符加入list中  
+    
+    
+    /**
+     * 从字符数组中第begin个字符开始挑选number个字符加入list中
+     * @param strs
+     * @param begin
+     * @param number
+     * @param stack
+     * @param list
+     */
 	public static void combine(String[] strs, int begin, int number, Stack<String> stack,List<String> list){  
       if(number == 0){  
        list.add(stack.toString());

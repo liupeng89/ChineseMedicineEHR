@@ -1,9 +1,11 @@
 package com.um.dao;
 
 import org.bson.Document;
+
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.um.data.DataBaseSetting;
 
 /**
  *  Singleton database node connection bean
@@ -12,9 +14,6 @@ import com.mongodb.client.MongoDatabase;
  */
 public class DaoConnectionBean {
 	
-	private final String host = "localhost";
-	private final int    port = 27017;
-	private final String database = "db";
 	
 	/**
 	 *  Get the collections.
@@ -22,11 +21,11 @@ public class DaoConnectionBean {
 	 * @return
 	 */
 	public MongoCollection<Document> getCollections(String collection){
-		MongoClient client = new MongoClient(this.host,this.port);
+		MongoClient client = new MongoClient(DataBaseSetting.host,DataBaseSetting.port);
 		
 		try{
 			
-			MongoDatabase db = client.getDatabase(this.database);
+			MongoDatabase db = client.getDatabase(DataBaseSetting.database);
 			MongoCollection<Document> collecs = db.getCollection(collection);
 			return collecs;
 			
