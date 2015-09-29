@@ -1,9 +1,7 @@
-package com.um.data;
+package com.um.dao;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import com.um.dao.DaoConnectionBean;
 
 /**
  * Database conncetions bean 
