@@ -17,7 +17,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <table border="1">
+        <table class="table table-bordered">
         	 <tr>
                 <th>编号</th>
                 <th>信息</th>

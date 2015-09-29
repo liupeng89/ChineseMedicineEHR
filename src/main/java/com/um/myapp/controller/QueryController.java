@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.print.Doc;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,11 +17,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.Block;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.um.dao.ConnectionDB;
 import com.um.data.DataBaseSetting;
 import com.um.model.EHealthRecord;
 import com.um.mongodb.converter.EhealthRecordConverter;
@@ -29,6 +33,12 @@ import com.um.util.DiagMedicineProcess;
 @Controller
 public class QueryController {
 	
+	/**
+	 * Query all record based on the batch and patient's name
+	 * @param batch
+	 * @param pname
+	 * @return
+	 */
 	@RequestMapping(value="recordquery",method=RequestMethod.GET)
 	public ModelAndView queryRecord(String batch, String pname){
 		if( pname == "" || pname.equals("")){
@@ -36,115 +46,45 @@ public class QueryController {
         	return new ModelAndView("dquery").addObject("batchList", batchList);
 		}
 		
-		if(batch != null){
-			
-			List<EHealthRecord> ehealthList = new ArrayList<EHealthRecord>(); //查询病例
-			
-			// 1. 查询批次
-			
-			MongoClient client = new MongoClient("localhost",27017);
-			
-			try {
-				 MongoDatabase database = client.getDatabase(DataBaseSetting.database);
-			        
-			     MongoCollection<Document> collection = database.getCollection(DataBaseSetting.ehealthcollection);
-			     
-			     MongoCursor<Document> cursor = collection.find(new BasicDBObject("ehealthrecord.batch",batch.substring(0, 4))).iterator();
-
-			        while(cursor.hasNext()){
-
-			            EHealthRecord eHealthRecord = EhealthRecordConverter.toEHealthRecord(cursor.next());
-
-			            if(eHealthRecord != null){
-			            	   // add the privacy
-			                ehealthList.add(eHealthRecord);
-			            }
-			        }
-			        // 2. 查询姓名
-			        if(ehealthList.size() == 0){
-			        	List<String> batchList = DiagMedicineProcess.getBatch();
-			        	System.out.println("The " + batch + "patients found!");
-			        	return new ModelAndView("dquery").addObject("batchList", batchList);
-			        }
-			        
-			        List<EHealthRecord> eList = new ArrayList<EHealthRecord>();// 符合姓名条件的病历
-			        for(EHealthRecord e : ehealthList){
-			        	if(e.getPatientInfo() == null || e.getPatientInfo().getName() == ""){
-			        		continue;
-			        	}
-			        	if(e.getPatientInfo().getName() == pname || e.getPatientInfo().getName().equals(pname)){
-			        		   // add the privacy
-			        		e = EhealthRecordConverter.protectPatientInfo(e);
-			        		
-			        		eList.add(e);
-			        	}
-			        }
-			        System.out.println(eList.size());
-			        // 3. 返回结果
-			        if(eList.size() > 0){
-			        	ModelAndView mv = new ModelAndView("recordQuery");
-			 	        mv.addObject("ehealthrecrods", eList);
-			 	        
-			 	        return mv;
-			        }else{
-			        	List<String> batchList = DiagMedicineProcess.getBatch();
-			        	return new ModelAndView("dquery").addObject("batchList", batchList);
-			        }
-			        
-			} finally {
-				// TODO: handle finally clause
-				client.close();
-			}
-	        
-		}else{
-			
-			if(!pname.equals("")){
-				
-				List<EHealthRecord> ehealthList = new ArrayList<EHealthRecord>(); //查询病例
-				
-				MongoClient client = new MongoClient("localhost",27017);
-				
-				try {
-					 MongoDatabase database = client.getDatabase(DataBaseSetting.database);
-				        
-				     MongoCollection<Document> collection = database.getCollection(DataBaseSetting.ehealthcollection);
-				     
-				     MongoCursor<Document> cursor = collection.find(new BasicDBObject("ehealthrecord.patientinfo.name",pname)).iterator();
-
-			            while(cursor.hasNext()){
-
-			                EHealthRecord eHealthRecord = EhealthRecordConverter.toEHealthRecord(cursor.next());
-			                
-			                //add the privacy
-			                eHealthRecord = EhealthRecordConverter.protectPatientInfo(eHealthRecord);
-
-			                if(eHealthRecord != null){
-			                    ehealthList.add(eHealthRecord);
-			                }
-			            }
-			            
-			            ModelAndView mv = new ModelAndView("recordQuery");
-			            
-			            if(ehealthList != null && ehealthList.size() > 0){
-			                mv.addObject("ehealthrecrods", ehealthList);
-			            }
-			            return mv;
-				        
-				     
-				} finally {
-					// TODO: handle finally clause
-					client.close();
-				}
-		            
-			}else{
-				List<String> batchList = DiagMedicineProcess.getBatch();
-	        	return new ModelAndView("dquery").addObject("batchList", batchList);
-			}
-		}
+		final List<EHealthRecord> ehealthList = new ArrayList<EHealthRecord>();
 		
+		Document conditons = new Document();
+		if(!batch.equals("")){
+			conditons.append("ehealthrecord.batch", batch.substring(0, 4));
+		}
+		conditons.append("ehealthrecord.patientinfo.name", pname);
+		
+		MongoCollection<Document> collection = ConnectionDB.getCollections(DataBaseSetting.ehealthcollection);
+		FindIterable<Document> iterable = collection.find(conditons);
+		iterable.forEach(new Block<Document>() {
+
+			@Override
+			public void apply(Document document) {
+				// TODO Auto-generated method stub
+				EHealthRecord eHealthRecord = EhealthRecordConverter.toEHealthRecord(document);
+                
+                //add the privacy
+                eHealthRecord = EhealthRecordConverter.protectPatientInfo(eHealthRecord);
+
+                if(eHealthRecord != null){
+                    ehealthList.add(eHealthRecord);
+                }
+			}
+		});
+		
+		ModelAndView mv = new ModelAndView("recordQuery");
+        
+		if(ehealthList != null && ehealthList.size() > 0){
+    	   mv.addObject("ehealthrecrods", ehealthList);
+		}
+		return mv;
 	}
 	
-	// 详细信息
+	/**
+	 * Get the detail information of one patient
+	 * @param ehealthregno
+	 * @return
+	 */
 	@RequestMapping(value="detailRecord",method=RequestMethod.GET)
 	public ModelAndView detailRecrod(String ehealthregno){
 		
@@ -155,45 +95,40 @@ public class QueryController {
         	return new ModelAndView("dquery").addObject("batchList", batchList);
 		}else{
             
-            MongoClient client = new MongoClient("localhost",27017);
-    		
-    		try {
-    			 MongoDatabase database = client.getDatabase(DataBaseSetting.database);
-    		        
-    		     MongoCollection<Document> collection = database.getCollection(DataBaseSetting.ehealthcollection);
-    		        
-    		     MongoCursor<Document> cursor = collection.find(new BasicDBObject("ehealthrecord.registrationno",ehealthregno)).iterator();
-
-    	            while(cursor.hasNext()){
-    	                eHealthRecord = EhealthRecordConverter.toEHealthRecord(cursor.next());
-    	                //add the privacy
-    	                eHealthRecord = EhealthRecordConverter.protectPatientInfo(eHealthRecord);
-    	                break;
-    	            }
-    	            if(eHealthRecord != null){
-    	            	mv =  new ModelAndView("detail");
-    	            	
-    	            	Map<String, HashMap<String, String>> conditionMap = DiagMedicineProcess.getConditionDescription(eHealthRecord);
-    	            	mv.addObject("ehealthrecordss",eHealthRecord);
-    	            	mv.addObject("allCnMedicines", eHealthRecord.getChineseMedicines());
-    	            	mv.addObject("allWeMedicines", eHealthRecord.getWesternMedicines());
-    	            	mv.addObject("conditions", conditionMap);
-    	            }else{
-    	            	System.out.println("ehealth is null");
-    	            	List<String> batchList = DiagMedicineProcess.getBatch();
-    		        	return new ModelAndView("dquery").addObject("batchList", batchList);
-    	            }
-    	            return mv;
-    		} finally {
-    			// TODO: handle finally clause
-    			client.close();
-    		}
-            
+			MongoCollection<Document> collection = ConnectionDB.getCollections(DataBaseSetting.ehealthcollection);
+			Document conditions = new Document();
+			conditions.append("ehealthrecord.registrationno",ehealthregno);
+			FindIterable<Document> iterable = collection.find(conditions);
+			
+			Document document = iterable.first();
+			System.out.println(document);
+			if(document != null){
+				eHealthRecord = EhealthRecordConverter.toEHealthRecord(document);
+				eHealthRecord = EhealthRecordConverter.protectPatientInfo(eHealthRecord);
+			}
+			if( eHealthRecord != null){
+				mv =  new ModelAndView("detail");
+            	
+            	Map<String, HashMap<String, String>> conditionMap = DiagMedicineProcess.getConditionDescription(eHealthRecord);
+            	mv.addObject("ehealthrecordss",eHealthRecord);
+            	mv.addObject("allCnMedicines", eHealthRecord.getChineseMedicines());
+            	mv.addObject("allWeMedicines", eHealthRecord.getWesternMedicines());
+            	mv.addObject("conditions", conditionMap);
+			}else {
+				List<String> batchList = DiagMedicineProcess.getBatch();
+	        	return new ModelAndView("dquery").addObject("batchList", batchList);
+			}
+			
+			return mv;
 		}
 	}
 	
 	
-	// 编辑信息
+	/**
+	 * Edit the record information of one patient
+	 * @param ehealthregno
+	 * @return
+	 */
 	@RequestMapping(value="editRecord",method=RequestMethod.GET)
 	public ModelAndView editRecrod(String ehealthregno){
 		
@@ -203,91 +138,68 @@ public class QueryController {
         	return new ModelAndView("dquery").addObject("batchList", batchList);
 		}else{
 			
+			MongoCollection<Document> collection = ConnectionDB.getCollections(DataBaseSetting.ehealthcollection);
+			Document conditions = new Document();
+			conditions.append("ehealthrecord.registrationno",ehealthregno);
+			FindIterable<Document> iterable = collection.find(conditions);
+			Document document = iterable.first();
 			
-			MongoClient client = new MongoClient("localhost",27017);
-			
-			try {
-				 MongoDatabase database = client.getDatabase(DataBaseSetting.database);
-			        
-			     MongoCollection<Document> collection = database.getCollection(DataBaseSetting.ehealthcollection);
-			     
-			     MongoCursor<Document> cursor = collection.find(new BasicDBObject("ehealthrecord.registrationno",ehealthregno)).iterator();
-		            while(cursor.hasNext()){
-		                eHealthRecord = EhealthRecordConverter.toEHealthRecord(cursor.next());
-		                //add the privacy
-		                eHealthRecord = EhealthRecordConverter.protectPatientInfo(eHealthRecord);
-		                break;
-		            }
-		            if(eHealthRecord != null){
-		            	ModelAndView mv = new ModelAndView("editRecord");
-		            	mv.addObject("ehealthrecordss",eHealthRecord);
-		            	mv.addObject("allCnMedicines", eHealthRecord.getChineseMedicines());
-		            	mv.addObject("allWeMedicines", eHealthRecord.getWesternMedicines());
-		            	return mv;
-		            }else{
-		            	List<String> batchList = DiagMedicineProcess.getBatch();
-			        	return new ModelAndView("dquery").addObject("batchList", batchList);
-		            }
-			     
-			} finally {
-				// TODO: handle finally clause
-				client.close();
+			if(document != null){
+				eHealthRecord = EhealthRecordConverter.toEHealthRecord(document);
+                //add the privacy
+                eHealthRecord = EhealthRecordConverter.protectPatientInfo(eHealthRecord);
 			}
+			
+			if(eHealthRecord != null){
+            	ModelAndView mv = new ModelAndView("editRecord");
+            	mv.addObject("ehealthrecordss",eHealthRecord);
+            	mv.addObject("allCnMedicines", eHealthRecord.getChineseMedicines());
+            	mv.addObject("allWeMedicines", eHealthRecord.getWesternMedicines());
+            	return mv;
+            }else{
+            	List<String> batchList = DiagMedicineProcess.getBatch();
+	        	return new ModelAndView("dquery").addObject("batchList", batchList);
+            }
 		}
 	}
 	
 	//保存信息
 	@RequestMapping(value="saveEditRecord",method=RequestMethod.POST)
 	public ModelAndView saveEdit(HttpServletRequest request,HttpServletResponse response) throws IOException{
-		String regnoString = "";
-		String conditondesc = "";
-		String westrndiagString = "";
-		String chinesediagString = "";
-		regnoString = request.getParameter("regno");
-		conditondesc = request.getParameter("conditondesc");
-		westrndiagString = request.getParameter("westerndiag");
-		chinesediagString = request.getParameter("chinesediag");
+		
+		String regnoString = request.getParameter("regno");
+		String conditondesc = request.getParameter("conditondesc");
+		String westrndiagString = request.getParameter("westerndiag");
+		String chinesediagString = request.getParameter("chinesediag");
 		
 		if("".equals(regnoString)){
 			List<String> batchList = DiagMedicineProcess.getBatch();
         	return new ModelAndView("dquery").addObject("batchList", batchList);
 		}else{
 			
+			MongoCollection<Document> collection = ConnectionDB.getCollections(DataBaseSetting.ehealthcollection);
 			
-			MongoClient client = new MongoClient("localhost",27017);
-			
-			try {
-				 MongoDatabase database = client.getDatabase(DataBaseSetting.database);
-			        
-			     MongoCollection<Document> collection = database.getCollection(DataBaseSetting.ehealthcollection);
-			     
-			     DBObject updateCondition=new BasicDBObject();  
-		         
-			        //where name='fox'  
-			        updateCondition.put("ehealthrecord.registrationno",regnoString);  
-			          
-			        DBObject updatedValue=new BasicDBObject();  
-			        updatedValue.put("ehealthrecord.conditionsdescribed", conditondesc);
-			        updatedValue.put("ehealthrecord.diagnostics.westerndiagnostics", westrndiagString);
-			        updatedValue.put("ehealthrecord.diagnostics.chinesediagnostics", chinesediagString);
-			          
-			        DBObject updateSetValue=new BasicDBObject("$set",updatedValue);  
-			        /** 
-			         * update insert_test set headers=3 and legs=4 where name='fox' 
-			         * updateCondition:更新条件 
-			         * updateSetValue:设置的新值 
-			         */  
-			        if(collection.updateOne(updateCondition, updateSetValue) != null){
-			        	response.sendRedirect("detailRecord?ehealthregno="+regnoString);
-			        }
-			        List<String> batchList = DiagMedicineProcess.getBatch();
-		        	return new ModelAndView("dquery").addObject("batchList", batchList);
-			        
-			     
-			} finally {
-				// TODO: handle finally clause
-				client.close();
-			}
+			DBObject updateCondition=new BasicDBObject();  
+	         
+	        //where name='fox'  
+	        updateCondition.put("ehealthrecord.registrationno",regnoString);  
+	          
+	        DBObject updatedValue=new BasicDBObject();  
+	        updatedValue.put("ehealthrecord.conditionsdescribed", conditondesc);
+	        updatedValue.put("ehealthrecord.diagnostics.westerndiagnostics", westrndiagString);
+	        updatedValue.put("ehealthrecord.diagnostics.chinesediagnostics", chinesediagString);
+	          
+	        DBObject updateSetValue=new BasicDBObject("$set",updatedValue);  
+	        /** 
+	         * update insert_test set headers=3 and legs=4 where name='fox' 
+	         * updateCondition:更新条件 
+	         * updateSetValue:设置的新值 
+	         */  
+	        if(collection.updateOne(updateCondition, updateSetValue) != null){
+	        	response.sendRedirect("detailRecord?ehealthregno="+regnoString);
+	        }
+	        List<String> batchList = DiagMedicineProcess.getBatch();
+        	return new ModelAndView("dquery").addObject("batchList", batchList);
 		}
 	}
 }

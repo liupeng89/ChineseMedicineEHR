@@ -21,7 +21,7 @@
 		<div class="container">
        <h2>病历信息</h2>
        <form action="saveEditRecord" method="post">
-       <table class="table" border="1px">
+       <table class="table table-bordered">
        	<tr>
        		<th><label>医院</label></th>
        		<td>${ehealthrecordss.getHospital() }</td>

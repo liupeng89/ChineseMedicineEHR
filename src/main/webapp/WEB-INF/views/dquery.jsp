@@ -13,35 +13,37 @@
 	 	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.js"></script>
 		<script type="text/javascript" src="js/query.js"></script>
+		<script type="text/javascript">
+			
+		function queryRecord(){
+				var url = 'recordquery?batch='+ $("#recordbatch").val() + '&pname='+$("#tags").val();
+				$.get(url, function(data){
+					$('#contents').html(data);
+				});
+			}
+		</script>
 	</head>
-	<body>
-		<div class="query-card">
+	<body class="container">
+		<div id="conditions">
 			<div>
 	    		<h1>病历查询</h1>
 	    	</div>
-	    	<br>
-	    	<br>
 	    	<div>
-	    		<form action="recordquery" method="get">
-	    			<p>
-	    				年度：
-	    				<select name="batch">  
-        					<c:forEach items="${batchList }" var="item">  
-            					<option value="${item }" <c:if test="${item == '2012'}">selected</c:if>>${item == 'null'? '全部' : item  }</option>  
-        					</c:forEach>  
-    					</select>  
-	    			</p>
-	    			<div class="ui-widget">
-					  <label for="tags">姓名： </label>
-					  <input id="tags" type="text" name="pname" />
-					</div>
-	    			<br>
-	    			<div>
-	    				 <button type="submit" class="btn btn-success btn-sm">查询</button>
-	    			</div>
-	        	</form>
+	    		<!-- <form action="recordquery" method="get"> -->
+	    			年度：
+	    			<select id="recordbatch" name="batch">  
+        				<c:forEach items="${batchList }" var="item">  
+            				<option value="${item }" <c:if test="${item == '2012'}">selected</c:if>>${item == 'null'? '全部' : item  }</option>  
+        				</c:forEach>  
+    				</select>  
+					<label for="tags">姓名： </label>
+					<input id="tags" type="text"  name="pname" />
+	    			<button id="query" onClick='queryRecord()' class="btn btn-success btn-sm" >查询</button>
+	        	<!-- </form> -->
 	    	</div>
-	    </div>
-	    
+	    	
+		</div>
+		<div id="contents">
+		</div>
 	</body>
 </html>

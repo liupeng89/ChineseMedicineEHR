@@ -16,20 +16,20 @@
 <body>
 	<div class="sidebar">
 		<h3>功能</h3>
-		<ul  class="nav nav-sidebar">
-			<li class="active">
+		<ul  class="list-group">
+			<li class="list-group-item">
 				<a href="mainquery" target="showme">病历查询</a>
 			</li>
-			<li class="active">
+			<li class="list-group-item">
 				<a href="mainstatis" target="showme">数据统计</a>
 			</li>
-			<li class="active">
+			<li class="list-group-item">
 				<a href="maindiagmedic" target="showme">输入预测处方</a>
 			</li>
-			<li class="active">
+			<li class="list-group-item">
 				<a href="casediagmedic" target="showme">案例预测处方</a>
 			</li>
-			<li class="active">
+			<li class="list-group-item">
 				<a href="maincnmedicine" target="showme">中药关系统计</a>
 			</li>
 		</ul>

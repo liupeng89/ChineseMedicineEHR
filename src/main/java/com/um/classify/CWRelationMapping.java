@@ -13,7 +13,9 @@ import java.util.Set;
 
 import org.bson.Document;
 
+import com.mongodb.Block;
 import com.mongodb.MongoClient;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
@@ -92,36 +94,24 @@ public class CWRelationMapping {
 			return null;
 		}
 		
-		List<EHealthRecord> results =  new ArrayList<EHealthRecord>();
+		final List<EHealthRecord> results =  new ArrayList<EHealthRecord>();
 		
-		MongoClient client = new MongoClient("localhost",27017);
+		MongoCollection<Document> collection = ConnectionDB.getCollections(collectionString);
+		FindIterable<Document> iterable = collection.find();
+		iterable.forEach(new Block<Document>() {
+
+			@Override
+			public void apply(Document document) {
+				// TODO Auto-generated method stub
+				EHealthRecord eHealthRecord = EhealthRecordConverter.toEHealthRecord(document);
+	        	
+	        	if(eHealthRecord != null){
+	        		results.add(eHealthRecord);
+	        	}
+			}
+		});
 		
-		try {
-			 MongoDatabase database = client.getDatabase("db");
-		        
-		     MongoCollection<Document> collection = database.getCollection(collectionString);
-		     
-		     if(collection == null ){
-					return null;
-				}
-				
-		        MongoCursor<Document> cursor = collection.find().iterator();
-				
-		        while(cursor.hasNext()){
-		        	
-		        	EHealthRecord eHealthRecord = EhealthRecordConverter.toEHealthRecord(cursor.next());
-		        	
-		        	if(eHealthRecord != null){
-		        		results.add(eHealthRecord);
-		        	}
-		        }		
-				return results;
-		        
-		     
-		} finally {
-			// TODO: handle finally clause
-			client.close();
-		}
+		return results;
 	}
 	
 	/**

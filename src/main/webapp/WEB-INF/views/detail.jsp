@@ -20,7 +20,10 @@
 	<script src="js/jquery-2.1.4.min.js"></script>
 		<div class="container">
        <h2>病历信息</h2>
-       <table class="table" border="1px">
+       <div>
+       		<a href="javascript:history.back()">Go Back</a>
+       </div>
+       <table class="table table-bordered">
        	<tr>
        		<th><label>医院</label></th>
        		<td>${ehealthrecordss.getHospital() }</td>

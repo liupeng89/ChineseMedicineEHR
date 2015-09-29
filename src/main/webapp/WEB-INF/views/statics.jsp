@@ -27,7 +27,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <table class="table table-striped " border="0px" width="100%">
+        <table class="table table-bordered">
            <thead>
            		<tr class="info">
 	                <th>编号</th>

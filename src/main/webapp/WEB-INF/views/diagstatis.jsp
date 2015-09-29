@@ -118,7 +118,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 	<h1>中西医诊断统计</h1>
 	<br>
 	<h2>中医诊断统计</h2>
-	<table border="1">
+	<table class="table table-bordered">
 		<tr>
 			<th>序号</th>
 			<th>描述</th>
@@ -140,7 +140,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 	<br>
 	<br>
 	<h2>西医诊断统计</h2>
-	<table border="1">
+	<table class="table table-bordered">
 		<tr>
 			<th>序号</th>
 			<th>描述</th>

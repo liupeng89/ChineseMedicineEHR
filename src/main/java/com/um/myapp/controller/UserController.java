@@ -7,10 +7,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.MongoClient;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
-import com.mongodb.client.MongoDatabase;
 import com.um.dao.ConnectionDB;
 import com.um.data.DataBaseSetting;
 
@@ -24,40 +22,33 @@ public class UserController {
 			
 			ModelAndView mvAndView = null;
 			
-			// data operation
 			
-			MongoClient client = new MongoClient("localhost",27017);
-			
-			try {
-				 MongoDatabase database = client.getDatabase(DataBaseSetting.database);
-			        
-			     MongoCollection<Document> collection = database.getCollection(DataBaseSetting.infocollection);
-			     
-			     MongoCursor<Document> cursor = collection.find(new BasicDBObject("doctorinfo.username",username)).iterator();
-		            
-		         String passString = "";
-		            
-		            while(cursor.hasNext()){
-		        		Document document = (Document)cursor.next().get("doctorinfo");
-		        		passString = document.getString("password");
-		            }
-					if(passString != "" && passwd.equals(passString)){
-						mvAndView = new ModelAndView("succ");
-						mvAndView.addObject("username",username);
-						mvAndView.addObject("passwd",passwd);
-						return mvAndView;
-					}else{
-						//密码错误
-						mvAndView = new ModelAndView("home");
-						mvAndView.addObject("isnull","name or password is wrong!");
-						return mvAndView;
-					}
-			        
-			} finally {
-				// TODO: handle finally clause
-				if(client != null){
-					client.close();
-				}
+			MongoCollection<Document> collection = ConnectionDB.getCollections(DataBaseSetting.infocollection);
+		     
+	        String passString = "";
+	         
+	        FindIterable<Document> iterable = collection.find(new BasicDBObject("doctorinfo.username",username));
+	         
+	        Document document = null;
+	         
+	        if(iterable.first() != null){
+	       	 document = (Document) iterable.first().get("doctorinfo");
+	        }
+	         
+	        if(document != null){
+	        	 passString = document.getString("password");
+	        }
+	        
+			if(passString != "" && passwd.equals(passString)){
+				mvAndView = new ModelAndView("succ");
+				mvAndView.addObject("username",username);
+				mvAndView.addObject("passwd",passwd);
+				return mvAndView;
+			}else{
+				//密码错误
+				mvAndView = new ModelAndView("home");
+				mvAndView.addObject("isnull","name or password is wrong!");
+				return mvAndView;
 			}
 			
 		}else{
@@ -66,7 +57,7 @@ public class UserController {
 	}
 	
 	/**
-	 *  check for not null
+	 *  Check all params is null or not.
 	 * @param params
 	 * @return
 	 */
