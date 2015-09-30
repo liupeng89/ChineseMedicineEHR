@@ -27,6 +27,7 @@
         <title>JSP Page</title>
     </head>
     <body>
+    	<a href="javascript:history.back()">Go Back</a>
         <table class="table table-bordered">
            <thead>
            		<tr class="info">

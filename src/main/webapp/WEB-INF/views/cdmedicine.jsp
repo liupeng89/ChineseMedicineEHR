@@ -23,6 +23,7 @@
 	%>
 	
 	<h1>中医诊断中药处方统计</h1>
+	<a href="javascript:history.back()">Go Back</a>
 	<table class="table" border="1">
 		<tr class="something">
 			<th style="width:200px">编码</th>

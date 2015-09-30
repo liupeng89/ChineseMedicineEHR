@@ -116,6 +116,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 		int count = (Integer) request.getAttribute("count");
 	%>
 	<h1>中西医诊断统计</h1>
+	<a href="javascript:history.back()">Go Back</a>
 	<br>
 	<h2>中医诊断统计</h2>
 	<table class="table table-bordered">
