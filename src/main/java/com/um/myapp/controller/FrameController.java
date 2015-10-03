@@ -88,6 +88,15 @@ public class FrameController {
 			return mv;
 		}
 	
+	// 输入病症统计
+	@RequestMapping(value="statisByIll",method=RequestMethod.GET)
+	public ModelAndView displayByILL(){
+		ModelAndView mv = new ModelAndView("statisticsByILL");
+		List<String> batchList = DiagMedicineProcess.getBatch();
+		mv.addObject("batchList", batchList);
+		return mv;
+	}
+	
 	// 中药出现概率统计
 	@RequestMapping(value="maincnmedicine",method=RequestMethod.GET)
 	public ModelAndView cnMedicineStatis(){
@@ -96,4 +105,31 @@ public class FrameController {
 		mv.addObject("batchList", batchList);
 		return mv;
 	}
+	
+	//中药处方统计
+	@RequestMapping(value="statisByCN",method=RequestMethod.GET)
+	public ModelAndView displaystatisByCN(){
+		ModelAndView mv = new ModelAndView("statisticsByCM");
+		List<String> batchList = DiagMedicineProcess.getBatch();
+		mv.addObject("batchList", batchList);
+		return mv;
+	}
+	
+	//中西医诊断统计分类
+	@RequestMapping(value="statisByCWCassify",method=RequestMethod.GET)
+	public ModelAndView displaystatisByCWCassify(){
+		ModelAndView mv = new ModelAndView("statisticsByCWClassify");
+		List<String> batchList = DiagMedicineProcess.getBatch();
+		mv.addObject("batchList", batchList);
+		return mv;
+	}
+	// 中医诊断处方统计
+	@RequestMapping(value="statisByCNDiagnose",method=RequestMethod.GET)
+	public ModelAndView displaystatisByCNDiagnose(){
+		ModelAndView mv = new ModelAndView("statisticsByCNDiagnose");
+		List<String> batchList = DiagMedicineProcess.getBatch();
+		mv.addObject("batchList", batchList);
+		return mv;
+	}
+	
 }

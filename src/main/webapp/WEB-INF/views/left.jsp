@@ -11,7 +11,9 @@
 	 body {
 	 	background-color: #E6E6E6;
 	      }
-	</style> 
+	</style>
+	<script type="text/javascript">
+	</script> 
 </head>
 <body>
 	<div class="sidebar">
@@ -20,9 +22,9 @@
 			<li class="list-group-item">
 				<a href="mainquery" target="showme">病历查询</a>
 			</li>
-			<li class="list-group-item">
+			<!-- <li class="list-group-item">
 				<a href="mainstatis" target="showme">数据统计</a>
-			</li>
+			</li> -->
 			<li class="list-group-item">
 				<a href="maindiagmedic" target="showme">输入预测处方</a>
 			</li>
@@ -30,8 +32,21 @@
 				<a href="casediagmedic" target="showme">案例预测处方</a>
 			</li>
 			<li class="list-group-item">
+				<a href="statisByIll" target="showme">病症统计</a>
+			</li>
+			<li class="list-group-item">
 				<a href="maincnmedicine" target="showme">中药关系统计</a>
 			</li>
+			<li class="list-group-item">
+				<a href="statisByCN" target="showme">中药处方统计</a>
+			</li>
+			<li class="list-group-item">
+				<a href="statisByCWCassify" target="showme">中西医诊断分类统计</a>
+			</li>
+			<li class="list-group-item">
+				<a href="statisByCNDiagnose" target="showme">中医诊断处方</a>
+			</li>
+			
 		</ul>
 	</div>
 </body>

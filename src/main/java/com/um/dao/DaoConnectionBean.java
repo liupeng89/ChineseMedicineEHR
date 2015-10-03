@@ -1,11 +1,14 @@
 package com.um.dao;
 
+import java.util.List;
+
 import org.bson.Document;
 
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.um.data.DataBaseSetting;
+import com.um.model.EHealthRecord;
 
 /**
  *  Singleton database node connection bean
@@ -18,6 +21,7 @@ public class DaoConnectionBean {
 	public MongoDatabase db;
 	public MongoCollection<Document> ehealthRecordCollection;
 	public MongoCollection<Document> patientInfoCollection;
+	public List<EHealthRecord> eHealthRecords;
 	
 	public DaoConnectionBean(){
 		this.client = new MongoClient(DataBaseSetting.host,DataBaseSetting.port);

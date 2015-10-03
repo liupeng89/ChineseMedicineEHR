@@ -2,8 +2,66 @@ package com.um.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.bson.Document;
+import com.mongodb.Block;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.um.dao.ConnectionDB;
+import com.um.data.DataBaseSetting;
+import com.um.model.EHealthRecord;
+import com.um.mongodb.converter.EhealthRecordConverter;
 
 public class EhealthUtil {
+	
+	/**
+	 * 
+	 * @param conditions
+	 * @return
+	 */
+	public static List<EHealthRecord> getEhealthRecordListByConditions(Document conditions){
+//		if(conditions == null){
+//			return null;
+//		}
+		final List<EHealthRecord> eHealthRecords = new ArrayList<EHealthRecord>();
+		MongoCollection<Document> collection = ConnectionDB.getCollections(DataBaseSetting.ehealthcollection);
+		
+		FindIterable<Document> iterable = collection.find(conditions);
+		if(iterable == null){
+			return null;
+		}
+		iterable.forEach(new Block<Document>() {
+
+			@Override
+			public void apply(Document document) {
+				// TODO Auto-generated method stub
+				EHealthRecord eHealthRecord = EhealthRecordConverter.toEHealthRecord(document);
+				eHealthRecords.add(eHealthRecord);
+			}
+			
+		});
+		return eHealthRecords;
+	}
+	
+	/**
+	 * 
+	 * @param document
+	 * @return
+	 */
+	public static EHealthRecord getOneEhealthRecordByConditions(Document conditions){
+		if(conditions == null){
+			return null;
+		}
+		EHealthRecord eHealthRecord = null;
+		MongoCollection<Document> collection = ConnectionDB.getCollections(DataBaseSetting.ehealthcollection);
+		FindIterable<Document> iterable = collection.find(conditions);
+		
+		Document document = iterable.first();
+		if(document != null){
+			eHealthRecord = EhealthRecordConverter.toEHealthRecord(document);
+		}
+		return eHealthRecord;
+	}
+	
 	
 	/**
 	 *  实现list中字符串的两两组合（无顺序）

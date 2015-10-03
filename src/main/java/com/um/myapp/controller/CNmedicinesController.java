@@ -14,6 +14,7 @@ import com.um.data.DataBaseSetting;
 import com.um.model.ChineseMedicine;
 import com.um.model.EHealthRecord;
 import com.um.mongodb.converter.MedicineStatics;
+import com.um.util.DiagMedicineProcess;
 
 @Controller
 public class CNmedicinesController {
@@ -59,7 +60,9 @@ public class CNmedicinesController {
         // 根据全部的中药名称，进行统计中药数量
         HashMap<String, Integer> rHashMaps = MedicineStatics.staticsChineseMedicine(medicineNamesList);
         
-        ModelAndView mv = new ModelAndView("statics");
+        ModelAndView mv = new ModelAndView("statisticsByCM");
+        List<String> batchList = DiagMedicineProcess.getBatch();
+		mv.addObject("batchList", batchList);
         mv.addObject("medicinestatics", rHashMaps);
         mv.addObject("patientCount", length);
         return mv;

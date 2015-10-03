@@ -10,8 +10,9 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.bson.Document;
+
 import com.um.classify.CWRelationMapping;
-import com.um.data.DataBaseSetting;
 import com.um.data.DiagClassifyData;
 import com.um.model.EHealthRecord;
 
@@ -497,25 +498,12 @@ public class MedicineByDescription {
 			return null;
 		}
 		// 1.1 读取数据库种病例数据
-		List<EHealthRecord> allEHealthRecords = CWRelationMapping.queryEhealthDataByCollection(DataBaseSetting.ehealthcollection); // 全部病例
-		// 1.2 选取批次
-		List<EHealthRecord> eHealthRecordsByBatch = null;
-		if(batch.equals("null")){
-			eHealthRecordsByBatch = allEHealthRecords; // 全部病历，不区分批次
-		}else{
-			eHealthRecordsByBatch = new ArrayList<EHealthRecord>(); // 某一批次病历
-			for(EHealthRecord e:allEHealthRecords){
-				String batchString = "";
-				if( e.getBatchString().contains(".") ){
-					batchString = e.getBatchString().substring(0,4).trim();
-				}else{
-					batchString = e.getBatchString().trim();
-				}
-				if(batchString.equals(batch) || batchString == batch){
-					eHealthRecordsByBatch.add(e);
-				}
-			}
+		Document conditons = new Document();
+		if(!batch.equals("")){
+			conditons.append("ehealthrecord.batch", batch.substring(0, 4));
 		}
+		// 1.2 选取批次
+		List<EHealthRecord> eHealthRecordsByBatch = EhealthUtil.getEhealthRecordListByConditions(conditons);
 		return eHealthRecordsByBatch;
 	}
 	

@@ -1,7 +1,6 @@
 package com.um.myapp.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,15 +15,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.Block;
 import com.mongodb.DBObject;
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.um.dao.ConnectionDB;
 import com.um.data.DataBaseSetting;
 import com.um.model.EHealthRecord;
-import com.um.mongodb.converter.EhealthRecordConverter;
 import com.um.util.DiagMedicineProcess;
+import com.um.util.EhealthUtil;
 
 @Controller
 public class QueryController {
@@ -42,31 +39,13 @@ public class QueryController {
         	return new ModelAndView("dquery").addObject("batchList", batchList);
 		}
 		
-		final List<EHealthRecord> ehealthList = new ArrayList<EHealthRecord>();
-		
-		Document conditons = new Document();
+		Document conditions = new Document();
 		if(!batch.equals("")){
-			conditons.append("ehealthrecord.batch", batch.substring(0, 4));
+			conditions.append("ehealthrecord.batch", batch.substring(0, 4));
 		}
-		conditons.append("ehealthrecord.patientinfo.name", pname);
+		conditions.append("ehealthrecord.patientinfo.name", pname);
 		
-		MongoCollection<Document> collection = ConnectionDB.getCollections(DataBaseSetting.ehealthcollection);
-		FindIterable<Document> iterable = collection.find(conditons);
-		iterable.forEach(new Block<Document>() {
-
-			@Override
-			public void apply(Document document) {
-				// TODO Auto-generated method stub
-				EHealthRecord eHealthRecord = EhealthRecordConverter.toEHealthRecord(document);
-                
-                //add the privacy
-                eHealthRecord = EhealthRecordConverter.protectPatientInfo(eHealthRecord);
-
-                if(eHealthRecord != null){
-                    ehealthList.add(eHealthRecord);
-                }
-			}
-		});
+		final List<EHealthRecord> ehealthList = EhealthUtil.getEhealthRecordListByConditions(conditions);
 		
 		ModelAndView mv = new ModelAndView("recordQuery");
         
@@ -91,16 +70,11 @@ public class QueryController {
         	return new ModelAndView("dquery").addObject("batchList", batchList);
 		}else{
             
-			MongoCollection<Document> collection = ConnectionDB.getCollections(DataBaseSetting.ehealthcollection);
 			Document conditions = new Document();
 			conditions.append("ehealthrecord.registrationno",ehealthregno);
-			FindIterable<Document> iterable = collection.find(conditions);
 			
-			Document document = iterable.first();
-			if(document != null){
-				eHealthRecord = EhealthRecordConverter.toEHealthRecord(document);
-				eHealthRecord = EhealthRecordConverter.protectPatientInfo(eHealthRecord);
-			}
+			eHealthRecord = EhealthUtil.getOneEhealthRecordByConditions(conditions);
+			
 			if( eHealthRecord != null){
 				mv =  new ModelAndView("detail");
             	
@@ -133,17 +107,10 @@ public class QueryController {
         	return new ModelAndView("dquery").addObject("batchList", batchList);
 		}else{
 			
-			MongoCollection<Document> collection = ConnectionDB.getCollections(DataBaseSetting.ehealthcollection);
 			Document conditions = new Document();
 			conditions.append("ehealthrecord.registrationno",ehealthregno);
-			FindIterable<Document> iterable = collection.find(conditions);
-			Document document = iterable.first();
 			
-			if(document != null){
-				eHealthRecord = EhealthRecordConverter.toEHealthRecord(document);
-                //add the privacy
-                eHealthRecord = EhealthRecordConverter.protectPatientInfo(eHealthRecord);
-			}
+			eHealthRecord = EhealthUtil.getOneEhealthRecordByConditions(conditions);
 			
 			if(eHealthRecord != null){
             	ModelAndView mv = new ModelAndView("editRecord");
