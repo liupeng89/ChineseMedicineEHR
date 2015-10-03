@@ -14,6 +14,17 @@ import com.um.data.DataBaseSetting;
  */
 public class DaoConnectionBean {
 	
+	public MongoClient client;
+	public MongoDatabase db;
+	public MongoCollection<Document> ehealthRecordCollection;
+	public MongoCollection<Document> patientInfoCollection;
+	
+	public DaoConnectionBean(){
+		this.client = new MongoClient(DataBaseSetting.host,DataBaseSetting.port);
+		this.db = client.getDatabase(DataBaseSetting.database);
+		this.ehealthRecordCollection = db.getCollection(DataBaseSetting.ehealthcollection);
+		this.patientInfoCollection = db.getCollection(DataBaseSetting.infocollection);
+	}
 	
 	/**
 	 *  Get the collections.
@@ -21,16 +32,12 @@ public class DaoConnectionBean {
 	 * @return
 	 */
 	public MongoCollection<Document> getCollections(String collection){
-		MongoClient client = new MongoClient(DataBaseSetting.host,DataBaseSetting.port);
-		
-		try{
-			
-			MongoDatabase db = client.getDatabase(DataBaseSetting.database);
-			MongoCollection<Document> collecs = db.getCollection(collection);
-			return collecs;
-			
-		}finally{
-			
+		if(collection.equals("ehealthdata")){
+			return this.ehealthRecordCollection;
+		}else if(collection.equals("patientinfo")){
+			return this.patientInfoCollection;
+		}else{
+			return null;
 		}
 	}
 }
