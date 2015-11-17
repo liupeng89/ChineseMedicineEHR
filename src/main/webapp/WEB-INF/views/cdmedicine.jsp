@@ -15,7 +15,7 @@
 </head>
 <body>
 	<script src="js/bootstrap.min.js"></script>
-		<script src="js/jquery-2.1.4.min.js"></script>
+	<script src="js/jquery-2.1.4.min.js"></script>
 	<% Map<String, HashMap<String, Integer>> classmaps = (Map<String, HashMap<String, Integer>>)request.getAttribute("cnClassifyStatistics");
 		int ehealthCount = (Integer)request.getAttribute("ehealthCount");
 		DecimalFormat df = new DecimalFormat("0.##");
