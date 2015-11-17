@@ -50,7 +50,6 @@ public class ILLMedicinesStatistics {
 				records.add(e);
 			}
 		}
-		
 		if(records == null || records.size() == 0){
 			return "statisticsByILL";
 		}

@@ -44,6 +44,26 @@
 			    			机器学习阈值（0～1）：<input type="text" name="threshold" value="0.5" />
 			    		</p>
 			    		<hr>
+			    		<p>时间状态</p>
+			    		<table class="table table-bordered">
+							<tr>
+								<td class="info"><label>时间状态:</label></td>
+								<td>
+									<select name="timestatus">
+										<option value="0" selected>单纯中医药治疗</option>
+										<option value="1">术前</option>
+										<option value="2">术后</option>
+										<option value="3">放疗中</option>
+										<option value="4">放疗后</option>
+										<option value="5">化疗中</option>
+										<option value="6">化疗后</option>
+										<option value="7">分子靶向药物</option>
+										<option value="8">免疫治疗</option>
+									</select>
+								</td>
+							</tr>
+			    		</table>
+			    		<hr>
 						<p>证型</p>
 						<table class="table table-bordered">
 							<tr>

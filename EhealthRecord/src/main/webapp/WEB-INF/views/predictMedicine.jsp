@@ -33,14 +33,39 @@
 		        				</c:forEach>  
 		    				</select> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		    				<input id="predictButton" type="submit" value="预测处方" onclick="javascript: form.action='predictByStatisticAndMachine';" /> 
-			    			<div class="spinner">
+			    			<!-- <div class="spinner">
 							  <div class="rect1"></div>
 							  <div class="rect2"></div>
 							  <div class="rect3"></div>
-							</div>
+							</div> -->
 			    		</p>
 			    		<hr>
-						<p>证型</p>
+			    		<p>时间状态</p>
+			    		<table class="table" border="1px">
+			    			<tr>
+								<td>1</td>
+								<td>1</td>
+							</tr>
+							<tr>
+								<td><label>时间状态:</label></td>
+								<td>
+									<select name="timestatus">
+										<option value="0" selected></option>
+										<option value="1">术前</option>
+										<option value="2">术后</option>
+										<option value="3">放疗中</option>
+										<option value="4">放疗后</option>
+										<option value="5">化疗中</option>
+										<option value="6">化疗后</option>
+										<option value="7">分子靶向药物</option>
+										<option value="8">免疫治疗</option>
+										<option value="9">口服中成药</option>
+										<option value="10">静脉用中成药</option>
+									</select>
+								</td>
+							</tr>
+			    		</table>
+						<p>证型----</p>
 						<table class="table" border="1px">
 							<tr>
 								<td><label>虚:</label></td>
