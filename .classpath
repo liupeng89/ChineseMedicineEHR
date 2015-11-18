@@ -25,9 +25,9 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Users/peterliu/Documents/javaDevelopment/EhealthRecord/itext-rtf-2.1.7.jar"/>
-	<classpathentry kind="lib" path="/Users/peterliu/Documents/javaDevelopment/EhealthRecord/javabuilder.jar"/>
-	<classpathentry kind="lib" path="/Users/peterliu/Documents/javaDevelopment/EhealthRecord/mongo-java-driver-3.0.0-beta2.jar"/>
-	<classpathentry kind="lib" path="/Users/peterliu/Documents/javaDevelopment/EhealthRecord/newpredictum.jar"/>
+	<classpathentry kind="lib" path="/Users/peterliu/Documents/chinese-medicine-predication/itext-rtf-2.1.7.jar"/>
+	<classpathentry kind="lib" path="/Users/peterliu/Documents/chinese-medicine-predication/javabuilder.jar"/>
+	<classpathentry kind="lib" path="/Users/peterliu/Documents/chinese-medicine-predication/mongo-java-driver-3.0.0-beta2.jar"/>
+	<classpathentry kind="lib" path="/Users/peterliu/Documents/chinese-medicine-predication/newpredictum.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

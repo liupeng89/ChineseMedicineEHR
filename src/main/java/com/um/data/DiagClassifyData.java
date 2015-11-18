@@ -740,6 +740,15 @@ public class DiagClassifyData {
 	};
 	
 	public static String[] descriptionStrings = {
+			"cmtreat:单纯中医药治疗",
+			"shuqian:术前",
+			"shuhou:术后",
+			"zhiliaozhong:放疗中",
+			"zhiliaohou:放疗后",
+			"hualiaozhong:化疗中",
+			"hualiaohou:化疗后",
+			"fenzi:分子靶向药物",
+			"mianyi:免疫治疗",
 		"hanwu:寒（无）",
 		"hanqing:寒（轻）",
 		"hanzhong:寒（重）",
@@ -835,6 +844,15 @@ public class DiagClassifyData {
 	};
 	
 	public static String[] normalAndBaddescription = {
+			"cmtreat:0",
+			"shuqian:1",
+			"shuhou:2",
+			"zhiliaozhong:3",
+			"zhiliaohou:4",
+			"hualiaozhong:5",
+			"hualiaohou:6",
+			"fenzi:7",
+			"mianyi:8",
 		"hanwu:0",
 		"hanqing:1",
 		"hanzhong:1",
