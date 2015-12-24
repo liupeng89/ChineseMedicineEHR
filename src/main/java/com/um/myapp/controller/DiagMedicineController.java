@@ -49,6 +49,7 @@ public class DiagMedicineController {
 		String description = requestMap.get("description"); // 症状
 		String batch = requestMap.get("batch");  // 年度
 		double threshold = Double.valueOf(requestMap.get("threshold"));  // 机器学习阈值
+		String timeStatus = requestMap.get("timeStatus");
 		
 		// 1.3 格式化描述输出
 		String descconvertString = MedicineByDescription.getFormatDescirption(description);
@@ -148,6 +149,7 @@ public class DiagMedicineController {
 		}
 		// 格式化病症描述
 		String formattedDescription = MedicineByDescription.formattedDescriptionByCount(description);
+		System.out.println(formattedDescription);
 		// 5. 原病例中药            
 		List<String> orignMedicines = new ArrayList<String>();
 		if( targetRecord.getChineseMedicines() != null && targetRecord.getChineseMedicines().size() > 0 ){
@@ -170,6 +172,7 @@ public class DiagMedicineController {
 		// 7. 机器学习预测
 		//  7.1 初始化算法输入
 		List<String> inputcode = MachineLearningPredict.parseDiagAndDescByEhealthRecords(targetRecord);
+		System.out.println(inputcode.size());
 		//  7.2 机器学习预测
 		List<String> medicineListByMachine = MachineLearningPredict.predict(inputcode, threshold); // 机器学习预测结果
 		

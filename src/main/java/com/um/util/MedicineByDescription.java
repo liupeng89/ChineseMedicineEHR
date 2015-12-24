@@ -11,6 +11,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.bson.Document;
+import org.springframework.aop.scope.DefaultScopedObject;
 
 import com.um.classify.CWRelationMapping;
 import com.um.data.DiagClassifyData;
@@ -362,6 +363,21 @@ public class MedicineByDescription {
 		// 1. 解析请求参数
 		String batch = request.getParameter("batch").trim(); // 批次
 		String threshold = request.getParameter("threshold").trim(); // 机器学习阈值
+		
+		// Time status
+		String timeStatusString = request.getParameter("timestatus").trim();
+		String timeStatus = "";
+		if (timeStatusString.equals("cmtreat")) {
+			timeStatus = "单纯中医药治疗";
+		}
+		if (timeStatusString.equals("shuqian")){timeStatus = "术前";}
+		if (timeStatusString.equals("shuhou")){timeStatus = "术后";}
+		if (timeStatusString.equals("zhiliaozhong")){timeStatus = "放疗中";}
+		if (timeStatusString.equals("zhiliaohou")){timeStatus = "放疗后";}
+		if (timeStatusString.equals("hualiaozhong")){timeStatus = "化疗中";}
+		if (timeStatusString.equals("hualiaohou")){timeStatus = "化疗后";}
+		if (timeStatusString.equals("fenzi")){timeStatus = "分子靶向药物";}
+		if (timeStatusString.equals("mianyi")){timeStatus = "免疫治疗";}
 		// 2. 症型
 		String diagnoseString = "";
 		String xuString = request.getParameter("xu").trim();
@@ -404,7 +420,7 @@ public class MedicineByDescription {
 		String cough = request.getParameter("cough"); // 咳嗽
 		
 		// 3.2 拼接关键字
-		descriptionString = hanre + "," + sweat + "," + xonglei + "," + futong + ","
+		descriptionString = timeStatus + "," + hanre + "," + sweat + "," + xonglei + "," + futong + ","
 							+ convertArrayToString(tengtong) + convertArrayToString(bodydiscomfort)
 							+ defecate + "," + convertArrayToString(constipation) + urinate + "," 
 							+  tonguecolor + "," + coatedtongue + "," + sputumamount
@@ -416,6 +432,7 @@ public class MedicineByDescription {
 		resultMap.put("diagnose", diagnoseString);
 		resultMap.put("description", descriptionString);
 		resultMap.put("threshold", threshold);
+//		resultMap.put("timeStatus", timeStatus);
 		return resultMap;
 	}
 	

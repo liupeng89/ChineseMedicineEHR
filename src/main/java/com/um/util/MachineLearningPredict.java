@@ -36,9 +36,10 @@ public class MachineLearningPredict {
 		}
 		// Machine learning object
 		Predictum predictum = null;
-		
-		int predictConditionCount = 52; //   机器学习输入条件个数
-		
+		System.out.println(inputcode.size());
+		int predictConditionCount = inputcode.size(); //   机器学习输入条件个数
+//		int predictConditionCount = 52; //   机器学习输入条件个数
+//		System.out.println(inputcode.get(51));
 		MWNumericArray x = null; /* Array of x values */
 		Object[] y = null;
 		
@@ -52,11 +53,15 @@ public class MachineLearningPredict {
 				x.set(i, Integer.valueOf(inputcode.get(i-1)));
 			}
 			// 机器预测
-//			y = predictum.predictum(1, x, threshold);
 			y = predictum.newpredictum(1, x, threshold);
+			
 		} catch (MWException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		
+		if(y == null){
+			return null;
 		}
 		
 		MWLogicalArray yy = (MWLogicalArray) y[0];

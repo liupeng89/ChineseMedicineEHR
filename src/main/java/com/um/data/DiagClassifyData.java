@@ -707,6 +707,7 @@ public class DiagClassifyData {
 	};
 	
 	public static String[] descriptionKeywords = {
+		"timestatus%shuqian:术前#shuhou:术后#zhiliaozhong:放疗中#zhiliaohou:放疗后#hualiaozhong:化疗中#hualiaohou:化疗后#fenzi:分子靶向药物#mianyi:免疫治疗",
 		"hanre%hanwu:寒无#hanqing:寒轻#hanzhong:寒重#rewu:热无#reqing:热轻#rezhong:热重#hanre:寒热往来",
 		"sweat%sweat:有#nosweat:无#zihan:自汗#daohan:盗汗#dahan:大汗",
 		"xonglei%noxonglei:无#okxonglei:轻度胸肋痛|胸痛缓解|偶胸痛#badxonglei:胸肋痛#worsexonglei:重度胸肋痛|胸痛|夜间胸痛|右侧胸痛|胸闷胸痛",
@@ -1045,6 +1046,7 @@ public class DiagClassifyData {
 	// 51个diagnose
 	
 	public static String[] machineKeywords = {
+		"timestatus%0:cmtreat#1:shuqian#2:shuhou#3:zhiliaozhong#4:zhiliaohou#5:hualiaozhong#6:hualiaohou#7:fenzi#8:mianyi",
 		"qixu%1:气虚",
 		"tanyu%1:痰瘀",
 		"hujie%1:互结",
@@ -1304,6 +1306,7 @@ public class DiagClassifyData {
 		"tanliang",
 		"hann",
 		"futong",
+		"timestatus",
 		"wantong",
 		"shenzhong",
 		"maifu",
