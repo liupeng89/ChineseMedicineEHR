@@ -38,8 +38,6 @@ public class MachineLearningPredict {
 		Predictum predictum = null;
 		System.out.println(inputcode.size());
 		int predictConditionCount = inputcode.size(); //   机器学习输入条件个数
-//		int predictConditionCount = 52; //   机器学习输入条件个数
-//		System.out.println(inputcode.get(51));
 		MWNumericArray x = null; /* Array of x values */
 		Object[] y = null;
 		

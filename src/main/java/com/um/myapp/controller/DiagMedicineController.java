@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mathworks.toolbox.javabuilder.MWException;
-import com.um.classify.CWRelationMapping;
-import com.um.data.DataBaseSetting;
 import com.um.data.DiagClassifyData;
 import com.um.model.ChineseMedicine;
 import com.um.model.EHealthRecord;
@@ -49,7 +47,6 @@ public class DiagMedicineController {
 		String description = requestMap.get("description"); // 症状
 		String batch = requestMap.get("batch");  // 年度
 		double threshold = Double.valueOf(requestMap.get("threshold"));  // 机器学习阈值
-		String timeStatus = requestMap.get("timeStatus");
 		
 		// 1.3 格式化描述输出
 		String descconvertString = MedicineByDescription.getFormatDescirption(description);

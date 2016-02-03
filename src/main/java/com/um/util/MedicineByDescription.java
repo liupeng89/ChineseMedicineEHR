@@ -11,8 +11,6 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.bson.Document;
-import org.springframework.aop.scope.DefaultScopedObject;
-
 import com.um.classify.CWRelationMapping;
 import com.um.data.DiagClassifyData;
 import com.um.model.EHealthRecord;
