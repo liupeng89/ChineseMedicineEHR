@@ -340,7 +340,7 @@
 			<p>${description }</p>
 			<hr>
 		</div>
-		<!-- 预测结果 -->
+		<!-- 基于案例统计预测结果 -->
 		<c:if test="${medicineListByStatis != null }">
 			<div style="width:100%">
 				<h3>基于病例统计的预测处方：（共${medicineListByStatis.size() }味）</h3>
@@ -362,13 +362,36 @@
 				</p>
 			</div>
 		</c:if>
-		<!-- 预测结果 -->
+		<!-- 机器学习预测结果 -->
 		<c:if test="${medicineListByMachine != null }">
 			<div style="width:100%">
 				<hr>
 				<h3>基于机器学习的预测处方：（共${medicineListByMachine.size() }味）</h3>
 				<p>
 					<c:forEach items="${medicineListByMachine }" var="item">
+						<%-- ${item } --%>
+						<c:if test="${medicineListByStatis.contains(item) }">
+							<font color="black">
+								${item }，
+							</font>
+						</c:if>
+						<c:if test="${!medicineListByStatis.contains(item) }">
+							<font color="red">
+								${item }，
+							</font>
+						</c:if>
+					</c:forEach>
+				</p>
+			</div>
+		</c:if>
+		
+		<!-- 基于规则预测结果 -->
+		<c:if test="${medicineListByRules != null }">
+			<div style="width:100%">
+				<hr>
+				<h3>基于规则的预测处方：（共${medicineListByRules.size() }味）</h3>
+				<p>
+					<c:forEach items="${medicineListByRules }" var="item">
 						<%-- ${item } --%>
 						<c:if test="${medicineListByStatis.contains(item) }">
 							<font color="black">

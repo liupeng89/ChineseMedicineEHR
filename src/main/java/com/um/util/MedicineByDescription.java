@@ -364,6 +364,7 @@ public class MedicineByDescription {
 		
 		// Time status
 		String timeStatusString = request.getParameter("timestatus").trim();
+		System.out.println(timeStatusString);
 		String timeStatus = "";
 		if (timeStatusString.equals("cmtreat")) {
 			timeStatus = "单纯中医药治疗";
@@ -418,7 +419,7 @@ public class MedicineByDescription {
 		String cough = request.getParameter("cough"); // 咳嗽
 		
 		// 3.2 拼接关键字
-		descriptionString = timeStatus + "," + hanre + "," + sweat + "," + xonglei + "," + futong + ","
+		descriptionString = timeStatusString + "," + hanre + "," + sweat + "," + xonglei + "," + futong + ","
 							+ convertArrayToString(tengtong) + convertArrayToString(bodydiscomfort)
 							+ defecate + "," + convertArrayToString(constipation) + urinate + "," 
 							+  tonguecolor + "," + coatedtongue + "," + sputumamount
@@ -440,7 +441,7 @@ public class MedicineByDescription {
 	 * @param desString
 	 * @return
 	 */
-	public static String getFormatDescirption(String desString){
+	public static String getFormatedDescirption(String desString){
 		if(desString == ""){
 			return "";
 		}

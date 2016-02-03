@@ -108,7 +108,7 @@ public class EhealthRecordConverter {
             		chineseMedicinesList.add(c);
                     }
                 }
-            }            
+            }
         }
         //西药处方
         if(wMedicineList != null || wMedicine != null){

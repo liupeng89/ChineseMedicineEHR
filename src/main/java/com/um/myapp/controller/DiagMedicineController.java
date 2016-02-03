@@ -17,6 +17,7 @@ import com.mathworks.toolbox.javabuilder.MWException;
 import com.um.data.DiagClassifyData;
 import com.um.model.ChineseMedicine;
 import com.um.model.EHealthRecord;
+import com.um.util.BasedOnRulePredict;
 import com.um.util.DiagMedicineProcess;
 import com.um.util.EhealthUtil;
 import com.um.util.MachineLearningPredict;
@@ -32,8 +33,9 @@ public class DiagMedicineController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value="predictByStatisticAndMachine",method=RequestMethod.POST)
+	@RequestMapping(value="predictByStatisticAndMachine", method=RequestMethod.POST)
 	public ModelAndView predictByStatisAndMachine(HttpServletRequest request) {
+		
 		ModelAndView mv = new ModelAndView("predictMedicine");
 		
 		/*
@@ -49,7 +51,9 @@ public class DiagMedicineController {
 		double threshold = Double.valueOf(requestMap.get("threshold"));  // 机器学习阈值
 		
 		// 1.3 格式化描述输出
-		String descconvertString = MedicineByDescription.getFormatDescirption(description);
+		String descconvertString = MedicineByDescription.getFormatedDescirption(description);
+		
+		System.out.println("Description:" + descconvertString);
 		
 		/*
 		 * 2. 基于统计的方法预测中药
@@ -74,12 +78,19 @@ public class DiagMedicineController {
 		// 	3.2 机器学习预测   machine learning object
 		List<String> medicineListByMachine = MachineLearningPredict.predict(inputcode, threshold); // 机器学习预测结果
 		
-		// 4. 获取批次
+		/*
+		 *  4. Based on the rules
+		 */
+		List<String> medicineListByRules = BasedOnRulePredict.predictBasedOnRules(descconvertString);
+		
+		
+		// 5. 获取批次
 		List<String> batchList = DiagMedicineProcess.getBatch();
 		mv.addObject("batchList", batchList);
 		mv.addObject("batch", batch);
 		mv.addObject("medicineListByStatis", medicineListByStatisticSorted);
 		mv.addObject("medicineListByMachine",medicineListByMachine);
+		mv.addObject("medicineListByRules", medicineListByRules);
 		mv.addObject("diagnose", diagnose);
 		mv.addObject("description", descconvertString);
 		mv.addObject("similaryRecords",similaryRecords);
