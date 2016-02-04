@@ -53,8 +53,6 @@ public class DiagMedicineController {
 		// 1.3 格式化描述输出
 		String descconvertString = MedicineByDescription.getFormatedDescirption(description);
 		
-		System.out.println("Description:" + descconvertString);
-		
 		/*
 		 * 2. 基于统计的方法预测中药
 		 */
