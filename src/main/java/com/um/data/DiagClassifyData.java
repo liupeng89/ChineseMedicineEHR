@@ -939,7 +939,7 @@ public class DiagClassifyData {
 		"okthirst:0",
 		"badthirst:1",
 		"worsethirst:1",
-		"lighttaste:1",
+		"lighttaste:0",
 		"acidtaste:1",
 		"bittertaste:1",
 		"okcough:0",

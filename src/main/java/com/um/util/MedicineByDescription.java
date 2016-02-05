@@ -158,7 +158,7 @@ public class MedicineByDescription {
 		
 		// 2.2 根据诊断，对病例数据进行分类
 		List<EHealthRecord> classifiedRecords = DiagMedicineProcess.getRecordsByDiagnose(diagkeywords, eHealthRecordsByBatch);
-		
+		System.out.println("classified num:" + classifiedRecords.size());
 		// 2.3 分析用户输入描述，统计中药处方
 		Set<String> cnmedicineSet = DiagMedicineProcess.getMedicinesByDescription(description, classifiedRecords);
 		
@@ -280,7 +280,7 @@ public class MedicineByDescription {
 		// 1.3 根据诊断类型和描述，确定相似病历
 		// 根据诊断，对病例数据进行分类
 		String[] diagkeywords = diagnose.split(" ");
-		if(diagkeywords.length == 0){
+		if(diagkeywords.length == 0 || diagkeywords == null){
 			return null; 
 		}
 		// 区分诊断类型
@@ -304,6 +304,7 @@ public class MedicineByDescription {
 		}
 		return result;
 	}
+	
 	
 	/**
 	 *  根据分组关系，确定中药处方
@@ -433,6 +434,49 @@ public class MedicineByDescription {
 		resultMap.put("threshold", threshold);
 //		resultMap.put("timeStatus", timeStatus);
 		return resultMap;
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static String getDescriptionString(HttpServletRequest request){
+		if (request == null) {
+			return "";
+		}
+		String description = "";
+		
+		String hanre = request.getParameter("hanre"); // 寒热
+		String sweat = request.getParameter("sweat"); // 汗
+		String xonglei = request.getParameter("xonglei"); // 胸肋痛
+		String futong = request.getParameter("futong"); // 腹痛
+		String[] tengtong = request.getParameterValues("tengtong"); //疼痛
+		String[] bodydiscomfort = request.getParameterValues("bodydiscomfort"); //头身胸腹不适
+		String defecate = request.getParameter("defecate"); //大便
+		String[] constipation = request.getParameterValues("constipation"); //便秘
+		String urinate = request.getParameter("urinate"); // 小便
+		String tonguecolor = request.getParameter("tonguecolor"); // 舌色
+		String coatedtongue = request.getParameter("coatedtongue"); // 舌苔
+		String sputumamount = request.getParameter("sputumamount"); // 痰量
+		String sputumcolor = request.getParameter("sputumcolor"); // 痰色
+		String sleep = request.getParameter("sleep"); // 眠
+		String na = request.getParameter("na"); // 纳
+		String energy = request.getParameter("energy"); // 气力
+		String[] pulse = request.getParameterValues("pulse"); // 脉
+		String thirst = request.getParameter("thirst"); //口渴
+		String taste = request.getParameter("taste"); // 口味
+		String cough = request.getParameter("cough"); // 咳嗽
+		
+		description = hanre + "," + sweat + "," + xonglei + "," + futong + ","
+				+ convertArrayToString(tengtong) + convertArrayToString(bodydiscomfort)
+				+ defecate + "," + convertArrayToString(constipation) + urinate + "," 
+				+  tonguecolor + "," + coatedtongue + "," + sputumamount
+				+ "," + sputumcolor + "," + sleep + "," + na + "," + energy + "," 
+				+ convertArrayToString(pulse) + thirst
+				+ "," + taste + "," + cough;
+		
+		return description;
 	}
 	
 	

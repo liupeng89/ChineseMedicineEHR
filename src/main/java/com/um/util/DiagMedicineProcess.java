@@ -422,143 +422,232 @@ public class DiagMedicineProcess {
 		if( description == "" || description.equals("") || eHealthRecords == null || eHealthRecords.size() == 0){
 			return null;
 		}
-		List<EHealthRecord> eRecords = new ArrayList<EHealthRecord>(); // 同种描述的病历
+		List<EHealthRecord> similarRecords = new ArrayList<EHealthRecord>(); // 同种描述的病历
 		// 1. 处理description
 		String[] descriptionSplits = description.split(",");
 		if( descriptionSplits == null || descriptionSplits.length == 0 ){
 			return null;
 		}
+		System.out.println("desc: " + description);
+		
+		// 2. 生成关键字编码表  <部位， < 状态：［k1,k2,k3.....］>>
+		Map<String, HashMap<String, ArrayList<String>>> keywordCodeMap = creatrReference(DiagClassifyData.descriptionKeywords);
+		Map<String, String> normalTableMap = MedicineByDescription.convertArraysToMap(DiagClassifyData.normalAndBaddescription);
+		// 去掉正常的status
 		
 		Set<String> descriptionSet = new HashSet<String>(); // 输入描述中的关键字
 		for( String string : descriptionSplits ){
-			descriptionSet.add(string);
+			if (normalTableMap.get(string)!=null && !normalTableMap.get(string).equals("0")) {
+				descriptionSet.add(string);
+			}
 		}
-//		System.out.println("[input] " + descriptionSet);
-		
-		// 2. 生成关键字编码表  <部位， < 状态：［k1,k2,k3.....］>>
-		Map<String, HashMap<String, ArrayList<String>>> keyworCodeMap = creatrReference(DiagClassifyData.descriptionKeywords);
-		
-		// 3. 根据输入，确定输入编码
-		Map<String, HashMap<String, String>> inputDescCodeMap = new HashMap<String, HashMap<String,String>>();
-		Set<String> projectKeySet = keyworCodeMap.keySet();
-		// project
-		for( String project : projectKeySet ){
-			// status
-			Set<String> statusSet = keyworCodeMap.get(project).keySet();
-			if( statusSet == null || statusSet.size() == 0 ){
+		if (descriptionSet == null || descriptionSet.size() == 0) {
+			return null;
+		}
+		System.out.println(descriptionSet);
+		// 3. 输入编码
+		Map<String, ArrayList<String>> inputCodeMap = new HashMap<String, ArrayList<String>>();
+		Set<String> projectKey = keywordCodeMap.keySet();
+		for (String project : projectKey) {
+			// 
+			Set<String> statusKeySet = keywordCodeMap.get(project).keySet();
+			if( statusKeySet == null || statusKeySet.size() == 0 ){
 				continue;
 			}
-			HashMap<String, String> inputStatusMap = new HashMap<String, String>(); 
-			for( String status : statusSet ){
-				if( descriptionSet.contains(status) ){
-					inputStatusMap.put(status, "1");
-				}else{
-					inputStatusMap.put(status, "0");
+			for (String inString : descriptionSet) {
+				if (keywordCodeMap.get(project).get(inString) != null && !keywordCodeMap.get(project).get(inString).contains("无")) {
+					ArrayList<String> contentList = keywordCodeMap.get(project).get(inString);
+					inputCodeMap.put(inString, contentList);
 				}
 			}
-			inputDescCodeMap.put(project, inputStatusMap);
 		}
-		// 主要症状和次要症状
-		String[] mainDescriptionStrings = DiagClassifyData.mainDescriptionStrings; // 主要症状
-		String[] seconddescriptionStrings = DiagClassifyData.seconddescriptionStrings; // 次要症状
+		System.out.println("input code: " + inputCodeMap.toString());
 		
-		// 4. 匹配病例
-		for( EHealthRecord ehHealthRecord : eHealthRecords ){
-			// 4.1 每一个病例对应的编码
-			Map<String, HashMap<String, String>> eRecrodCodeMap =  getRecordDescCodeMap(ehHealthRecord);
-			// 4.2 判断是匹配---判断方法：
-			/*
-			 * 判断方法:1. 主要症状需要尽量相同
-			 * 			2. 次要症状并集相同
-			 * 	
-			 */
-			Map<String, String> mainMatchMap = new HashMap<String, String>();
-			Map<String, String> secondMatchMap = new HashMap<String, String>();
+		Set<String> keySet = inputCodeMap.keySet();
+
+		if (keySet.contains("cmtreat")||keySet.contains("shuqian")||keySet.contains("shuhou")||
+				keySet.contains("zhiliaozhong")||
+				keySet.contains("zhiliaohou")||
+				keySet.contains("hualiaozhong")||
+				keySet.contains("hualiaohou")||
+				keySet.contains("fenzi")||
+				keySet.contains("mianyi")) {
 			
-			// 4.3 检测主要症状匹配情况---1:匹配  0: 不匹配
-			for( String m : mainDescriptionStrings ){
-				if( checkProjectMatch(inputDescCodeMap.get(m), eRecrodCodeMap.get(m))){
-					mainMatchMap.put(m, "1");
-				}else{
-					mainMatchMap.put(m, "0");
-				}
-			}
+		}
+		if (keySet.contains("cmtreat")) {
+			inputCodeMap.remove("cmtreat");
+		}
+		if (keySet.contains("shuqian")) {
+			inputCodeMap.remove("shuqian");
+		}
+		if (keySet.contains("shuhou")) {
+			inputCodeMap.remove("shuhou");
+		}
+		if (keySet.contains("zhiliaozhong")) {
+			inputCodeMap.remove("zhiliaozhong");
+		}
+		if (keySet.contains("zhiliaohou")) {
+			inputCodeMap.remove("zhiliaohou");
+		}
+		if (keySet.contains("hualiaozhong")) {
+			inputCodeMap.remove("hualiaozhong");
+		}
+		if (keySet.contains("hualiaohou")) {
+			inputCodeMap.remove("hualiaohou");
+		}
+		
+		if (keySet.contains("fenzi")) {
+			inputCodeMap.remove("fenzi");
+		}
+		if (keySet.contains("mianyi")) {
+			inputCodeMap.remove("mianyi");
+		}
+		
+		// 4. 匹配
+		for (EHealthRecord eHealthRecord : eHealthRecords) {
+			int statusmatchnum = 0;
+			System.out.println("--------------------");
+			Set<String> statusSet = inputCodeMap.keySet();
 			
-			// 4.4 检测次要症状匹配情况
-			for( String m : seconddescriptionStrings ){
-				if( checkProjectMatch(inputDescCodeMap.get(m), eRecrodCodeMap.get(m))){
-					secondMatchMap.put(m, "1");
-				}else{
-					secondMatchMap.put(m, "0");
-				}
-			}
-			
-			// 4.4 根据主要症状和次要症状的匹配情况，确定病例是否符合条件
-			/*
-			 * 临时条件：
-			 * 			逐次递减判断条件的个数，直至符合病例数出现
-			 * 			
-			 */
-			
-			for(int i = 0; i < 8; i++){
-				
-				int countMain = 0;
-				int countSecond = 0;
-				Set<String> mainSet = mainMatchMap.keySet();
-				Set<String> secondSet = secondMatchMap.keySet();
-				for(String m : mainSet){
-					if(mainMatchMap.get(m).equals("1")){
-						countMain++;
+			for (String status : statusSet) {
+				int contentmatchnum = 0;
+				ArrayList<String> contentList = inputCodeMap.get(status);
+				for (String c : contentList) {
+					if (eHealthRecord.getConditionsdescribed().contains(c)) {
+						System.out.println("c: " + c);
+						statusmatchnum++;
+						break;
 					}
+					contentmatchnum++;
 				}
-				for(String s : secondSet){
-					if(secondMatchMap.get(s).equals("1")){
-						countSecond++;
-					}
-				}
-				if(countMain >=  9 - i && countSecond >= 8 - i){
-					// 该病例符合条件
-					eRecords.add(ehHealthRecord);
-				}
-				// 至少为5个病例
-				if( eRecords.size() >= 5 ){
+				if (contentmatchnum == contentList.size()-1) {
+					// 该状态的关键字全部都不一致，则该病例不属于相似病例
 					break;
 				}
 			}
+			System.out.println("status num: " + statusmatchnum);
+			if (statusmatchnum >= (statusSet.size() / 2 + 1)) {
+				similarRecords.add(eHealthRecord);
+			}
 		}
-		return eRecords;
-	}
-	
-//	/**
-//	 * 根据描述，选择相似病历
-//	 * @param description
-//	 * @param eHealthRecords
-//	 * @return
-//	 */
-//	public static List<EHealthRecord> getRecordByDescription(String description,List<EHealthRecord> eHealthRecords){
-//		if(description == "" || eHealthRecords == null || eHealthRecords.isEmpty()){
-//			return null;
+		
+		System.out.println("sim num: " + similarRecords.size());
+		
+//		int matchnum = 0;
+//		int maxmatchnum = 0;
+		
+//		Set<String> keySet = inputCodeMap.keySet();
+//		if (keySet.contains("badsleep") || keySet.contains("worsesleep") || keySet.contains("worstsleep") || keySet.contains("somnolencesleep")) {
+//			maxmatchnum++;
 //		}
-//		// 1. 根据输入描述，生成关键字  编码
-//		Map<String, String> descriptionCode = getDescritionCode(description); //描述关键字编码
+//		if (keySet.contains("redlittlesputumcolor") || keySet.contains("redmuchsputumcolor") || keySet.contains("redmoresputumcolor") ) {
+//			maxmatchnum++;
+//		}
+//		if (keySet.contains("okxonglei") || keySet.contains("badxonglei") || keySet.contains("worsexonglei") ) {
+//			maxmatchnum++;
+//		}
+//		if (keySet.contains("badna") || keySet.contains("anorexiana") || keySet.contains("worsena") ) {
+//			maxmatchnum++;
+//		}
+//		if (keySet.contains("badsleep") || keySet.contains("worsesleep") || keySet.contains("worstsleep") ) {
+//			maxmatchnum++;
+//		}
 //		
-//		// 2. 根据编码，识别病历中的关键字，并对他们进行分类
-//		List<EHealthRecord> eRecords = new ArrayList<EHealthRecord>(); // 同种描述的病历
-//		for(EHealthRecord e : eHealthRecords){
-//			if(e.getConditionsdescribed() == ""){
+//		System.out.println("maxmatch: " + matchnum);
+
+		
+		
+		
+		// 3. 根据输入，确定输入编码
+//		Map<String, HashMap<String, String>> inputDescCodeMap = new HashMap<String, HashMap<String,String>>();
+//		Set<String> projectKeySet = keywordCodeMap.keySet();
+//		// project
+//		for( String project : projectKeySet ){
+//			// status
+//			Set<String> statusKeySet = keywordCodeMap.get(project).keySet();
+//			if( statusKeySet == null || statusKeySet.size() == 0 ){
 //				continue;
 //			}
-//			String descString = e.getConditionsdescribed();
-//			Map<String, String> codeMap = getDescritionCode(descString);//每一病历描述的关键字编码
-//			if(checkCode(descriptionCode, codeMap)){
-//				eRecords.add(e);
+//			HashMap<String, String> inputStatusMap = new HashMap<String, String>(); 
+//			for( String status : statusKeySet ){
+//				if( descriptionSet.contains(status) ){
+//					inputStatusMap.put(status, "1");
+//				}else{
+//					inputStatusMap.put(status, "0");
+//				}
+//			}
+//			inputDescCodeMap.put(project, inputStatusMap);
+//		}
+//		// 主要症状和次要症状
+//		String[] mainDescriptionStrings = DiagClassifyData.mainDescriptionStrings; // 主要症状
+//		String[] seconddescriptionStrings = DiagClassifyData.seconddescriptionStrings; // 次要症状
+//		
+//		// 4. 匹配病例
+//		for( EHealthRecord ehHealthRecord : eHealthRecords ){
+//			// 4.1 每一个病例对应的编码
+//			Map<String, HashMap<String, String>> eRecrodCodeMap =  getRecordDescCodeMap(ehHealthRecord);
+//			// 4.2 判断是匹配---判断方法：
+//			/*
+//			 * 判断方法:1. 主要症状需要尽量相同
+//			 * 			2. 次要症状并集相同
+//			 * 	
+//			 */
+//			Map<String, String> mainMatchMap = new HashMap<String, String>();
+//			Map<String, String> secondMatchMap = new HashMap<String, String>();
+//			
+//			// 4.3 检测主要症状匹配情况---1:匹配  0: 不匹配
+//			for( String m : mainDescriptionStrings ){
+//				if( checkProjectMatch(inputDescCodeMap.get(m), eRecrodCodeMap.get(m))){
+//					mainMatchMap.put(m, "1");
+//				}else{
+//					mainMatchMap.put(m, "0");
+//				}
+//			}
+//			
+//			// 4.4 检测次要症状匹配情况
+//			for( String m : seconddescriptionStrings ){
+//				if( checkProjectMatch(inputDescCodeMap.get(m), eRecrodCodeMap.get(m))){
+//					secondMatchMap.put(m, "1");
+//				}else{
+//					secondMatchMap.put(m, "0");
+//				}
+//			}
+//			
+//			// 4.4 根据主要症状和次要症状的匹配情况，确定病例是否符合条件
+//			/*
+//			 * 临时条件：
+//			 * 			逐次递减判断条件的个数，直至符合病例数出现
+//			 * 			
+//			 */
+//			
+//			for(int i = 0; i < 8; i++){
+//				
+//				int countMain = 0;
+//				int countSecond = 0;
+//				Set<String> mainSet = mainMatchMap.keySet();
+//				Set<String> secondSet = secondMatchMap.keySet();
+//				for(String m : mainSet){
+//					if(mainMatchMap.get(m).equals("1")){
+//						countMain++;
+//					}
+//				}
+//				for(String s : secondSet){
+//					if(secondMatchMap.get(s).equals("1")){
+//						countSecond++;
+//					}
+//				}
+//				if(countMain >=  9 - i && countSecond >= 8 - i){
+//					// 该病例符合条件
+//					similarRecords.add(ehHealthRecord);
+//				}
+//				// 至少为5个病例
+//				if( similarRecords.size() >= 5 ){
+//					break;
+//				}
 //			}
 //		}
-//		if(eRecords.size() == 0){
-//			return null;
-//		}
-//		return eRecords;
-//	}
+		return similarRecords;
+	}
 	
 	/**
 	 *  检查描述是否和某一项的关键字数组是否匹配
@@ -1623,7 +1712,7 @@ public class DiagMedicineProcess {
 		//2、依次统计重复的名称
 		Map<String, Integer> statisMedicines = MedicineStatics.staticsChineseMedicine(allCnMedicines);
 		//3. 排序
-		statisMedicines = DiagMedicineProcess.sortMapByValue(statisMedicines);
+//		statisMedicines = DiagMedicineProcess.sortMapByValue(statisMedicines);
 		//4、返回结果
 		return statisMedicines;
 	}

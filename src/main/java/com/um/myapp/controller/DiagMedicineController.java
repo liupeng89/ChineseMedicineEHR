@@ -28,7 +28,7 @@ public class DiagMedicineController {
 
 	/**
 	 *  基于用户输入预测处方
-	 *  	预测方法：1、基于案例统计；2、基于机器学习；
+	 *  	预测方法：1、基于案例统计；2、基于机器学习；3、基于规则；
 	 * 
 	 * @param request
 	 * @return
@@ -49,10 +49,13 @@ public class DiagMedicineController {
 		String description = requestMap.get("description"); // 症状
 		String batch = requestMap.get("batch");  // 年度
 		double threshold = Double.valueOf(requestMap.get("threshold"));  // 机器学习阈值
-		
+		System.out.println("description:" + description);
 		// 1.3 格式化描述输出
 		String descconvertString = MedicineByDescription.getFormatedDescirption(description);
 		
+		// new description
+		String descriptionString = diagnose + descconvertString;
+		System.out.println("new desc:" + descriptionString);
 		/*
 		 * 2. 基于统计的方法预测中药
 		 */
@@ -67,8 +70,12 @@ public class DiagMedicineController {
 			}
 		}
 		
-		// 2.1 提供相似病历
+		// 2.1 提供相似病历  最多六个
 		List<EHealthRecord> similaryRecords = MedicineByDescription.getSimilaryEHealthRecords(batch, diagnose, description);
+		
+		if (similaryRecords.size() > 6) {
+			similaryRecords = similaryRecords.subList(0, 6);
+		}
 		
 		// 3. 基于机器学习的方法预测中药
 		//  3.1 初始化输入参数
@@ -79,7 +86,7 @@ public class DiagMedicineController {
 		/*
 		 *  4. Based on the rules
 		 */
-		List<String> medicineListByRules = BasedOnRulePredict.predictBasedOnRules(descconvertString);
+		List<String> medicineListByRules = BasedOnRulePredict.predictBasedOnRules(descriptionString);
 		
 		
 		// 5. 获取批次
