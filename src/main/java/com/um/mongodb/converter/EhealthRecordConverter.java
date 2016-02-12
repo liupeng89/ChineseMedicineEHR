@@ -11,12 +11,6 @@ import com.um.model.EHealthRecord;
 import org.bson.BSONObject;
 import org.bson.Document;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.MongoClient;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
-import com.mongodb.client.MongoDatabase;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -114,7 +108,7 @@ public class EhealthRecordConverter {
             		chineseMedicinesList.add(c);
                     }
                 }
-            }            
+            }
         }
         //西药处方
         if(wMedicineList != null || wMedicine != null){

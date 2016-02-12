@@ -125,7 +125,7 @@
 								<td>
 									<label>舌色：</label>
 									<select name="tonguecolor">
-										<option value="oktonguecolor" selected>淡红正常</option>
+										<option value="oktonguecolor" selected>正常</option>
 										<option value="whitetonguecolor">淡白</option>
 										<option value="redtonguecolor">红色</option>
 										<option value="jiangtonguecolor">降色</option>
@@ -136,7 +136,7 @@
 									<br>
 									<label>舌苔：</label>
 									<select name="coatedtongue">
-										<option value="whitecoatedtongue" selected>白苔（正常）</option>
+										<option value="whitecoatedtongue" selected>正常</option>
 										<option value="yellowcoatedtongue">黄苔</option>
 										<option value="purplecoatedtongue">紫苔</option>
 										<option value="blackcoatedtongue">黑（灰）苔</option>
@@ -148,9 +148,9 @@
 							<tr>
 								<td class="info"><label>脉：</label></td>
 								<td>
-									<label><input name="pulse" type="checkbox" value="floatpulse" checked/>浮</label>&nbsp;&nbsp;
+									<label><input name="pulse" type="checkbox" value="slimpulse" checked/>细</label>&nbsp;&nbsp;
+									<label><input name="pulse" type="checkbox" value="floatpulse"/>浮</label>&nbsp;&nbsp;
 									<label><input name="pulse" type="checkbox" value="sinkpulse"/>沉</label>&nbsp;&nbsp;
-									<label><input name="pulse" type="checkbox" value="slimpulse"/>细</label>&nbsp;&nbsp;
 									<label><input name="pulse" type="checkbox" value="roughpulse"/>粗</label>&nbsp;&nbsp;
 									<label><input name="pulse" type="checkbox" value="latepulse"/>迟</label>&nbsp;&nbsp;
 									<label><input name="pulse" type="checkbox" value="numberpulse"/>数</label>&nbsp;&nbsp;
@@ -196,7 +196,7 @@
 								<td class="info"><label>大便：</label></td>
 								<td>
 									<select name="defecate" >
-										<option value="defaultdefecate" selected>无便秘</option>
+										<option value="defaultdefecate" selected>正常</option>
 										<option value="okdefecate">便秘（轻）</option>
 										<option value="baddefecate">便秘（中）</option>
 										<option value="worsedefecate">便秘（重）</option>					
@@ -208,7 +208,7 @@
 								<td class="info"><label>小便：</label></td>
 								<td>
 									<select name="urinate" >
-										<option value="okurinate" selected>小便正常</option>
+										<option value="okurinate" selected>正常</option>
 										<option value="badurinate">小便次多</option>
 										<option value="worseurinate">尿频</option>
 										<option value="bloodurinate">尿血</option>					
@@ -219,14 +219,14 @@
 								<td class="info"><label>痛：</label></td>
 								<td>
 									<select name="xonglei">
-										<option value="noxonglei" selected>胸肋痛（无）</option>
+										<option value="noxonglei" selected>正常</option>
 										<option value="okxonglei">胸肋痛（轻）</option>
 										<option value="badxonglei">胸肋痛（中）</option>
 										<option value="worsexonglei">胸肋痛（重）</option>
 									</select>
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 									<select name="futong">
-										<option value="nofutong" selected>腹痛（无）</option>
+										<option value="nofutong" selected>正常</option>
 										<option value="okfutong">腹痛（轻）</option>
 										<option value="badfutong">腹痛（中）</option>
 										<option value="worsefutong">腹痛（重）</option>
@@ -265,7 +265,7 @@
 								<td class="info"><label>寒热：</label></td>
 								<td>
 									<select name="hanre">
-										<option value="hanwu" selected>寒（无）</option>
+										<option value="hanwu" selected>正常</option>
 										<option value="hanqing">寒（轻）</option>
 										<option value="hanzhong">寒（重）</option>
 										<option value="rewu">热（无）</option>
@@ -280,7 +280,7 @@
 								<td>
 									<select name="sweat">
 										<option value="sweat">有</option>
-										<option value="nosweat" selected>无</option>
+										<option value="nosweat" selected>正常</option>
 										<option value="zihan">自汗</option>
 										<option value="daohan">盗汗</option>
 										<option value="dahan">大汗</option>
@@ -301,7 +301,7 @@
 								<td class="info"><label>口渴：</label></td>
 								<td>
 									<select name="thirst">
-										<option value="okthirst" selected>口不渴</option>
+										<option value="okthirst" selected>正常</option>
 										<option value="badthirst">喝不多饮</option>
 										<option value="worsethirst">口渴多饮</option>
 									</select>
@@ -311,7 +311,7 @@
 								<td class="info"><label>口味：</label></td>
 								<td>
 									<select name="taste">
-										<option value="lighttaste">口淡</option>
+										<option value="lighttaste">正常</option>
 										<option value="acidtaste">泛酸</option>
 										<option value="bittertaste">口苦</option>
 									</select>
@@ -340,7 +340,7 @@
 			<p>${description }</p>
 			<hr>
 		</div>
-		<!-- 预测结果 -->
+		<!-- 基于案例统计预测结果 -->
 		<c:if test="${medicineListByStatis != null }">
 			<div style="width:100%">
 				<h3>基于病例统计的预测处方：（共${medicineListByStatis.size() }味）</h3>
@@ -362,7 +362,7 @@
 				</p>
 			</div>
 		</c:if>
-		<!-- 预测结果 -->
+		<!-- 机器学习预测结果 -->
 		<c:if test="${medicineListByMachine != null }">
 			<div style="width:100%">
 				<hr>
@@ -377,6 +377,29 @@
 						</c:if>
 						<c:if test="${!medicineListByStatis.contains(item) }">
 							<font color="red">
+								${item }，
+							</font>
+						</c:if>
+					</c:forEach>
+				</p>
+			</div>
+		</c:if>
+		
+		<!-- 基于规则预测结果 -->
+		<c:if test="${medicineListByRules != null }">
+			<div style="width:100%">
+				<hr>
+				<h3>基于规则的预测处方：（共${medicineListByRules.size() }味）</h3>
+				<p>
+					<c:forEach items="${medicineListByRules }" var="item">
+						<%-- ${item } --%>
+						<c:if test="${medicineListByStatis.contains(item) }">
+							<font color="black">
+								${item }，
+							</font>
+						</c:if>
+						<c:if test="${!medicineListByStatis.contains(item) }">
+							<font color="blue">
 								${item }，
 							</font>
 						</c:if>
