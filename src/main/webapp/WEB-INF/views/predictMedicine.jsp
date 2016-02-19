@@ -9,10 +9,12 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Insert title here</title>
-   <link rel="stylesheet" href="css/bootstrap.min.css">
-   <link rel="stylesheet" href="css/style.css">
-   <script src="js/bootstrap.min.js"></script>
+   	<link rel="stylesheet" href="css/bootstrap.min.css">
+   	<link rel="stylesheet" href="css/style.css">
+   	<script src="js/bootstrap.min.js"></script>
 	<script src="js/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript">
+	</script>
 </head>
 <body>
 	
@@ -33,11 +35,7 @@
 		        				</c:forEach>  
 		    				</select> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		    				<input id="predictButton" type="submit" class="btn btn-success" value="预测处方" onclick="javascript: form.action='predictByStatisticAndMachine';" /> 
-			    			<div class="spinner">
-							  <div class="rect1"></div>
-							  <div class="rect2"></div>
-							  <div class="rect3"></div>
-							</div>
+		    				
 						</p>
 			    		<hr>
 			    		<p class="text-danger">
@@ -440,11 +438,6 @@
 	</div>
 	</div>
 	</div>
-	<script>
-		$("#predictButton").click(){
-			$(".spinner").show();
-		};
-	</script>
 
 </body>
 </html>

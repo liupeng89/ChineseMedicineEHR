@@ -214,7 +214,6 @@ public class EhealthRecordConverter {
     	
     	ChineseMedicine chineseMedicine = new ChineseMedicine(nameString, biasList, number, uniString);
     	return chineseMedicine;
-    	
     }
     
     /**

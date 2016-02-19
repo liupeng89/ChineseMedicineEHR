@@ -28,8 +28,6 @@ public class ConnectionDB {
 			// TODO: handle finally clause
 			client.close();
 		}
-	
-       
 	}
 	
 	/**

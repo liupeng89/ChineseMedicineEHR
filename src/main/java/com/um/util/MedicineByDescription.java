@@ -49,7 +49,7 @@ public class MedicineByDescription {
 		medicieList.addAll(medicineWithNinePercent);
 		
 		// 去掉出现概率较大的
-		allMedicineMap = DiagMedicineProcess.removeMapOfList(allMedicineMap, medicineWithNinePercent);
+		allMedicineMap = DiagMedicineProcess.removeMapInList(allMedicineMap, medicineWithNinePercent);
 		
 		/**
 		 * 	3. 累计后续中药，判断累加结果是否大于90%，根据判断规则输出
@@ -82,7 +82,7 @@ public class MedicineByDescription {
 				calculMap.put(s, allMedicineMap.get(s)); // 暂存中药与出现次数 map
 			}
 			// 去掉已经选择的中药
-			allMedicineMap = DiagMedicineProcess.removeMapOfList(allMedicineMap, accumulateList); 
+			allMedicineMap = DiagMedicineProcess.removeMapInList(allMedicineMap, accumulateList); 
 			// 2. 计算这些中药之间的相关性，并根据规则进行分析－－－对这些中药进行组合，确定组合的交集是否大于 50%，大于，则同时出现的概率很大－－暂定两两组合
 			List<String> combitationList = getMedicineByGroupRelation(accumulateList,allEHealthRecords);
 			accumulateList.addAll(combitationList); // 
@@ -120,7 +120,7 @@ public class MedicineByDescription {
 		}
 		List<String> medicineList = new ArrayList<String>(); // Medicine List
 		
-		int threshold = 15; // The threshold: the count of output is 15
+		int threshold = 15; // The threshold is the count of output
 
 		/**
 		 * 1. 对中医处方进行统计，选择出现概率大于90%的中药作为结果输出；
@@ -131,16 +131,16 @@ public class MedicineByDescription {
 		Map<String, Integer> allMedicineMap = DiagMedicineProcess.statisEhealthMedicine(eHealthRecordsByBatch);
 		
 		// 1.4  找出出现概率大于90%的，作为结果 
-		int allRecordLength = eHealthRecordsByBatch.size(); // 本批次病历的数量
+		int allRecordsNum = eHealthRecordsByBatch.size(); // 本批次病历的数量
 		double percent = 0.9; // 中药出现概率
 		
-		List<String> medicineWithNineProbability = DiagMedicineProcess.statisMedicineByProbability(allMedicineMap, allRecordLength, percent);
-		if(medicineWithNineProbability != null && medicineWithNineProbability.size() > 0){
-			medicineList.addAll(medicineWithNineProbability); //出现概率大于90%的中药名称
+		List<String> medicineWithInevitable = DiagMedicineProcess.statisMedicineByProbability(allMedicineMap, allRecordsNum, percent);
+		if(medicineWithInevitable != null && medicineWithInevitable.size() > 0){
+			medicineList.addAll(medicineWithInevitable); //出现概率大于90%的中药名称
 		}
 		
 		// 1.5 去掉出现概率较大的，后续分析
-		allMedicineMap = DiagMedicineProcess.removeMapOfList(allMedicineMap, medicineWithNineProbability);
+		allMedicineMap = DiagMedicineProcess.removeMapInList(allMedicineMap, medicineWithInevitable);
 		
 		// 1.6 若满足数量，则直接输出
 		if(medicineList.size() > threshold){
@@ -219,7 +219,7 @@ public class MedicineByDescription {
 		}
 		
 		// 1.5 去掉出现概率较大的，后续分析
-		allMedicineMap = DiagMedicineProcess.removeMapOfList(allMedicineMap, medicineWithNinePercent);
+		allMedicineMap = DiagMedicineProcess.removeMapInList(allMedicineMap, medicineWithNinePercent);
 		
 		// 1.6 若满足数量，则直接输出
 		if(medicineList.size() > threshold){
@@ -294,14 +294,9 @@ public class MedicineByDescription {
 				eSet.add(e);
 			}
 		}
+		// Get 4 similary records
 		List<EHealthRecord> result = new ArrayList<EHealthRecord>();
-		if( eSet.size() > 4 ){
-			for( EHealthRecord e : eSet ){
-				result.add(e);
-			}
-		}else{
-			result.addAll(eSet);
-		}
+		result.addAll(eSet);
 		return result;
 	}
 	
@@ -486,28 +481,29 @@ public class MedicineByDescription {
 	 * @return
 	 */
 	public static String getFormatedDescirption(String desString){
-		if(desString == ""){
-			return "";
-		}
-		String result = "";
-		// 1. 字符转化－－－－－英文转中文
-		Map<String, String> descTableMap = convertArraysToMap(DiagClassifyData.descriptionStrings);
+		if(desString == ""){ return ""; }
 		
+		String result = "";
+		// 1. input code convert to chinese description
+		Map<String, String> descTableMap = convertArraysToMap(DiagClassifyData.descriptionStrings);
 		Map<String, String> normalTableMap = convertArraysToMap(DiagClassifyData.normalAndBaddescription);
 		
-		// 2. 转换
+		// 2. convert
 		String[] splits = desString.split(",");
-		if( splits == null || splits.length == 0 ){
-			return "";
-		}
-		for( String s : splits ){
-			if(normalTableMap.get(s) == "" || normalTableMap.get(s) == null) continue;
-			
-			if( !normalTableMap.get(s).equals("0") ){
-				result += descTableMap.get(s) + ",";
+		if( splits == null || splits.length == 0 ){ return ""; }
+		
+		int length = splits.length;
+		for (int i = 0; i < length; i++) {
+			String s = splits[i];
+			if(normalTableMap.get(s).equals("") || normalTableMap.get(s) == null) continue;
+			if( !normalTableMap.get(s).equals("0") ){ 
+				if (i == length - 1) {
+					result += descTableMap.get(s);
+				} else {
+					result += descTableMap.get(s) + ","; 
+				}
 			}
 		}
-		
 		return result;
 	}
 	
@@ -554,12 +550,12 @@ public class MedicineByDescription {
 	 * @return
 	 */
 	public static List<EHealthRecord> getRecordByBatch(String batch){
-		if( batch.equals("") ){
-			return null;
-		}
-		// 1.1 读取数据库种病例数据
+		
+		if( batch.equals("") ){ return null; }
+		// built the conditions structure of batch
 		Document conditons = new Document();
 		if(!batch.equals("")){
+			// get the four char
 			conditons.append("ehealthrecord.batch", batch.substring(0, 4));
 		}
 		// 1.2 选取批次
@@ -574,11 +570,10 @@ public class MedicineByDescription {
 	 * @return
 	 */
 	public static String formattedDescriptionByCount(String description){
-		if( description.equals("") ){
-			return null;
-		}
+		
+		if( description.equals("") ){ return null; }
 		String formattedDescriptionString = "";
-		//
+		
 		Map<String, HashMap<String, ArrayList<String>>> keyworCodeMap = DiagMedicineProcess.creatrReference(DiagClassifyData.descriptionKeywords);
 		
 		// 3. 根据输入，确定输入编码
@@ -588,16 +583,13 @@ public class MedicineByDescription {
 		for( String project : projectKeySet ){
 			// status
 			Set<String> statusSet = keyworCodeMap.get(project).keySet();
-			if( statusSet == null || statusSet.size() == 0 ){
-				continue;
-			}
+			
+			if( statusSet == null || statusSet.size() == 0 ){ continue; }
 			
 			for( String status : statusSet ){
 				int index = 0;
 				ArrayList<String> keyArrayList = keyworCodeMap.get(project).get(status);
-				if( keyArrayList == null || keyArrayList.size() == 0 ){
-					continue;
-				}
+				if( keyArrayList == null || keyArrayList.size() == 0 ){ continue; }
 				
 				for( String k : keyArrayList ){
 					if( description.matches(".*" + k + ".*")){
@@ -610,10 +602,12 @@ public class MedicineByDescription {
 				}
 			}
 		}
-		// Tanslation
+		// Input code to chinese description to output
 		Map<String, String> descTableMap = MedicineByDescription.convertArraysToMap(DiagClassifyData.descriptionStrings);
 		Map<String, String> normalTableMap = MedicineByDescription.convertArraysToMap(DiagClassifyData.normalAndBaddescription);
+		// Key set of input code
 		Set<String> formattedSet = formattedMap.keySet();
+		
 		if( formattedSet == null || formattedSet.size() == 0 ){
 			return "";
 		}

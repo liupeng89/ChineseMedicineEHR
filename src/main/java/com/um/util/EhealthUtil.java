@@ -14,17 +14,18 @@ import com.um.mongodb.converter.EhealthRecordConverter;
 public class EhealthUtil {
 	
 	/**
-	 * 
+	 * Query records based on the conditions
 	 * @param conditions
 	 * @return
 	 */
 	public static List<EHealthRecord> getEhealthRecordListByConditions(Document conditions){
-//		if(conditions == null){
-//			return null;
-//		}
+		if (conditions == null) {
+			return null;
+		}
+		// Get the data collections
 		final List<EHealthRecord> eHealthRecords = new ArrayList<EHealthRecord>();
 		MongoCollection<Document> collection = ConnectionDB.getCollections(DataBaseSetting.ehealthcollection);
-		
+		// Query the records based on the conditions
 		FindIterable<Document> iterable = collection.find(conditions);
 		if(iterable == null){
 			return null;
@@ -37,7 +38,6 @@ public class EhealthUtil {
 				EHealthRecord eHealthRecord = EhealthRecordConverter.toEHealthRecord(document);
 				eHealthRecords.add(eHealthRecord);
 			}
-			
 		});
 		return eHealthRecords;
 	}

@@ -29,25 +29,25 @@ public class MedicineStatics {
      * @return
      */
     public static HashMap<String, Integer> staticsChineseMedicine(List<String> list){
-    	if(list == null || list.size() == 0){
-    		return null;
-    	}
+    	
+    	if(list == null || list.size() == 0){ return null; }
     	
     	HashMap<String, Integer> results = new HashMap<String, Integer>();
     	
-    	//统计
+    	//Add the first one medicine
     	results.put(list.get(0), 1);
     	
     	for(int i = 1; i < list.size(); i++){
-    		results = statics(list.get(i).trim(),results);
+    		results = statics(list.get(i).trim(), results);
     	}
         
-        results = sortMapByValue(results); // 对统计结果进行排序
+        results = sortMapByValue(results); //Sorted the statistics result
         
     	return results;
     } 
+    
     /**
-     * 统计
+     * 统计list 中重复中药的数量
      * @param string
      * @param tample
      * @return
@@ -61,8 +61,8 @@ public class MedicineStatics {
     		if(tample.get(string) != null){
     			// 在里面
     			int count = tample.get(string);
-    			count++;
-    			tample.remove(string);
+    			count++; // 数量＋1
+    			tample.remove(string); // 更新数据
     			tample.put(string, count);
     			flag = true;
                 break;
@@ -147,8 +147,7 @@ public class MedicineStatics {
     	
     	List<Map.Entry<String, Integer>> entryList = new ArrayList<Map.Entry<String,Integer>>(orimap.entrySet());
     	
-    	Collections.sort(entryList,
-    			new Comparator<Map.Entry<String,Integer>>(){
+    	Collections.sort(entryList, new Comparator<Map.Entry<String,Integer>>(){
 
 					@Override
 					public int compare(Entry<String, Integer> o1,

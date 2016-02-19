@@ -313,7 +313,7 @@ public class DiagMedicineProcess {
 	 * @return
 	 */
 	public static Set<String> getMedicinesByDescription(String description,List<EHealthRecord> eHealthRecords){
-		if( description == "" || description.equals("") || eHealthRecords == null || eHealthRecords.size() == 0){
+		if( description.equals("") || eHealthRecords == null || eHealthRecords.size() == 0){
 			return null;
 		}
 		// 1.Find records based on the description
@@ -419,7 +419,7 @@ public class DiagMedicineProcess {
 	 * @return
 	 */
 	public static List<EHealthRecord> getEhealthRecordByDescription(String description,List<EHealthRecord> eHealthRecords){
-		if( description == "" || description.equals("") || eHealthRecords == null || eHealthRecords.size() == 0){
+		if( description.equals("") || eHealthRecords == null || eHealthRecords.size() == 0){
 			return null;
 		}
 		List<EHealthRecord> similarRecords = new ArrayList<EHealthRecord>(); // 同种描述的病历
@@ -433,19 +433,19 @@ public class DiagMedicineProcess {
 		// 2. 生成关键字编码表  <部位， < 状态：［k1,k2,k3.....］>>
 		Map<String, HashMap<String, ArrayList<String>>> keywordCodeMap = creatrReference(DiagClassifyData.descriptionKeywords);
 		Map<String, String> normalTableMap = MedicineByDescription.convertArraysToMap(DiagClassifyData.normalAndBaddescription);
-		// 去掉正常的status
 		
+		// 去掉正常的status
 		Set<String> descriptionSet = new HashSet<String>(); // 输入描述中的关键字
 		for( String string : descriptionSplits ){
-			if (normalTableMap.get(string)!=null && !normalTableMap.get(string).equals("0")) {
+			if (normalTableMap.get(string) != null && !normalTableMap.get(string).equals("0")) {
 				descriptionSet.add(string);
 			}
 		}
-		if (descriptionSet == null || descriptionSet.size() == 0) {
-			return null;
-		}
+		if (descriptionSet == null || descriptionSet.size() == 0) { return null; }
+		
 		System.out.println(descriptionSet);
-		// 3. 输入编码
+		
+		// 3. 对输入的病症描述进行编码
 		Map<String, ArrayList<String>> inputCodeMap = new HashMap<String, ArrayList<String>>();
 		Set<String> projectKey = keywordCodeMap.keySet();
 		for (String project : projectKey) {
@@ -461,47 +461,18 @@ public class DiagMedicineProcess {
 				}
 			}
 		}
-		System.out.println("input code: " + inputCodeMap.toString());
 		
 		Set<String> keySet = inputCodeMap.keySet();
-
-		if (keySet.contains("cmtreat")||keySet.contains("shuqian")||keySet.contains("shuhou")||
-				keySet.contains("zhiliaozhong")||
-				keySet.contains("zhiliaohou")||
-				keySet.contains("hualiaozhong")||
-				keySet.contains("hualiaohou")||
-				keySet.contains("fenzi")||
-				keySet.contains("mianyi")) {
-			
-		}
-		if (keySet.contains("cmtreat")) {
-			inputCodeMap.remove("cmtreat");
-		}
-		if (keySet.contains("shuqian")) {
-			inputCodeMap.remove("shuqian");
-		}
-		if (keySet.contains("shuhou")) {
-			inputCodeMap.remove("shuhou");
-		}
-		if (keySet.contains("zhiliaozhong")) {
-			inputCodeMap.remove("zhiliaozhong");
-		}
-		if (keySet.contains("zhiliaohou")) {
-			inputCodeMap.remove("zhiliaohou");
-		}
-		if (keySet.contains("hualiaozhong")) {
-			inputCodeMap.remove("hualiaozhong");
-		}
-		if (keySet.contains("hualiaohou")) {
-			inputCodeMap.remove("hualiaohou");
-		}
-		
-		if (keySet.contains("fenzi")) {
-			inputCodeMap.remove("fenzi");
-		}
-		if (keySet.contains("mianyi")) {
-			inputCodeMap.remove("mianyi");
-		}
+		// remove the time status no used
+		if (keySet.contains("cmtreat")) { inputCodeMap.remove("cmtreat"); }
+		if (keySet.contains("shuqian")) { inputCodeMap.remove("shuqian"); }
+		if (keySet.contains("shuhou")) { inputCodeMap.remove("shuhou"); }
+		if (keySet.contains("zhiliaozhong")) { inputCodeMap.remove("zhiliaozhong"); }
+		if (keySet.contains("zhiliaohou")) { inputCodeMap.remove("zhiliaohou"); }
+		if (keySet.contains("hualiaozhong")) { inputCodeMap.remove("hualiaozhong"); }
+		if (keySet.contains("hualiaohou")) { inputCodeMap.remove("hualiaohou"); }
+		if (keySet.contains("fenzi")) { inputCodeMap.remove("fenzi"); }
+		if (keySet.contains("mianyi")) { inputCodeMap.remove("mianyi"); }
 		
 		// 4. 匹配
 		for (EHealthRecord eHealthRecord : eHealthRecords) {
@@ -511,16 +482,15 @@ public class DiagMedicineProcess {
 			
 			for (String status : statusSet) {
 				int contentmatchnum = 0;
-				ArrayList<String> contentList = inputCodeMap.get(status);
-				for (String c : contentList) {
+				ArrayList<String> desckeywordlist = inputCodeMap.get(status);
+				for (String c : desckeywordlist) {
 					if (eHealthRecord.getConditionsdescribed().contains(c)) {
-						System.out.println("c: " + c);
 						statusmatchnum++;
 						break;
 					}
 					contentmatchnum++;
 				}
-				if (contentmatchnum == contentList.size()-1) {
+				if (contentmatchnum == desckeywordlist.size()-1) {
 					// 该状态的关键字全部都不一致，则该病例不属于相似病例
 					break;
 				}
@@ -530,122 +500,7 @@ public class DiagMedicineProcess {
 				similarRecords.add(eHealthRecord);
 			}
 		}
-		
 		System.out.println("sim num: " + similarRecords.size());
-		
-//		int matchnum = 0;
-//		int maxmatchnum = 0;
-		
-//		Set<String> keySet = inputCodeMap.keySet();
-//		if (keySet.contains("badsleep") || keySet.contains("worsesleep") || keySet.contains("worstsleep") || keySet.contains("somnolencesleep")) {
-//			maxmatchnum++;
-//		}
-//		if (keySet.contains("redlittlesputumcolor") || keySet.contains("redmuchsputumcolor") || keySet.contains("redmoresputumcolor") ) {
-//			maxmatchnum++;
-//		}
-//		if (keySet.contains("okxonglei") || keySet.contains("badxonglei") || keySet.contains("worsexonglei") ) {
-//			maxmatchnum++;
-//		}
-//		if (keySet.contains("badna") || keySet.contains("anorexiana") || keySet.contains("worsena") ) {
-//			maxmatchnum++;
-//		}
-//		if (keySet.contains("badsleep") || keySet.contains("worsesleep") || keySet.contains("worstsleep") ) {
-//			maxmatchnum++;
-//		}
-//		
-//		System.out.println("maxmatch: " + matchnum);
-
-		
-		
-		
-		// 3. 根据输入，确定输入编码
-//		Map<String, HashMap<String, String>> inputDescCodeMap = new HashMap<String, HashMap<String,String>>();
-//		Set<String> projectKeySet = keywordCodeMap.keySet();
-//		// project
-//		for( String project : projectKeySet ){
-//			// status
-//			Set<String> statusKeySet = keywordCodeMap.get(project).keySet();
-//			if( statusKeySet == null || statusKeySet.size() == 0 ){
-//				continue;
-//			}
-//			HashMap<String, String> inputStatusMap = new HashMap<String, String>(); 
-//			for( String status : statusKeySet ){
-//				if( descriptionSet.contains(status) ){
-//					inputStatusMap.put(status, "1");
-//				}else{
-//					inputStatusMap.put(status, "0");
-//				}
-//			}
-//			inputDescCodeMap.put(project, inputStatusMap);
-//		}
-//		// 主要症状和次要症状
-//		String[] mainDescriptionStrings = DiagClassifyData.mainDescriptionStrings; // 主要症状
-//		String[] seconddescriptionStrings = DiagClassifyData.seconddescriptionStrings; // 次要症状
-//		
-//		// 4. 匹配病例
-//		for( EHealthRecord ehHealthRecord : eHealthRecords ){
-//			// 4.1 每一个病例对应的编码
-//			Map<String, HashMap<String, String>> eRecrodCodeMap =  getRecordDescCodeMap(ehHealthRecord);
-//			// 4.2 判断是匹配---判断方法：
-//			/*
-//			 * 判断方法:1. 主要症状需要尽量相同
-//			 * 			2. 次要症状并集相同
-//			 * 	
-//			 */
-//			Map<String, String> mainMatchMap = new HashMap<String, String>();
-//			Map<String, String> secondMatchMap = new HashMap<String, String>();
-//			
-//			// 4.3 检测主要症状匹配情况---1:匹配  0: 不匹配
-//			for( String m : mainDescriptionStrings ){
-//				if( checkProjectMatch(inputDescCodeMap.get(m), eRecrodCodeMap.get(m))){
-//					mainMatchMap.put(m, "1");
-//				}else{
-//					mainMatchMap.put(m, "0");
-//				}
-//			}
-//			
-//			// 4.4 检测次要症状匹配情况
-//			for( String m : seconddescriptionStrings ){
-//				if( checkProjectMatch(inputDescCodeMap.get(m), eRecrodCodeMap.get(m))){
-//					secondMatchMap.put(m, "1");
-//				}else{
-//					secondMatchMap.put(m, "0");
-//				}
-//			}
-//			
-//			// 4.4 根据主要症状和次要症状的匹配情况，确定病例是否符合条件
-//			/*
-//			 * 临时条件：
-//			 * 			逐次递减判断条件的个数，直至符合病例数出现
-//			 * 			
-//			 */
-//			
-//			for(int i = 0; i < 8; i++){
-//				
-//				int countMain = 0;
-//				int countSecond = 0;
-//				Set<String> mainSet = mainMatchMap.keySet();
-//				Set<String> secondSet = secondMatchMap.keySet();
-//				for(String m : mainSet){
-//					if(mainMatchMap.get(m).equals("1")){
-//						countMain++;
-//					}
-//				}
-//				for(String s : secondSet){
-//					if(secondMatchMap.get(s).equals("1")){
-//						countSecond++;
-//					}
-//				}
-//				if(countMain >=  9 - i && countSecond >= 8 - i){
-//					// 该病例符合条件
-//					similarRecords.add(ehHealthRecord);
-//				}
-//				// 至少为5个病例
-//				if( similarRecords.size() >= 5 ){
-//					break;
-//				}
-//			}
-//		}
 		return similarRecords;
 	}
 	
@@ -1691,7 +1546,7 @@ public class DiagMedicineProcess {
 	}
 	
 	/**
-	 *  统计病历list中的中药处方的数据
+	 *  统计病历list中的中药处方的数量
 	 * @param eHealthRecords
 	 * @return Map<中药名称，数量>
 	 */
@@ -1700,10 +1555,14 @@ public class DiagMedicineProcess {
 			return null;
 		}
 		//1、统计list中所有的中药名称
-		List<String> allCnMedicines = new ArrayList<String>(); // 所有的中药名称（包含重复的相）
+		List<String> allCnMedicines = new ArrayList<String>(); // 所有的中药名称（包含重复的项）
 		for(EHealthRecord eRecord : eHealthRecords){
 			if(eRecord.getChineseMedicines() != null && eRecord.getChineseMedicines().size() > 0){
 				for(ChineseMedicine c : eRecord.getChineseMedicines()){
+					//check the error data
+					if (c.getNameString().contains("内服")||c.getNameString().contains("煎药机")) {
+						continue;
+					}
 					allCnMedicines.add(c.getNameString());
 				}
 			}
@@ -1711,8 +1570,6 @@ public class DiagMedicineProcess {
 		
 		//2、依次统计重复的名称
 		Map<String, Integer> statisMedicines = MedicineStatics.staticsChineseMedicine(allCnMedicines);
-		//3. 排序
-//		statisMedicines = DiagMedicineProcess.sortMapByValue(statisMedicines);
 		//4、返回结果
 		return statisMedicines;
 	}
@@ -1906,19 +1763,20 @@ public class DiagMedicineProcess {
     }
     
     /**
-     *  根据list 去掉map中的某些数据
+     *  remove some items of map that in the list
      * @param maps
      * @param list
      * @return
      */
-    public static Map<String, Integer> removeMapOfList(Map<String,Integer> maps,List<String> list){
+    public static Map<String, Integer> removeMapInList(Map<String,Integer> maps,List<String> list){
     	if(maps == null || maps.isEmpty()){
     		return null;
     	}
+    	// no need to remove
     	if(list == null || list.isEmpty()){
     		return maps;
     	}
-    	
+    	// remove some items of map in list
     	for(String s : list){
     		maps.remove(s);
     	}

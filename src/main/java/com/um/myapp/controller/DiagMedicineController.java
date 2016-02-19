@@ -38,7 +38,7 @@ public class DiagMedicineController {
 		
 		ModelAndView mv = new ModelAndView("predictMedicine");
 		
-		/*
+		/**
 		 * 1. 整理参数
 		 */
 		// 1.1 解析请求参数
@@ -50,44 +50,41 @@ public class DiagMedicineController {
 		String batch = requestMap.get("batch");  // 年度
 		double threshold = Double.valueOf(requestMap.get("threshold"));  // 机器学习阈值
 		System.out.println("description:" + description);
-		// 1.3 格式化描述输出
+		// 1.3 格式化描述输出，作为对描述的输出
 		String descconvertString = MedicineByDescription.getFormatedDescirption(description);
-		
-		// new description
 		String descriptionString = diagnose + descconvertString;
 		System.out.println("new desc:" + descriptionString);
-		/*
+		
+		/**
 		 * 2. 基于统计的方法预测中药
 		 */
 		List<String> medicineListByStatis = MedicineByDescription.getMedicineByDiagAndDesc(batch,diagnose,description); // 根据描述，得出处方
-		// Sort the medicine
+		
+		// Sort the medicine with same order with machine learning result
 		List<String> medicineListByStatisticSorted = new ArrayList<String>();
 		for( String s : DiagClassifyData.machineMedicine ){
 			for( String o : medicineListByStatis ){
-				if( s == o || s.equals(o) ){
-					medicineListByStatisticSorted.add(s);
-				}
+				if( s == o || s.equals(o) ){ medicineListByStatisticSorted.add(s); }
 			}
 		}
 		
 		// 2.1 提供相似病历  最多六个
 		List<EHealthRecord> similaryRecords = MedicineByDescription.getSimilaryEHealthRecords(batch, diagnose, description);
 		
-		if (similaryRecords.size() > 6) {
-			similaryRecords = similaryRecords.subList(0, 6);
-		}
+		if (similaryRecords.size() > 6) { similaryRecords = similaryRecords.subList(0, 6); }
 		
-		// 3. 基于机器学习的方法预测中药
+		/**
+		 *  3. 基于机器学习的方法预测中药
+		 */
 		//  3.1 初始化输入参数
 		List<String> inputcode = MachineLearningPredict.parseDiagAndDesc(diagnose, description); // 解析机器学习算法输入格式
 		// 	3.2 机器学习预测   machine learning object
 		List<String> medicineListByMachine = MachineLearningPredict.predict(inputcode, threshold); // 机器学习预测结果
 		
-		/*
+		/**
 		 *  4. Based on the rules
 		 */
 		List<String> medicineListByRules = BasedOnRulePredict.predictBasedOnRules(descriptionString);
-		
 		
 		// 5. 获取批次
 		List<String> batchList = DiagMedicineProcess.getBatch();
