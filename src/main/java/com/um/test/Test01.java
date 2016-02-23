@@ -22,7 +22,7 @@ public class Test01 {
 		}
 		String formattedDescriptionString = "";
 		//
-		Map<String, HashMap<String, ArrayList<String>>> keyworCodeMap = DiagMedicineProcess.creatrReference(DiagClassifyData.descriptionKeywords);
+		Map<String, HashMap<String, ArrayList<String>>> keyworCodeMap = DiagMedicineProcess.createReference(DiagClassifyData.descriptionKeywords);
 		
 		// 3. 根据输入，确定输入编码
 		Map<String, String> formattedMap = new HashMap<String, String>();

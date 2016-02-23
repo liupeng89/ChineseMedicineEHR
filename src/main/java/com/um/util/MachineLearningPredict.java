@@ -135,14 +135,14 @@ public class MachineLearningPredict {
 	}
 	
 	/**
-	 *  根据病例数据，进行机器学习算法数据输入数据初始化
-	 * @param e
+	 *  根据病例数据，进行机器学习算法,对输入病例数据进行初始化
+	 * @param 
 	 * @return
 	 */
 	public static List<String> parseDiagAndDescByEhealthRecords( EHealthRecord e){
-		if( e == null ){
-			return null;
-		}
+		
+		if( e == null ){ return null; }
+		
 		String diag = e.getChinesediagnostics();
 		String description = e.getConditionsdescribed();
 		
@@ -186,7 +186,7 @@ public class MachineLearningPredict {
 		Map<String, String> descriptionCode = new HashMap<String, String>();
 		//1， 读取关键字表---<部位 ， < 状态， [k1,k2,k3......] > >
 		Map<String, HashMap<String, ArrayList<String>>> descriptionTableMap = DiagMedicineProcess.getDescriptionMap(DiagClassifyData.machineKeywords); //描述关键字列表
-		
+		// create records input code: 0,1,2,0,1,1.....
 		Set<String> project = descriptionTableMap.keySet();
 		HashMap<String, ArrayList<String>> desHashMap = null;
 		for(String descString : project){
@@ -205,7 +205,7 @@ public class MachineLearningPredict {
 			}
 			descriptionCode.put(descString, valueString);
 		}
-		
+		// sort the input code
 		List<String> inputcode = new ArrayList<String>();
 		String[] sortedcode = DiagClassifyData.sortCode;
 		for(String s : sortedcode){

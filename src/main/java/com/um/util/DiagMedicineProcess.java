@@ -251,7 +251,7 @@ public class DiagMedicineProcess {
 	 * 构建关键字参照表
 	 * @return
 	 */
-	public static Map<String, HashMap<String,ArrayList<String>>> creatrReference(String[] keywords){
+	public static Map<String, HashMap<String,ArrayList<String>>> createReference(String[] keywords){
 		// 1.构造参照表
 		Map<String, HashMap<String,ArrayList<String>>> keyMap = new HashMap<String, HashMap<String,ArrayList<String>>>();
 		for(String key : keywords){
@@ -431,7 +431,7 @@ public class DiagMedicineProcess {
 		System.out.println("desc: " + description);
 		
 		// 2. 生成关键字编码表  <部位， < 状态：［k1,k2,k3.....］>>
-		Map<String, HashMap<String, ArrayList<String>>> keywordCodeMap = creatrReference(DiagClassifyData.descriptionKeywords);
+		Map<String, HashMap<String, ArrayList<String>>> keywordCodeMap = createReference(DiagClassifyData.descriptionKeywords);
 		Map<String, String> normalTableMap = MedicineByDescription.convertArraysToMap(DiagClassifyData.normalAndBaddescription);
 		
 		// 去掉正常的status
@@ -449,7 +449,7 @@ public class DiagMedicineProcess {
 		Map<String, ArrayList<String>> inputCodeMap = new HashMap<String, ArrayList<String>>();
 		Set<String> projectKey = keywordCodeMap.keySet();
 		for (String project : projectKey) {
-			// 
+			// project
 			Set<String> statusKeySet = keywordCodeMap.get(project).keySet();
 			if( statusKeySet == null || statusKeySet.size() == 0 ){
 				continue;
@@ -477,7 +477,6 @@ public class DiagMedicineProcess {
 		// 4. 匹配
 		for (EHealthRecord eHealthRecord : eHealthRecords) {
 			int statusmatchnum = 0;
-			System.out.println("--------------------");
 			Set<String> statusSet = inputCodeMap.keySet();
 			
 			for (String status : statusSet) {
@@ -495,12 +494,11 @@ public class DiagMedicineProcess {
 					break;
 				}
 			}
-			System.out.println("status num: " + statusmatchnum);
+			// The match conditions: the number of match bigger than half of status
 			if (statusmatchnum >= (statusSet.size() / 2 + 1)) {
 				similarRecords.add(eHealthRecord);
 			}
 		}
-		System.out.println("sim num: " + similarRecords.size());
 		return similarRecords;
 	}
 	
@@ -913,7 +911,7 @@ public class DiagMedicineProcess {
 		}
 		Map<String, HashMap<String,String>> resultMap = new HashMap<String, HashMap<String,String>>();
 		// 1.构造参照表  生成关键字编码表  <部位， < 状态：［k1,k2,k3.....］>>
-		Map<String, HashMap<String, ArrayList<String>>> keyMap = creatrReference(DiagClassifyData.descriptionKeywords);
+		Map<String, HashMap<String, ArrayList<String>>> keyMap = createReference(DiagClassifyData.descriptionKeywords);
 //		String[] keywords = DiagClassifyData.descriptionKeywords;
 //		Map<String, HashMap<String,ArrayList<String>>> keyMap = new HashMap<String, HashMap<String,ArrayList<String>>>();
 //		for(String key : keywords){
@@ -1016,7 +1014,7 @@ public class DiagMedicineProcess {
 	 * @param percent------- 百分比
 	 * @return
 	 */
-	public static List<String> statisMedicineByProbability(Map<String, Integer> medicines,int length,double percent){
+	public static List<String> statisMedicineWithPercent(Map<String, Integer> medicines,int length,double percent){
 		if(medicines == null || medicines.isEmpty()){
 			return null;
 		}

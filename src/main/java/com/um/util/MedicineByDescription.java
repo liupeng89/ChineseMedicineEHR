@@ -45,7 +45,7 @@ public class MedicineByDescription {
 		 */
 		int allRecordLength = allEHealthRecords.size(); // 全部病历的数量
 		double percent = 0.9;
-		List<String> medicineWithNinePercent = DiagMedicineProcess.statisMedicineByProbability(allMedicineMap, allRecordLength, percent);
+		List<String> medicineWithNinePercent = DiagMedicineProcess.statisMedicineWithPercent(allMedicineMap, allRecordLength, percent);
 		medicieList.addAll(medicineWithNinePercent);
 		
 		// 去掉出现概率较大的
@@ -126,7 +126,8 @@ public class MedicineByDescription {
 		 * 1. 对中医处方进行统计，选择出现概率大于90%的中药作为结果输出；
 		 */
 		// 1.1 读取数据库种病例数据
-		List<EHealthRecord> eHealthRecordsByBatch = getRecordByBatch(batch); // 符合某一批次的全部病历
+		List<EHealthRecord> eHealthRecordsByBatch = getRecordsByBatch(batch); // 符合某一批次的全部病历
+		
 		// 1.3 统计所有的中药处方统计－－－－ <名称，数量>
 		Map<String, Integer> allMedicineMap = DiagMedicineProcess.statisEhealthMedicine(eHealthRecordsByBatch);
 		
@@ -134,7 +135,7 @@ public class MedicineByDescription {
 		int allRecordsNum = eHealthRecordsByBatch.size(); // 本批次病历的数量
 		double percent = 0.9; // 中药出现概率
 		
-		List<String> medicineWithInevitable = DiagMedicineProcess.statisMedicineByProbability(allMedicineMap, allRecordsNum, percent);
+		List<String> medicineWithInevitable = DiagMedicineProcess.statisMedicineWithPercent(allMedicineMap, allRecordsNum, percent);
 		if(medicineWithInevitable != null && medicineWithInevitable.size() > 0){
 			medicineList.addAll(medicineWithInevitable); //出现概率大于90%的中药名称
 		}
@@ -213,7 +214,7 @@ public class MedicineByDescription {
 		int allRecordLength = eHealthRecordsByBatch.size(); // 本批次病历的数量
 		double percent = 0.9; // 中药出现概率
 		
-		List<String> medicineWithNinePercent = DiagMedicineProcess.statisMedicineByProbability(allMedicineMap, allRecordLength, percent);
+		List<String> medicineWithNinePercent = DiagMedicineProcess.statisMedicineWithPercent(allMedicineMap, allRecordLength, percent);
 		if(medicineWithNinePercent != null && medicineWithNinePercent.size() > 0){
 			medicineList.addAll(medicineWithNinePercent); //出现概率大于90%的中药名称
 		}
@@ -276,7 +277,7 @@ public class MedicineByDescription {
 		List<EHealthRecord> eList = null; // 中医list
 		
 		// 1.1 读取数据库种病例数据
-		List<EHealthRecord> eHealthRecordsByBatch = getRecordByBatch(batch);
+		List<EHealthRecord> eHealthRecordsByBatch = getRecordsByBatch(batch);
 		// 1.3 根据诊断类型和描述，确定相似病历
 		// 根据诊断，对病例数据进行分类
 		String[] diagkeywords = diagnose.split(" ");
@@ -495,7 +496,7 @@ public class MedicineByDescription {
 		int length = splits.length;
 		for (int i = 0; i < length; i++) {
 			String s = splits[i];
-			if(normalTableMap.get(s).equals("") || normalTableMap.get(s) == null) continue;
+			if(normalTableMap.get(s) == null) continue;
 			if( !normalTableMap.get(s).equals("0") ){ 
 				if (i == length - 1) {
 					result += descTableMap.get(s);
@@ -549,7 +550,7 @@ public class MedicineByDescription {
 	 * @param batch
 	 * @return
 	 */
-	public static List<EHealthRecord> getRecordByBatch(String batch){
+	public static List<EHealthRecord> getRecordsByBatch(String batch){
 		
 		if( batch.equals("") ){ return null; }
 		// built the conditions structure of batch
@@ -574,7 +575,7 @@ public class MedicineByDescription {
 		if( description.equals("") ){ return null; }
 		String formattedDescriptionString = "";
 		
-		Map<String, HashMap<String, ArrayList<String>>> keyworCodeMap = DiagMedicineProcess.creatrReference(DiagClassifyData.descriptionKeywords);
+		Map<String, HashMap<String, ArrayList<String>>> keyworCodeMap = DiagMedicineProcess.createReference(DiagClassifyData.descriptionKeywords);
 		
 		// 3. 根据输入，确定输入编码
 		Map<String, String> formattedMap = new HashMap<String, String>();

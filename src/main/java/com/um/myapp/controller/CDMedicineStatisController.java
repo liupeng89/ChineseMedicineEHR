@@ -30,7 +30,7 @@ public class CDMedicineStatisController {
 		/**
 		 * 1. 读取病历信息
 		 */
-		List<EHealthRecord> eHealthRecordsByBatch = MedicineByDescription.getRecordByBatch(batch); // 符合某一批次的全部病历
+		List<EHealthRecord> eHealthRecordsByBatch = MedicineByDescription.getRecordsByBatch(batch); // 符合某一批次的全部病历
 		
 		
 		int ehealthCount = eHealthRecordsByBatch.size();

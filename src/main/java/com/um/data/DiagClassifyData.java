@@ -743,11 +743,11 @@ public class DiagClassifyData {
 	public static String[] descriptionKeywords = {
 			
 
-			"sputumamount%oksputumamount:咳嗽无痰|无痰#littlesputumamount:现咳嗽稀痰，|，痰白可咯减少，|有痰难咳，|咳嗽痰多缓解，|，有痰，|现咳嗽痰多缓解，|，痰少|现少咳痰血|，有痰，|咳嗽少痰|咳嗽痰少|咯少量血痰|痰血减少|痰少色白|少痰难咯|量少色黄|少许血丝痰|偶咳少痰|痰减少|少量痰血#muchsputumamount:现咳嗽咯痰，|咽痒咳嗽痰粘，|现咳嗽痰难咯，|，咳嗽咯痰，|现少咳有痰色黄|咳嗽痰多|少咳痰粘|痰白可咯|痰多色黄|黄痰难咯|咯黄白色稀痰|痰黄白|痰浓稠|咽中有痰|痰多色白",
+			"sputumamount%oksputumamount:咳嗽无痰|无痰#littlesputumamount:现咳嗽稀痰，|，痰白可咯减少，|有痰难咳，|咳嗽痰多缓解，|，有痰，|现咳嗽痰多缓解，|，痰少|现少咳痰血|，有痰，|咳嗽少痰|咳嗽痰少|咯少量血痰|痰血减少|痰少色白|少痰难咯|量少色黄|少许血丝痰|偶咳少痰|痰减少|少量痰血#muchsputumamount:现痰多难咯，|现咳嗽咯痰，|咽痒咳嗽痰粘，|现咳嗽痰难咯，|，咳嗽咯痰，|现少咳有痰色黄|咳嗽痰多|少咳痰粘|痰白可咯|痰多色黄|黄痰难咯|咯黄白色稀痰|痰黄白|痰浓稠|咽中有痰|痰多色白",
 
 			"sputumcolor%defalutsputumcolor:痰色正常|已无痰血#yellowsputumcolor:痰多色黄|黄痰难咯|痰黄白|痰色黄难咯|咯黄色稀痰|量少色黄|咯黄痰|咯黄白粘痰|现少咳有痰色黄#whitesputumcolor:现少咳痰白，|咳嗽痰色白|咯黄白痰|痰白可咯|痰少色白|白痰|少白痰|痰多色灰白|咯白痰|痰色白|咳嗽痰白|痰多色白#redlittlesputumcolor:，痰中带血，|咳嗽咯痰带血丝，|咯血减少，|痰中带血减轻|少许血丝痰|痰中血丝|少量痰血|偶有痰血|现咳嗽痰血缓解|现咳嗽痰血少，#redmuchsputumcolor:现咳嗽咯痰血，|咯少量血痰|痰血减少|痰中带血，|咯血痰|现仍咳嗽血痰#redmoresputumcolor:痰血加重",
 
-			"cough%okcough:现无咳嗽咯痰，|咳嗽正常|已无咳嗽|咳嗽已止#badcough:现咽痒少咳，|现少咳痰白，|现干咳减轻|现咳嗽痰血少，|咳嗽少作，|现咳嗽痰多缓解，|现少咳痰血|现偶有干咳|，少咳|现少咳|现少咳有痰色黄|少许咳嗽|咳嗽稍好转|咳嗽缓解|偶有干咳|偶咳嗽|偶咯痰|咳嗽少作|咳嗽好转|咳嗽少|偶有痰血|偶有咳嗽|咳嗽减少|偶咳少痰|偶咳#worsecough:：咳嗽，|现咳嗽稀痰，|咽痒咳嗽痰粘，|，咽痒咳嗽，|现咽痒咳嗽，|，咳嗽咯痰，|现咳嗽，|，咳嗽，|现仍咳嗽血痰|，干咳|，饮水呛咳|，咽痒咳嗽|时咳嗽咯痰|咳嗽痰多|咳嗽咽痒|咳嗽少气|咳嗽无痰|少咳痰粘|咳嗽痰少|咯少量血痰|咳嗽痰色白|痰血减少|咯黄白痰|痰白可咯|少痰难咯|黄痰难咯|咯黄白色稀痰|咯痰|咳嗽胸闷|痰难咯|咯白痰|咯血痰|咳嗽痰白|咯黄色稀痰|咯黄痰|咯黄白粘痰#worstcough:咳嗽频繁|咳嗽反复|咳嗽痰血|咳嗽加重|咳嗽较剧",
+			"cough%okcough:现无咳嗽咯痰，|咳嗽正常|已无咳嗽|咳嗽已止#badcough:现少咳咯白痰，现咽痒少咳，|现少咳痰白，|现干咳减轻|现咳嗽痰血少，|咳嗽少作，|现咳嗽痰多缓解，|现少咳痰血|现偶有干咳|，少咳|现少咳有痰色黄|少许咳嗽|咳嗽稍好转|咳嗽缓解|偶有干咳|偶咳嗽|偶咯痰|咳嗽少作|咳嗽好转|咳嗽少|偶有痰血|偶有咳嗽|咳嗽减少|偶咳少痰|偶咳#worsecough:：咳嗽，|现咳嗽稀痰，|咽痒咳嗽痰粘，|，咽痒咳嗽，|现咽痒咳嗽，|，咳嗽咯痰，|现咳嗽，|，咳嗽，|现仍咳嗽血痰|，干咳|，饮水呛咳|，咽痒咳嗽|时咳嗽咯痰|咳嗽痰多|咳嗽咽痒|咳嗽少气|咳嗽无痰|少咳痰粘|咳嗽痰少|咯少量血痰|咳嗽痰色白|痰血减少|咯黄白痰|痰白可咯|少痰难咯|黄痰难咯|咯黄白色稀痰|咯痰|咳嗽胸闷|痰难咯|咯白痰|咯血痰|咳嗽痰白|咯黄色稀痰|咯黄痰|咯黄白粘痰#worstcough:咳嗽频繁|咳嗽反复|咳嗽痰血|咳嗽加重|咳嗽较剧",
 			
 			"sleep%oksleep:纳寐可|纳眠可|纳差眠可|纳改善眠可#badsleep:纳可眠改善，|纳眠尚可|纳眠一般|纳可眠一般|纳可眠稍差|纳差眠好转|纳可眠好转|眠差改善|纳差眠改善|纳欠佳眠一般|纳眠欠佳|纳差眠欠佳|纳眠好转|纳眠稍差#worsesleep:纳可眠差|纳眠差|纳一般眠差|纳眠俱差|眠差梦多#worstsleep:失眠#somnolencesleep:嗜睡",
 
@@ -761,7 +761,7 @@ public class DiagClassifyData {
 
 			"defecate%defaultdefecate:二便可|无便秘#okdefecate:便秘缓解|大便次数多|大便尚可|大便次多|大便不畅|大便可|大便欠通畅#baddefecate:大便（中）#worsedefecate:二便失禁|大便欠通畅|大便难解|时便溏|便溏|便溏缓解|便烂|大便难排|大便时腹痛|大便不畅",
 
-			"xiexie%ok:无腹泻#xiexie:泄泻",
+			"xiexie%ok:无腹泻#xiexie:泄泻|，腹泻（",
 
 			"urinate%okurinate:二便调|小便调#badurinate:小便次多|小便量少|夜尿多缓解|，夜尿减少#worseurinate:尿频|二便失禁|，夜尿多|现夜尿多，#bloodurinate:尿血",
 
@@ -769,7 +769,7 @@ public class DiagClassifyData {
 
 			"pulse%floatpulse:脉浮#sinkpulse:脉沉#slimpulse:脉细|脉弦细|脉细滑#roughpulse:脉粗#latepulse:脉迟#numberpulse:脉数#chordpulse:脉弦|脉弦细|脉弦滑#slidepulse:脉滑|脉弦滑|脉细滑",
 
-			"timestatus%shuqian:术前#shuhou:术后#zhiliaozhong:放疗中#zhiliaohou:放疗后#hualiaozhong:化疗中#hualiaohou:化疗后#fenzi:分子靶向药物#mianyi:免疫治疗",
+			"shijianzhuangtai%shuqian:术前#shuhou:术后#zhiliaozhong:放疗中#zhiliaohou:放疗后#hualiaozhong:化疗中#hualiaohou:化疗后#fenzi:分子靶向药物#mianyi:免疫治疗",
 
 			"hanre%hanwu:寒无#hanqing:寒轻#hanzhong:寒重#rewu:热无#reqing:热轻#rezhong:热重#hanre:寒热往来",
 
@@ -781,7 +781,7 @@ public class DiagClassifyData {
 
 			"taste%lighttaste:口淡#acidtaste:泛酸#bittertaste:，口苦，",
 
-			"yaotong%yaotong:腰痛|，腰酸痛，|腰骶酸痛|现腰痛|仍腰酸口干|，腰椎疼痛",
+			"yaotong%yaotong:腰痛|，腰酸痛，|腰骶酸痛|现腰痛|仍腰酸口干|，腰椎疼痛｜，腰酸，",
 
 			"wantong%wantong:脘痛",
 
@@ -1013,7 +1013,7 @@ public class DiagClassifyData {
 		"worsecough:2",
 		"worstcough:3"
 	};
-	
+	// machine learning input description keywords
 	public static String[] descKeywords = {
 		"hanwu:寒无",
 		"hanqing:寒轻",
@@ -1035,7 +1035,7 @@ public class DiagClassifyData {
 		"okfutong:轻度腹痛",
 		"badfutong:现便时腹痛|腹痛",
 		"worsefutong:重度腹痛",
-		"yaotong:腰痛",
+		"yaotong:腰痛|，腰酸痛，|腰骶酸痛|现腰痛|仍腰酸口干|，腰椎疼痛｜，腰酸，",
 		"wantong:脘痛",
 		"toutong:现头痛| 头痛|，偶发头痛|现头、颈、胸部疼痛｜。头痛骨痛|，头晕头痛|头痛骨痛，",
 		"touyun:现偶有头晕|现头晕乏力|，头晕头痛",
@@ -1051,7 +1051,7 @@ public class DiagClassifyData {
 		"okdefecate:便秘缓解|大便次数多|大便尚可|大便次多|大便不畅|大便可|大便欠通畅",
 		"baddefecate:大便（中）",
 		"worsedefecate:二便失禁|大便欠通畅|大便难解|时便溏|，便溏，|便溏缓解|便烂|大便难排|大便时腹痛|大便不畅|，便秘，|大便时腹痛",
-		"xiexie:泻泄",
+		"xiexie:泻泄|，腹泻（",
 		"okurinate:二便调|小便调",
 		"badurinate:小便次多|小便量少|夜尿多缓解|，夜尿减少",
 		"worseurinate:尿频|二便失禁|，夜尿多|现夜尿多，",
@@ -1071,7 +1071,7 @@ public class DiagClassifyData {
 		"houtaicoatedtongue:厚苔",
 		"oksputumamount:咳嗽无痰|无痰",
 		"littlesputumamount:现咳嗽稀痰，|，痰白可咯减少，|有痰难咳，|咳嗽痰多缓解，|，有痰，|现咳嗽痰多缓解，|，痰少|现少咳痰血|，有痰，|咳嗽少痰|咳嗽痰少|咯少量血痰|痰血减少|痰少色白|少痰难咯|量少色黄|少许血丝痰|偶咳少痰|痰减少|少量痰血",
-		"muchsputumamount:现咳嗽咯痰，|咽痒咳嗽痰粘，|现咳嗽痰难咯，|，咳嗽咯痰，|现少咳有痰色黄|咳嗽痰多|少咳痰粘|痰白可咯|痰多色黄|黄痰难咯|咯黄白色稀痰|痰黄白|痰浓稠|咽中有痰|痰多色白",
+		"muchsputumamount:现痰多难咯，|现咳嗽咯痰，|咽痒咳嗽痰粘，|现咳嗽痰难咯，|，咳嗽咯痰，|现少咳有痰色黄|咳嗽痰多|少咳痰粘|痰白可咯|痰多色黄|黄痰难咯|咯黄白色稀痰|痰黄白|痰浓稠|咽中有痰|痰多色白",
 		"yellowsputumcolor:痰多色黄|黄痰难咯|痰黄白|痰色黄难咯|咯黄色稀痰|量少色黄|咯黄痰|咯黄白粘痰|现少咳有痰色黄",
 		"whitesputumcolor:现少咳痰白，|咳嗽痰色白|咯黄白痰|痰白可咯|痰少色白|白痰|少白痰|痰多色灰白|咯白痰|痰色白|咳嗽痰白|痰多色白",
 		"redlittlesputumcolor:，痰中带血，|咳嗽咯痰带血丝，|咯血减少，|痰中带血减轻|少许血丝痰|痰中血丝|少量痰血|偶有痰血|现咳嗽痰血缓解|现咳嗽痰血少，",
@@ -1104,15 +1104,14 @@ public class DiagClassifyData {
 		"acidtaste:泛酸",
 		"bittertaste:，口苦，",
 		"okcough:现无咳嗽咯痰，|咳嗽正常|已无咳嗽|咳嗽已止",
-		"badcough:现咽痒少咳，|现少咳痰白，|现干咳减轻|现咳嗽痰血少，|咳嗽少作，|现咳嗽痰多缓解，|现少咳痰血|现偶有干咳|，少咳|现少咳|现少咳有痰色黄|少许咳嗽|咳嗽稍好转|咳嗽缓解|偶有干咳|偶咳嗽|偶咯痰|咳嗽少作|咳嗽好转|咳嗽少|偶有痰血|偶有咳嗽|咳嗽减少|偶咳少痰|偶咳",
+		"badcough:现少咳咯白痰，|现咽痒少咳，|现少咳痰白，|现干咳减轻|现咳嗽痰血少，|咳嗽少作，|现咳嗽痰多缓解，|现少咳痰血|现偶有干咳|，少咳|现少咳有痰色黄|少许咳嗽|咳嗽稍好转|咳嗽缓解|偶有干咳|偶咳嗽|偶咯痰|咳嗽少作|咳嗽好转|咳嗽少|偶有痰血|偶有咳嗽|咳嗽减少|偶咳少痰|偶咳",
 		"worsecough:：咳嗽，|现咳嗽稀痰，|咽痒咳嗽痰粘，|，咽痒咳嗽，|现咽痒咳嗽，|，咳嗽咯痰，|现咳嗽，|，咳嗽，|现仍咳嗽血痰|，干咳|，饮水呛咳|，咽痒咳嗽|时咳嗽咯痰|咳嗽痰多|咳嗽咽痒|咳嗽少气|咳嗽无痰|少咳痰粘|咳嗽痰少|咯少量血痰|咳嗽痰色白|痰血减少|咯黄白痰|痰白可咯|少痰难咯|黄痰难咯|咯黄白色稀痰|咯痰|咳嗽胸闷|痰难咯|咯白痰|咯血痰|咳嗽痰白|咯黄色稀痰|咯黄痰|咯黄白粘痰",
 		"worstcough:咳嗽频繁|咳嗽反复|咳嗽痰血|咳嗽加重|咳嗽较剧"
 	};
 	
-	// 51个diagnose
-	
+	// 53 x input items
 	public static String[] machineKeywords = {
-		"timestatus%0:cmtreat#1:shuqian#2:shuhou#3:zhiliaozhong#4:zhiliaohou#5:hualiaozhong#6:hualiaohou#7:fenzi#8:mianyi",
+		"shijianzhuangtai%0:cmtreat#1:shuqian#2:shuhou#3:zhiliaozhong#4:zhiliaohou#5:hualiaozhong#6:hualiaohou#7:fenzi#8:mianyi",
 		"qixu%1:气虚",
 		"tanyu%1:痰瘀",
 		"hujie%1:互结",
@@ -1121,7 +1120,7 @@ public class DiagClassifyData {
 		"pixu%1:脾虚",
 		"tanshi%1:痰湿",
 		"rejie%1:热结",
-		"shiyu%1:shiyu",
+		"shiyu%1:湿瘀",
 		"jiare%1:夹热",
 		"yure%1:瘀热",
 		"shizu%1:湿阻",
@@ -1353,59 +1352,59 @@ public class DiagClassifyData {
 	};
 	
 	public static String[] sortCode = {
-		"qixu",
-		"tanyu",
-		"hujie",
-		"zuluo",
-		"qiyinliangxu",
-		"pixu",
-		"tanshi",
-		"rejie",
-		"shiyu",
-		"jiare",
-		"yure",
-		"shizu",
-		"erming",
-		"qili",
-		"tanse",
-		"maixi",
-		"tanliang",
-		"hann",
-		"futong",
-		"timestatus",
-		"wantong",
-		"shenzhong",
-		"maifu",
-		"han",
-		"maishu",
-		"shetai",
-		"xiaobian",
-		"xiongleitong",
-		"xinji",
-		"mamu",
-		"xuetan",
-		"mian",
-		"kesou",
-		"maichi",
-		"touyun",
-		"toutong",
-		"re",
-		"xiongmen",
-		"maichen",
-		"hanrewanglai",
-		"maixian",
-		"dabian",
-		"na",
-		"muxuan",
-		"shese",
-		"fuzhang",
-		"wanzhang",
-		"maihua",
-		"xiexie",
-		"kouwei",
-		"yaotong",
-		"kouke",
-		"maicu"
+			"qixu",
+			"tanyu",
+			"hujie",
+			"zuluo",
+			"qiyinliangxu",
+			"pixu",
+			"tanshi",
+			"rejie",
+			"shiyu",
+			"jiare",
+			"yure",
+			"shizu",
+			"erming",
+			"qili",
+			"tanse",
+			"maixi",
+			"tanliang",
+			"hann",
+			"futong",
+			"shijianzhuangtai",
+			"wantong",
+			"shenzhong",
+			"maifu",
+			"maishu",
+			"han",
+			"shetai",
+			"xiaobian",
+			"xiongleitong",
+			"xinji",
+			"mamu",
+			"xuetan",
+			"kesou",
+			"mian",
+			"maichi",
+			"touyun",
+			"toutong",
+			"re",
+			"xiongmen",
+			"maichen",
+			"hanrewanglai",
+			"maixian",
+			"na",
+			"dabian",
+			"muxuan",
+			"shese",
+			"fuzhang",
+			"maihua",
+			"wanzhang",
+			"xiexie",
+			"kouwei",
+			"kouke",
+			"yaotong",
+			"maicu"
 	};
 	
 	public static String[] mainDescriptionStrings = {"na","tonguecolor","coatedtongue","pulse","sputumamount",

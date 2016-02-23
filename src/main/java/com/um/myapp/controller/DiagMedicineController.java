@@ -50,6 +50,7 @@ public class DiagMedicineController {
 		String batch = requestMap.get("batch");  // 年度
 		double threshold = Double.valueOf(requestMap.get("threshold"));  // 机器学习阈值
 		System.out.println("description:" + description);
+		
 		// 1.3 格式化描述输出，作为对描述的输出
 		String descconvertString = MedicineByDescription.getFormatedDescirption(description);
 		String descriptionString = diagnose + descconvertString;
@@ -120,16 +121,16 @@ public class DiagMedicineController {
 		Document conditions = new Document();
 		conditions.append("ehealthrecord.batch", "2012");
 		
-		List<EHealthRecord> aList = EhealthUtil.getEhealthRecordListByConditions(conditions);
+		List<EHealthRecord> allList = EhealthUtil.getEhealthRecordListByConditions(conditions);
 		
-		int allcount = aList.size(); // 全部病例数量
+		int allcount = allList.size(); // 全部病例数量
 		
 		// 3. 目标病例
 		EHealthRecord targetRecord = null;
 		
 		if( countString.length() > 4 ){
 			// 输入的是挂号号
-			for( EHealthRecord e : aList ){
+			for( EHealthRecord e : allList ){
 				if( e.getRegistrationno().equals(countString) ){
 					targetRecord = e;
 					break;
@@ -140,7 +141,7 @@ public class DiagMedicineController {
 			// 输入的是序号
 			count = Integer.valueOf(countString); // 病例序号
 			count--;
-			targetRecord = aList.get( count );
+			targetRecord = allList.get( count );
 			
 		}
 		
