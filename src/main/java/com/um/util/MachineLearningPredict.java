@@ -56,10 +56,7 @@ public class MachineLearningPredict {
 		} catch (MWException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-			
-			predictum.dispose();
-		}
+		} 
 		
 		if(y == null){
 			return null;

@@ -108,56 +108,7 @@
 						<p>症状</p>
 						<table class="table table-bordered">
 							<tr>
-								<td class="info"><label>纳：</label></td>
-								<td>
-								<select name="na">
-									<option value="okna" selected>正常</option>
-									<option value="badna">纳差</option>
-									<option value="anorexiana">厌食</option>
-									<option value="worsena">食欲减退</option>
-								</select>
-								</td>
-							</tr>
-							<tr>
-								<td class="info"><label>舌：</label></td>
-								<td>
-									<label>舌色：</label>
-									<select name="tonguecolor">
-										<option value="oktonguecolor" selected>正常</option>
-										<option value="whitetonguecolor">淡白</option>
-										<option value="redtonguecolor">红色</option>
-										<option value="jiangtonguecolor">降色</option>
-										<option value="purpletonguecolor">紫色</option>
-										<option value="cyantonguecolor">青色</option>
-										<option value="bluetonguecolor">蓝色</option>
-									</select>
-									<br>
-									<label>舌苔：</label>
-									<select name="coatedtongue">
-										<option value="whitecoatedtongue" selected>正常</option>
-										<option value="yellowcoatedtongue">黄苔</option>
-										<option value="purplecoatedtongue">紫苔</option>
-										<option value="blackcoatedtongue">黑（灰）苔</option>
-										<option value="nitaicoatedtongue">腻苔</option>
-										<option value="houtaicoatedtongue">厚苔</option>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<td class="info"><label>脉：</label></td>
-								<td>
-									<label><input name="pulse" type="checkbox" value="slimpulse" checked/>细</label>&nbsp;&nbsp;
-									<label><input name="pulse" type="checkbox" value="floatpulse"/>浮</label>&nbsp;&nbsp;
-									<label><input name="pulse" type="checkbox" value="sinkpulse"/>沉</label>&nbsp;&nbsp;
-									<label><input name="pulse" type="checkbox" value="roughpulse"/>粗</label>&nbsp;&nbsp;
-									<label><input name="pulse" type="checkbox" value="latepulse"/>迟</label>&nbsp;&nbsp;
-									<label><input name="pulse" type="checkbox" value="numberpulse"/>数</label>&nbsp;&nbsp;
-									<label><input name="pulse" type="checkbox" value="chordpulse"/>弦</label>&nbsp;&nbsp;
-									<label><input name="pulse" type="checkbox" value="slidepulse"/>滑</label>
-								</td>
-							</tr>
-							<tr>
-								<td class="info"><label>痰量：</label></td>
+								<td class="danger"><label>痰量：</label></td>
 								<td>
 									<select name="sputumamount">
 										<option value="oksputumamount" selected>正常</option>
@@ -167,7 +118,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td class="info"><label>痰色：</label></td>
+								<td class="danger"><label>痰色：</label></td>
 								<td>
 									<select name="sputumcolor">
 										<option value="defalutsputumcolor">正常</option>
@@ -180,7 +131,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td class="info"><label>咳嗽：</label></td>
+								<td class="danger"><label>咳嗽：</label></td>
 								<td>
 									<select name="cough">
 										<option value="okcough" selected>正常</option>
@@ -191,7 +142,32 @@
 								</td>
 							</tr>
 							<tr>
-								<td class="info"><label>大便：</label></td>
+								<td class="danger"><label>纳：</label></td>
+								<td>
+								<select name="na">
+									<option value="okna" selected>正常</option>
+									<option value="badna">纳差</option>
+									<option value="anorexiana">厌食</option>
+									<option value="worsena">食欲减退</option>
+								</select>
+								</td>
+							</tr>
+							<tr>
+								<td class="danger"><label>脉：</label></td>
+								<td>
+									<label><input name="pulse" type="checkbox" value="slimpulse" checked/>细</label>&nbsp;&nbsp;
+									<label><input name="pulse" type="checkbox" value="floatpulse"/>浮</label>&nbsp;&nbsp;
+									<label><input name="pulse" type="checkbox" value="sinkpulse"/>沉</label>&nbsp;&nbsp;
+									<label><input name="pulse" type="checkbox" value="roughpulse"/>粗</label>&nbsp;&nbsp;
+									<label><input name="pulse" type="checkbox" value="latepulse"/>迟</label>&nbsp;&nbsp;
+									<label><input name="pulse" type="checkbox" value="numberpulse"/>数</label>&nbsp;&nbsp;
+									<label><input name="pulse" type="checkbox" value="chordpulse"/>弦</label>&nbsp;&nbsp;
+									<label><input name="pulse" type="checkbox" value="slidepulse"/>滑</label>
+								</td>
+							</tr>
+							
+							<tr>
+								<td class="danger"><label>大便：</label></td>
 								<td>
 									<select name="defecate" >
 										<option value="defaultdefecate" selected>正常</option>
@@ -199,11 +175,11 @@
 										<option value="baddefecate">便秘（中）</option>
 										<option value="worsedefecate">便秘（重）</option>					
 									</select>
-									<label><input name="constipation" type="checkbox" value="xiexie"/>泄泻</label>
+									&nbsp;&nbsp;&nbsp;&nbsp;<label><input name="constipation" type="checkbox" value="xiexie"/>泄泻</label>
 								</td>
 							</tr>
 							<tr>
-								<td class="info"><label>小便：</label></td>
+								<td class="danger"><label>小便：</label></td>
 								<td>
 									<select name="urinate" >
 										<option value="okurinate" selected>正常</option>
@@ -214,7 +190,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td class="info"><label>痛：</label></td>
+								<td class="danger"><label>胸肋痛：</label></td>
 								<td>
 									<select name="xonglei">
 										<option value="noxonglei" selected>正常</option>
@@ -222,33 +198,80 @@
 										<option value="badxonglei">胸肋痛（中）</option>
 										<option value="worsexonglei">胸肋痛（重）</option>
 									</select>
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								</td>
+							</tr>
+							
+							<tr>
+								<td class="success"><label>腹痛：</label></td>
+								<td>
 									<select name="futong">
 										<option value="nofutong" selected>正常</option>
 										<option value="okfutong">腹痛（轻）</option>
 										<option value="badfutong">腹痛（中）</option>
 										<option value="worsefutong">腹痛（重）</option>
 									</select>
-									<hr>
-									<label><input name="tengtong" type="checkbox" value="yaotong"/>腰痛</label>&nbsp;&nbsp;
-									<label><input name="tengtong" type="checkbox" value="wantong"/>脘痛</label>&nbsp;&nbsp;
-									<label><input name="tengtong" type="checkbox" value="toutong"/>头痛</label>
-									<hr>
-									<label>头身胸腹不适：</label>
+								</td>
+							</tr>
+							
+							<tr>
+								<td class="success"><label>头身胸腹不适：</label></td>
+								<td>
+									<label><input name="tengtong" type="checkbox" value="yaotong"/>腰痛</label>&nbsp;&nbsp;&nbsp;
+									<label><input name="tengtong" type="checkbox" value="wantong"/>脘痛</label>&nbsp;&nbsp;&nbsp;
+									<label><input name="tengtong" type="checkbox" value="toutong"/>头痛</label>&nbsp;&nbsp;&nbsp;
 									<label><input name="bodydiscomfort" type="checkbox" value="touyun"/>头晕</label>
-									<label><input name="bodydiscomfort" type="checkbox" value="xinji"/>心悸</label>
-									<label><input name="bodydiscomfort" type="checkbox" value="xiongmen"/>胸闷</label>
-									<label><input name="bodydiscomfort" type="checkbox" value="fuzhang"/>腹胀</label>
+									<br>
+									<label><input name="bodydiscomfort" type="checkbox" value="xinji"/>心悸</label>&nbsp;&nbsp;&nbsp;
+									<label><input name="bodydiscomfort" type="checkbox" value="xiongmen"/>胸闷</label>&nbsp;&nbsp;&nbsp;
+									<label><input name="bodydiscomfort" type="checkbox" value="fuzhang"/>腹胀</label>&nbsp;&nbsp;&nbsp;
 									<label><input name="bodydiscomfort" type="checkbox" value="wanzhang"/>脘胀</label>
 									<br>
-									<label><input name="bodydiscomfort" type="checkbox" value="shenzhong"/>身重</label>
-									<label><input name="bodydiscomfort" type="checkbox" value="erming"/>耳鸣</label>
-									<label><input name="bodydiscomfort" type="checkbox" value="muxuan"/>目眩</label>
+									<label><input name="bodydiscomfort" type="checkbox" value="shenzhong"/>身重</label>&nbsp;&nbsp;&nbsp;
+									<label><input name="bodydiscomfort" type="checkbox" value="erming"/>耳鸣</label>&nbsp;&nbsp;&nbsp;
+									<label><input name="bodydiscomfort" type="checkbox" value="muxuan"/>目眩</label>&nbsp;&nbsp;&nbsp;
 									<label><input name="bodydiscomfort" type="checkbox" value="mamu"/>麻木</label>
 								</td>
 							</tr>
+							
 							<tr>
-								<td class="info"><label>眠：</label></td>
+								<td class="success"><label>舌色：</label></td>
+								<td>
+									<select name="tonguecolor">
+										<option value="oktonguecolor" selected>正常</option>
+										<option value="whitetonguecolor">淡白</option>
+										<option value="redtonguecolor">红色</option>
+										<option value="jiangtonguecolor">降色</option>
+										<option value="purpletonguecolor">紫色</option>
+										<option value="cyantonguecolor">青色</option>
+										<option value="bluetonguecolor">蓝色</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td class="success"><label>舌苔：</label></td>
+								<td>
+									<select name="coatedtongue">
+										<option value="whitecoatedtongue" selected>正常</option>
+										<option value="yellowcoatedtongue">黄苔</option>
+										<option value="purplecoatedtongue">紫苔</option>
+										<option value="blackcoatedtongue">黑（灰）苔</option>
+										<option value="nitaicoatedtongue">腻苔</option>
+										<option value="houtaicoatedtongue">厚苔</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td class="success"><label>气力：</label></td>
+								<td>
+									<select name="energy">
+										<option value="okenergy" selected>正常</option>
+										<option value="badenergy">差</option>
+										<option value="worseenergy">特差</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td class="success"><label>眠：</label></td>
 								<td>
 									<select name="sleep">
 										<option value="oksleep" selected>正常</option>
@@ -260,7 +283,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td class="info"><label>寒热：</label></td>
+								<td class="success"><label>寒热：</label></td>
 								<td>
 									<select name="hanre">
 										<option value="hanwu" selected>正常</option>
@@ -274,11 +297,11 @@
 								</td>
 							</tr>
 							<tr>
-								<td class="info"><label>汗：</label></td>
+								<td class="success"><label>汗：</label></td>
 								<td>
 									<select name="sweat">
-										<option value="sweat">有</option>
 										<option value="nosweat" selected>正常</option>
+										<option value="sweat">有</option>
 										<option value="zihan">自汗</option>
 										<option value="daohan">盗汗</option>
 										<option value="dahan">大汗</option>
@@ -286,17 +309,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td class="info"><label>气力：</label></td>
-								<td>
-									<select name="energy">
-										<option value="okenergy" selected>正常</option>
-										<option value="badenergy">差</option>
-										<option value="worseenergy">特差</option>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<td class="info"><label>口渴：</label></td>
+								<td class="success"><label>口渴：</label></td>
 								<td>
 									<select name="thirst">
 										<option value="okthirst" selected>正常</option>
@@ -306,7 +319,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td class="info"><label>口味：</label></td>
+								<td class="success"><label>口味：</label></td>
 								<td>
 									<select name="taste">
 										<option value="lighttaste">正常</option>
@@ -315,7 +328,6 @@
 									</select>
 								</td>
 							</tr>
-							
 						</table>
 						<br>
 					</div>

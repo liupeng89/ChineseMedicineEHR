@@ -833,7 +833,7 @@ public class DiagClassifyData {
 		"badxonglei:胸肋痛（中）",
 		"worsexonglei:胸肋痛（重）",
 		"nofutong:痛（无）",
-		"okfutong:腹痛（轻",
+		"okfutong:腹痛（轻）",
 		"badfutong:腹痛（中）",
 		"worsefutong:腹痛（重）",
 		"yaotong:腰痛",
@@ -1407,10 +1407,16 @@ public class DiagClassifyData {
 			"maicu"
 	};
 	
-	public static String[] mainDescriptionStrings = {"na","tonguecolor","coatedtongue","pulse","sputumamount",
-			"sputumcolor","cough","defecate","urinate" }; // 主要症状
-	public static String[] seconddescriptionStrings = {"xonglei","futong","sleep","hanre","sweat","energy",
-			"thirst","taste" }; // 次要症状
+	public static String[] mainDescriptionStrings = {"okdefecate","baddefecate","worsedefecate","xiexie","badurinate","worseurinate","bloodurinate",
+			"okxonglei","badxonglei","worsexonglei","littlesputumamount","muchsputumamount","yellowsputumcolor","whitesputumcolor","redlittlesputumcolor","slimpulse","floatpulse","sinkpulse",
+			"roughpulse","latepulse","numberpulse","chordpulse","slidepulse","badna","anorexiana","worsena",
+			"redmuchsputumcolor","redmoresputumcolor","badcough","worsecough","worstcough" }; // 主要症状
+	
+	public static String[] seconddescriptionStrings = {"okfutong","badfutong","worsefutong","yaotong","wantong","toutong","touyun","xinji","xiongmen","fuzhang","wanzhang","shenzhong","erming","muxuan","mamu","whitetonguecolor","redtonguecolor","jiangtonguecolor","purpletonguecolor","cyantonguecolor","bluetonguecolor","yellowcoatedtongue",
+			"purplecoatedtongue","blackcoatedtongue","nitaicoatedtongue","houtaicoatedtongue","badenergy","worseenergy","badsleep","worsesleep","worstsleep","somnolencesleep",
+			"hanqing","hanzhong","rewu","reqing","rezhong","hanre","sweat","zihan","daohan","dahan","badthirst","worsethirst","acidtaste","bittertaste" }; // 次要症状
+	
+	public static String[]  thirddescriptionStrings = { }; // 第三症状描述
 	
 	public static String[] diagKeywords = {"气虚","痰瘀","互结","阻络","气阴两虚","脾虚","痰湿","热结",	"湿瘀",	"夹热",	"瘀热",	"湿阻"};
 }

@@ -413,7 +413,8 @@ public class DiagMedicineProcess {
 	}
 	
 	/**
-	 *  根据 证型 ＋ 症状，获取相似病例
+	 *  Get the similiar ehrs based on the description
+	 *  
 	 * @param description
 	 * @param eHealthRecords
 	 * @return
@@ -474,31 +475,75 @@ public class DiagMedicineProcess {
 		if (keySet.contains("fenzi")) { inputCodeMap.remove("fenzi"); }
 		if (keySet.contains("mianyi")) { inputCodeMap.remove("mianyi"); }
 		
-		// 4. 匹配
-		for (EHealthRecord eHealthRecord : eHealthRecords) {
-			int statusmatchnum = 0;
-			Set<String> statusSet = inputCodeMap.keySet();
-			
-			for (String status : statusSet) {
-				int contentmatchnum = 0;
-				ArrayList<String> desckeywordlist = inputCodeMap.get(status);
-				for (String c : desckeywordlist) {
-					if (eHealthRecord.getConditionsdescribed().contains(c)) {
-						statusmatchnum++;
-						break;
-					}
-					contentmatchnum++;
-				}
-				if (contentmatchnum == desckeywordlist.size()-1) {
-					// 该状态的关键字全部都不一致，则该病例不属于相似病例
-					break;
-				}
+		Map<String, ArrayList<String>> mainInputCodeMap = new HashMap<String, ArrayList<String>>(); // Main description
+		Map<String, ArrayList<String>> secondInputCodeMap = new HashMap<String, ArrayList<String>>(); // Second description
+		
+		// main description：all items should be matched
+		for (String s : DiagClassifyData.mainDescriptionStrings) {
+			if (keySet.contains(s)) {
+				mainInputCodeMap.put(s, inputCodeMap.get(s));
 			}
-			// The match conditions: the number of match bigger than half of status
-			if (statusmatchnum >= (statusSet.size() / 2 + 1)) {
+		}
+		// second description: 50% items should be matched
+		for (String s : DiagClassifyData.seconddescriptionStrings) {
+			if (keySet.contains(s)) {
+				secondInputCodeMap.put(s, inputCodeMap.get(s));
+			}
+		}
+		System.out.println("main size: " + mainInputCodeMap.size() + " second: " + secondInputCodeMap.size() );
+		
+		for (EHealthRecord eHealthRecord : eHealthRecords) {
+			
+			boolean ismatched = false;
+			boolean isSecondMatched = false;
+			
+			// main description match
+			if (mainInputCodeMap.size() > 0) {
+				// main description need 100% match
+				int size = mainInputCodeMap.size();
+				ismatched = checkMatchBasedOnDescription(eHealthRecord, mainInputCodeMap, size);
+			}
+			// second description match
+			if (secondInputCodeMap.size() > 0) {
+				// Second description need 50% match
+				int size = secondInputCodeMap.size() / 4 + 1;
+				isSecondMatched = checkMatchBasedOnDescription(eHealthRecord, secondInputCodeMap, size);
+			}
+			// based on the main description without second description
+			if (secondInputCodeMap.size() == 0) {
+				isSecondMatched = true;
+			}
+			
+			if (ismatched && isSecondMatched) {
 				similarRecords.add(eHealthRecord);
 			}
 		}
+		
+//		// 4. 匹配
+//		for (EHealthRecord eHealthRecord : eHealthRecords) {
+//			int statusmatchnum = 0;
+//			Set<String> statusSet = inputCodeMap.keySet();
+//			
+//			for (String status : statusSet) {
+//				int contentmatchnum = 0;
+//				ArrayList<String> desckeywordlist = inputCodeMap.get(status);
+//				for (String c : desckeywordlist) {
+//					if (eHealthRecord.getConditionsdescribed().contains(c)) {
+//						statusmatchnum++;
+//						break;
+//					}
+//					contentmatchnum++;
+//				}
+//				if (contentmatchnum == desckeywordlist.size()-1) {
+//					// 该状态的关键字全部都不一致，则该病例不属于相似病例
+//					break;
+//				}
+//			}
+//			// The match conditions: the number of match bigger than half of status
+//			if (statusmatchnum >= (statusSet.size() / 4 * 3)) {
+//				similarRecords.add(eHealthRecord);
+//			}
+//		}
 		return similarRecords;
 	}
 	
@@ -516,6 +561,40 @@ public class DiagMedicineProcess {
 			if(description.matches(".*" + k + ".*")){
 				return true;
 			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Check the record match the description or not.
+	 * @param e
+	 * @param description
+	 * @param size
+	 * @return
+	 */
+	public static boolean checkMatchBasedOnDescription(EHealthRecord e, Map<String, ArrayList<String>> description, int size){
+		
+		int statusmatchnum = 0;
+		Set<String> statusSet = description.keySet();
+		
+		for (String status : statusSet) {
+			int contentmatchnum = 0;
+			ArrayList<String> desckeywordlist = description.get(status);
+			for (String c : desckeywordlist) {
+				if (e.getConditionsdescribed().contains(c)) {
+					statusmatchnum++;
+					break;
+				}
+				contentmatchnum++;
+			}
+			if (contentmatchnum == desckeywordlist.size()-1) {
+				// 该状态的关键字全部都不一致，则该病例不属于相似病例
+				break;
+			}
+		}
+		// The match conditions: the number of match bigger than half of status
+		if (statusmatchnum >= size-1) {
+			return true;
 		}
 		return false;
 	}
