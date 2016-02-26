@@ -159,7 +159,7 @@ public class MedicineByDescription {
 		
 		// 2.2 根据诊断，对病例数据进行分类
 		List<EHealthRecord> classifiedRecords = DiagMedicineProcess.getRecordsByDiagnose(diagkeywords, eHealthRecordsByBatch);
-		System.out.println("classified num:" + classifiedRecords.size());
+//		System.out.println("classified num:" + classifiedRecords.size());
 		// 2.3 分析用户输入描述，统计中药处方
 		Set<String> cnmedicineSet = DiagMedicineProcess.getMedicinesByDescription(description, classifiedRecords);
 		
@@ -180,7 +180,7 @@ public class MedicineByDescription {
 		/**
 		 * 3. 若统计的中药还是不足，在根据起一些人工规则，继续推导
 		 */
-		System.out.println("统计结果：" + medicineList);
+//		System.out.println("统计结果：" + medicineList);
 		return medicineList;
 	}
 	
@@ -266,7 +266,7 @@ public class MedicineByDescription {
 	/**
 	 *  根据 批次、诊断类型、描述 ，确定相似病历
 	 * @param batch
-	 * @param diagnose
+	 * @param diagnosehwo
 	 * @param description
 	 * @return
 	 */
@@ -361,19 +361,19 @@ public class MedicineByDescription {
 		
 		// Time status
 		String timeStatusString = request.getParameter("timestatus").trim();
-		System.out.println(timeStatusString);
-		String timeStatus = "";
-		if (timeStatusString.equals("cmtreat")) {
-			timeStatus = "单纯中医药治疗";
-		}
-		if (timeStatusString.equals("shuqian")){timeStatus = "术前";}
-		if (timeStatusString.equals("shuhou")){timeStatus = "术后";}
-		if (timeStatusString.equals("zhiliaozhong")){timeStatus = "放疗中";}
-		if (timeStatusString.equals("zhiliaohou")){timeStatus = "放疗后";}
-		if (timeStatusString.equals("hualiaozhong")){timeStatus = "化疗中";}
-		if (timeStatusString.equals("hualiaohou")){timeStatus = "化疗后";}
-		if (timeStatusString.equals("fenzi")){timeStatus = "分子靶向药物";}
-		if (timeStatusString.equals("mianyi")){timeStatus = "免疫治疗";}
+//		System.out.println(timeStatusString);
+//		String timeStatus = "";
+//		if (timeStatusString.equals("cmtreat")) {
+//			timeStatus = "单纯中医药治疗";
+//		}
+//		if (timeStatusString.equals("shuqian")){timeStatus = "术前";}
+//		if (timeStatusString.equals("shuhou")){timeStatus = "术后";}
+//		if (timeStatusString.equals("zhiliaozhong")){timeStatus = "放疗中";}
+//		if (timeStatusString.equals("zhiliaohou")){timeStatus = "放疗后";}
+//		if (timeStatusString.equals("hualiaozhong")){timeStatus = "化疗中";}
+//		if (timeStatusString.equals("hualiaohou")){timeStatus = "化疗后";}
+//		if (timeStatusString.equals("fenzi")){timeStatus = "分子靶向药物";}
+//		if (timeStatusString.equals("mianyi")){timeStatus = "免疫治疗";}
 		// 2. 症型
 		String diagnoseString = "";
 		String xuString = request.getParameter("xu").trim();

@@ -60,14 +60,14 @@ public class EHealthRecord {
 	 *病症描述 
 	 */
 	private String conditionsdescribed;
-	/*
-	 *  主要病症（肺癌）
-	 */
-	private String primaryDisease;
-	/*
-	 *  次要病症 （更加具体的病症）
-	 */
-	private String secondaryDisease;
+//	/*
+//	 *  主要病症（肺癌）
+//	 */
+//	private String primaryDisease;
+//	/*
+//	 *  次要病症 （更加具体的病症）
+//	 */
+//	private String secondaryDisease;
 	
 	/*
 	 *中西医诊断 

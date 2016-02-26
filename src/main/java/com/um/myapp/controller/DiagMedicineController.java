@@ -49,12 +49,12 @@ public class DiagMedicineController {
 		String description = requestMap.get("description"); // 症状
 		String batch = requestMap.get("batch");  // 年度
 		double threshold = Double.valueOf(requestMap.get("threshold"));  // 机器学习阈值
-		System.out.println("description:" + description);
+//		System.out.println("description:" + description);
 		
 		// 1.3 格式化描述输出，作为对描述的输出
 		String descconvertString = MedicineByDescription.getFormatedDescirption(description);
 		String descriptionString = diagnose + descconvertString;
-		System.out.println("new desc:" + descriptionString);
+//		System.out.println("new desc:" + descriptionString);
 		
 		/**
 		 * 2. 基于统计的方法预测中药

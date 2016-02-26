@@ -429,7 +429,7 @@ public class DiagMedicineProcess {
 		if( descriptionSplits == null || descriptionSplits.length == 0 ){
 			return null;
 		}
-		System.out.println("desc: " + description);
+//		System.out.println("desc: " + description);
 		
 		// 2. 生成关键字编码表  <部位， < 状态：［k1,k2,k3.....］>>
 		Map<String, HashMap<String, ArrayList<String>>> keywordCodeMap = createReference(DiagClassifyData.descriptionKeywords);
@@ -444,7 +444,7 @@ public class DiagMedicineProcess {
 		}
 		if (descriptionSet == null || descriptionSet.size() == 0) { return null; }
 		
-		System.out.println(descriptionSet);
+//		System.out.println(descriptionSet);
 		
 		// 3. 对输入的病症描述进行编码
 		Map<String, ArrayList<String>> inputCodeMap = new HashMap<String, ArrayList<String>>();
@@ -490,7 +490,7 @@ public class DiagMedicineProcess {
 				secondInputCodeMap.put(s, inputCodeMap.get(s));
 			}
 		}
-		System.out.println("main size: " + mainInputCodeMap.size() + " second: " + secondInputCodeMap.size() );
+//		System.out.println("main size: " + mainInputCodeMap.size() + " second: " + secondInputCodeMap.size() );
 		
 		for (EHealthRecord eHealthRecord : eHealthRecords) {
 			

@@ -36,7 +36,6 @@ public class MachineLearningPredict {
 		}
 		// Machine learning object
 		Predictum predictum = null;
-		System.out.println(inputcode.size());
 		int predictConditionCount = inputcode.size(); //   机器学习输入条件个数
 		MWNumericArray x = null; /* Array of x values */
 		Object[] y = null;
@@ -58,17 +57,13 @@ public class MachineLearningPredict {
 			e.printStackTrace();
 		} 
 		
-		if(y == null){
-			return null;
-		}
+		if(y == null){ return null; }
 		
 		MWLogicalArray yy = (MWLogicalArray) y[0];
 		
-		if(yy == null || yy.numberOfElements() == 0){
-			return null;
-		}
+		if(yy == null || yy.numberOfElements() == 0){ return null; }
 		
-		int count = yy.numberOfElements(); // 161个
+		int count = yy.numberOfElements(); // output variable count
 		// 输出结果
 		String[] sortedmedicine = DiagClassifyData.machineMedicine;
 		List<String> medicineListByMachine = new ArrayList<String>();

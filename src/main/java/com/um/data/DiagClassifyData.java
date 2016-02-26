@@ -3,7 +3,7 @@ package com.um.data;
 public class DiagClassifyData {
 
 	
-	public static String[] cnDiagClassify = {"肺癌|气虚|痰瘀|互结",
+	public final static String[] cnDiagClassify = {"肺癌|气虚|痰瘀|互结",
 		"肺癌|气虚|痰瘀|阻络",
 		"肺癌|气阴两虚|痰瘀|互结",
 		"肺癌|脾虚|痰瘀|互结",
@@ -14,7 +14,7 @@ public class DiagClassifyData {
 		"肺癌|气虚|痰湿|瘀热|互结",
 		"肺癌|气虚|湿阻"};
 	
-	public static String[] cnDiagCodeStrings = {"肺癌|K1",
+	public final static String[] cnDiagCodeStrings = {"肺癌|K1",
 		"气虚|K2",
 		"痰瘀|K3",
 		"互结|K4",
@@ -29,7 +29,7 @@ public class DiagClassifyData {
 		"瘀热|K13",
 		"湿阻|K14"};
 	
-	public static String[] wnDiagClassify = {"肺恶性肿瘤",
+	public final static String[] wnDiagClassify = {"肺恶性肿瘤",
 		"肺恶性肿瘤|高血压病",
 		"肺恶性肿瘤|脂肪肝",
 		"肺恶性肿瘤|糖尿病",
@@ -113,7 +113,7 @@ public class DiagClassifyData {
 		"左上肺恶性肿瘤|双肺转移|T4N2M1a",
 		"左上肺恶性肿瘤|肺门淋巴结转移"};
 	
-	public static String[]  cndescriclassify = {
+	public final static String[]  cndescriclassify = {
 		"纳眠尚可|K2",
 		"纳可眠差|K3",
 		"纳眠一般|K4",
@@ -362,7 +362,7 @@ public class DiagClassifyData {
 		"嗳气|K260",
 		"矢气多|K261"};
 	
-	public static String[]  cndescriclassify1 = {"纳眠可|K1",
+	public final static String[]  cndescriclassify1 = {"纳眠可|K1",
 		"纳眠尚可|K2",
 		"纳可眠差|K3",
 		"纳眠一般|K4",
@@ -623,7 +623,7 @@ public class DiagClassifyData {
 		"嗳气|K260",
 		"矢气多|K261"};
 	
-	public static String[] cndescriptionkeywords = {
+	public final static String[] cndescriptionkeywords = {
 		"纳%good:纳眠可|纳可眠一般|纳可眠稍差|纳可眠好转#ok:纳眠尚可|纳眠一般|纳欠佳眠一般|纳一般眠差|纳眠欠佳|纳改善眠可|纳差眠欠佳|纳眠好转|纳眠稍差#bad:纳差眠可|纳眠差|纳差眠好转|纳差眠改善|纳眠俱差",
 		"眠%good:纳眠可|纳差眠可|纳改善眠可#ok:纳眠尚可|纳眠一般|纳可眠一般|纳可眠稍差|纳差眠好转|纳可眠好转|眠差改善|纳差眠改善|纳欠佳眠一般|纳眠欠佳|纳差眠欠佳|纳眠好转|纳眠稍差|#bad:纳可眠差|纳眠差|纳一般眠差|纳眠俱差|眠差梦多",
 		"舌%舌质:舌质淡|舌质红|舌质暗红|舌红苔微黄|舌红苔少|舌质紫暗#舌苔:舌苔微黄|舌苔白|舌苔黄|舌苔黄微腻|舌苔黄腻|舌红苔微黄|舌淡苔微黄|舌红苔少|舌苔染色|舌苔薄白",
@@ -642,7 +642,7 @@ public class DiagClassifyData {
 		"痰%多:咳嗽痰多|少咳痰粘|痰白可咯|痰多色黄|黄痰难咯|咯黄白色稀痰|痰黄白|痰浓稠|咽中有痰|痰多色白#少:咳嗽无痰|咳嗽少痰|咳嗽痰少|咯少量血痰|痰血减少|痰少色白|少痰难咯|量少色黄|少许血丝痰|偶咳少痰|痰减少|少量痰血#黄色:痰多色黄|黄痰难咯|痰黄白|痰色黄难咯|咯黄色稀痰|量少色黄|咯黄痰|咯黄白粘痰#白色:咳嗽痰色白|咯黄白痰|痰白可咯|痰少色白|白痰|少白痰|痰多色灰白|咯白痰|痰色白|咳嗽痰白|痰多色白#有血痰:咯少量血痰|痰血减少|痰血加重|痰中带血|偶有痰血|咯血痰|咳嗽痰血|少许血丝痰|痰中血丝|少量痰血",
 		"脉%描述:脉弦细|脉细滑|脉弦滑|脉细|脉滑"
 	};
-	public static String[] cndescriptionkeywords1 = {
+	public final static String[] cndescriptionkeywords1 = {
 		"纳%good:纳眠可|纳可眠一般|纳可眠稍差|纳可眠好转#ok:纳眠尚可|纳眠一般|纳欠佳眠一般|纳一般眠差|纳眠欠佳|纳改善眠可|纳差眠欠佳|纳眠好转|纳眠稍差#bad:纳差眠可|纳眠差|纳差眠好转|纳差眠改善|纳眠俱差",
 		"眠%good:纳眠可|纳差眠可|纳改善眠可#ok:纳眠尚可|纳眠一般|纳可眠一般|纳可眠稍差|纳差眠好转|纳可眠好转|眠差改善|纳差眠改善|纳欠佳眠一般|纳眠欠佳|纳差眠欠佳|纳眠好转|纳眠稍差|#bad:纳可眠差|纳眠差|纳一般眠差|纳眠俱差|眠差梦多",
 		"舌质%good:舌质淡#ok:舌质红|舌质暗红|舌红苔微黄|舌红苔少|舌质紫暗",
@@ -664,7 +664,7 @@ public class DiagClassifyData {
 		"脉%weak:脉弦细|脉细#slip:脉弦滑|脉滑#weakslip:脉细滑"
 	};
 	
-	public static String[] cndescriptionkeywords2 = {
+	public final static String[] cndescriptionkeywords2 = {
 		"纳%good:纳眠可|纳可眠一般|纳可眠稍差|纳可眠好转#ok:纳眠尚可|纳眠一般|纳欠佳眠一般|纳一般眠差|纳眠欠佳|纳改善眠可|纳差眠欠佳|纳眠好转|纳眠稍差#bad:纳差眠可|纳眠差|纳差眠好转|纳差眠改善|纳眠俱差",
 		"眠%good:纳眠可|纳差眠可|纳改善眠可#ok:纳眠尚可|纳眠一般|纳可眠一般|纳可眠稍差|纳差眠好转|纳可眠好转|眠差改善|纳差眠改善|纳欠佳眠一般|纳眠欠佳|纳差眠欠佳|纳眠好转|纳眠稍差|#bad:纳可眠差|纳眠差|纳一般眠差|纳眠俱差|眠差梦多",
 		"舌质%good:舌质淡#ok:舌质红|舌质暗红|舌红苔微黄|舌红苔少|舌质紫暗",
@@ -686,7 +686,7 @@ public class DiagClassifyData {
 		"脉%weak:脉弦细|脉细#slip:脉弦滑|脉滑#weakslip:脉细滑"
 	};
 	
-	public static String[] descriptionconvert = {
+	public final static String[] descriptionconvert = {
 		"hanre%hanwu:寒无#hanqing:寒轻#hanzhong:寒重#rewu:热无#reqing:热轻#rezhong:热重#hanre:寒热往来",
 		"sweat%sweat:汗（有）#nosweat:汗（无）#zihan:自汗#daohan:盗汗#dahan:大汗",
 		"xonglei%no:胸肋痛（无）#ok:胸肋痛（轻）#bad:胸肋痛（中）#worse:胸肋痛（重）",
@@ -740,7 +740,10 @@ public class DiagClassifyData {
 //		"mamu%mamu:麻木",
 //	};
 	
-	public static String[] descriptionKeywords = {
+	/**
+	 * the description keywords tables
+	 */
+	public final static String[] descriptionKeywords = {
 			
 
 			"sputumamount%oksputumamount:咳嗽无痰|无痰#littlesputumamount:现咳嗽稀痰，|，痰白可咯减少，|有痰难咳，|咳嗽痰多缓解，|，有痰，|现咳嗽痰多缓解，|，痰少|现少咳痰血|，有痰，|咳嗽少痰|咳嗽痰少|咯少量血痰|痰血减少|痰少色白|少痰难咯|量少色黄|少许血丝痰|偶咳少痰|痰减少|少量痰血#muchsputumamount:现痰多难咯，|现咳嗽咯痰，|咽痒咳嗽痰粘，|现咳嗽痰难咯，|，咳嗽咯痰，|现少咳有痰色黄|咳嗽痰多|少咳痰粘|痰白可咯|痰多色黄|黄痰难咯|咯黄白色稀痰|痰黄白|痰浓稠|咽中有痰|痰多色白",
@@ -806,7 +809,10 @@ public class DiagClassifyData {
 			"mamu%mamu:麻木|，时指麻，",
 		};
 	
-	public static String[] descriptionStrings = {
+	/**
+	 * The input keywords description
+	 */
+	public final static String[] descriptionStrings = {
 			"cmtreat:单纯中医药治疗",
 			"shuqian:术前",
 			"shuhou:术后",
@@ -910,7 +916,10 @@ public class DiagClassifyData {
 		"worstcough:咳嗽重"
 	};
 	
-	public static String[] normalAndBaddescription = {
+	/**
+	 * The input key words value
+	 */
+	public final static String[] normalAndBaddescription = {
 			"cmtreat:1",
 			"shuqian:2",
 			"shuhou:3",
@@ -1013,8 +1022,11 @@ public class DiagClassifyData {
 		"worsecough:2",
 		"worstcough:3"
 	};
-	// machine learning input description keywords
-	public static String[] descKeywords = {
+	
+	/**
+	 *  The machine learning input description keywords
+	 */
+	public final static String[] descKeywords = {
 		"hanwu:寒无",
 		"hanqing:寒轻",
 		"hanzhong:寒重",
@@ -1109,8 +1121,10 @@ public class DiagClassifyData {
 		"worstcough:咳嗽频繁|咳嗽反复|咳嗽痰血|咳嗽加重|咳嗽较剧"
 	};
 	
-	// 53 x input items
-	public static String[] machineKeywords = {
+	/**
+	 * The input items of machine learning 
+	 */
+	public final static String[] machineKeywords = {
 		"shijianzhuangtai%0:cmtreat#1:shuqian#2:shuhou#3:zhiliaozhong#4:zhiliaohou#5:hualiaozhong#6:hualiaohou#7:fenzi#8:mianyi",
 		"qixu%1:气虚",
 		"tanyu%1:痰瘀",
@@ -1166,257 +1180,74 @@ public class DiagClassifyData {
 		"maicu%1:maicu"
 	};
 	
-	public static String[] descriptionOrderStrings = {
-		"na",
-		"tonguecolor",
-		"coatedtongue",
-		"pulse",
-		"sputumamount",
-		"sputumcolor",
-		"cough",
-		"defecate",
-		"urinate",
-		"xonglei",
-		"futong",
-		"sleep",
-		"hanre",
-		"sweat",
-		"energy",
-		"thirst",
-		"taste"
+	/**
+	 * order description keywords (no used)
+	 */
+	public final static String[] descriptionOrderStrings = {
+		"na","tonguecolor","coatedtongue","pulse",
+		"sputumamount","sputumcolor","cough","defecate",
+		"urinate","xonglei","futong","sleep","hanre","sweat",
+		"energy","thirst","taste"
 	};
 	
-	
-	public static String[] machineMedicine = {
-		"甘草",
-		"白花蛇舌草",
-		"红豆杉",
-		"石见穿",
-		"炒薏苡仁",
-		"龙葵",
-		"茅莓根",
-		"白术",
-		"炙黄芪",
-		"党参",
-		"太子参",
-		"莪术",
-		"蛇莓",
-		"猫爪草",
-		"望江南子",
-		"山慈菇",
-		"延胡索",
-		"连翘",
-		"白茅根",
-		"制川乌",
-		"白英",
-		"僵蚕",
-		"五味子",
-		"黄芩",
-		"水牛角",
-		"酸枣仁	",
-		"天麻",
-		"预知子",
-		"葶苈子",
-		"紫珠草",
-		"姜制砂仁米",
-		"炒稻芽",
-		"补骨脂",
-		"猪苓",
-		"黄精",
-		"北沙参",
-		"桑白皮	",
-		"炒山楂",
-		"生地黄",
-		"石榴皮",
-		"石菖蒲",
-		"地肤子",
-		"乌梢蛇",
-		"金银花",
-		"紫苏梗",
-		"藕节炭",
-		"石仙桃",
-		"重楼",
-		"豆蔻",
-		"肉苁蓉",
-		"玄参",
-		"有瓜石斛",
-		"火麻仁",
-		"番泻叶",
-		"桔梗",
-		"磁石",
-		"全蝎粉",
-		"半枝莲",
-		"麦冬",
-		"枳实",
-		"粉葛",
-		"胆南星",
-		"山药",
-		"枸杞子",
-		"田七末",
-		"天花粉",
-		"法半夏",
-		"六神曲",
-		"防风",
-		"牛蒡子",
-		"木蝴蝶",
-		"骨碎补",
-		"蜜麻黄",
-		"泽泻",
-		"浮小麦",
-		"石上柏",
-		"桑寄生",
-		"肉桂",
-		"瓜蒌子",
-		"制何首乌",
-		"苇茎",
-		"菊花",
-		"地榆炭",
-		"旱莲草",
-		"佩兰",
-		"苦杏仁",
-		"芦根",
-		"炒麦芽",
-		"地骨皮",
-		"木香",
-		"白芍",
-		"女贞子",
-		"白芷",
-		"虎杖",
-		"鸡血藤",
-		"三七片",
-		"鱼腥草",
-		"柴胡",
-		"桑螵蛸",
-		"桂枝",
-		"麻黄根",
-		"郁李仁",
-		"益母草",
-		"决明子",
-		"杜仲",
-		"紫苏子",
-		"覆盆子",
-		"钩藤	",
-		"羚羊角骨",
-		"柏子仁",
-		"狗脊",
-		"红花",
-		"威灵仙",
-		"瓜蒌皮",
-		"独活",
-		"灵芝",
-		"王不留行",
-		"蝉蜕",
-		"桑椹",
-		"白鲜皮",
-		"大枣	",
-		"升麻	",
-		"丁香",
-		"熟附子",
-		"香附",
-		"辛夷",
-		"苍术",
-		"川芎",
-		"玉米须",
-		"紫草",
-		"大黄",
-		"丹参",
-		"车前草",
-		"乌药",
-		"木瓜",
-		"络石藤",
-		"蒲公英",
-		"厚朴",
-		"槐花",
-		"橘核",
-		"檀香",
-		"香薷",
-		"鹿角霜",
-		"薤白",
-		"当归",
-		"小茴香",
-		"桑枝",
-		"首乌藤",
-		"知母",
-		"煅龙骨",
-		"夏枯草",
-		"茯苓",
-		"合欢皮",
-		"干姜",
-		"赤芍",
-		"珍珠母	",
-		"小蓟",
-		"青蒿",
-		"桃仁",
-		"荆芥穗",
-		"田基黄"
+	/**
+	 * The machine learning output medicines 
+	 */
+	public final static String[] machineMedicine = {
+		"甘草","白花蛇舌草","红豆杉","石见穿","炒薏苡仁","龙葵","茅莓根","白术","炙黄芪",
+		"党参","太子参","莪术","蛇莓","猫爪草",
+		"望江南子","山慈菇","延胡索","连翘","白茅根","制川乌","白英","僵蚕","五味子","黄芩","水牛角",
+		"酸枣仁","天麻","预知子","葶苈子","紫珠草","姜制砂仁米","炒稻芽","补骨脂","猪苓","黄精","北沙参",
+		"桑白皮","炒山楂","生地黄","石榴皮","石菖蒲","地肤子",
+		"乌梢蛇","金银花","紫苏梗","藕节炭","石仙桃","重楼","豆蔻","肉苁蓉","玄参","有瓜石斛","火麻仁","番泻叶",
+		"桔梗","磁石","全蝎粉","半枝莲","麦冬","枳实","粉葛","胆南星","山药","枸杞子","田七末","天花粉","法半夏","六神曲","防风",
+		"牛蒡子","木蝴蝶","骨碎补","蜜麻黄","泽泻","浮小麦","石上柏","桑寄生","肉桂",
+		"瓜蒌子","制何首乌","苇茎","菊花","地榆炭","旱莲草","佩兰",
+		"苦杏仁","芦根","炒麦芽","地骨皮","木香","白芍",
+		"女贞子","白芷","虎杖","鸡血藤","三七片","鱼腥草",
+		"柴胡","桑螵蛸","桂枝","麻黄根","郁李仁","益母草",
+		"决明子","杜仲","紫苏子",
+		"覆盆子","钩藤","羚羊角骨","柏子仁","狗脊","红花",
+		"威灵仙","瓜蒌皮","独活","灵芝","王不留行","蝉蜕","桑椹","白鲜皮","大枣",
+		"升麻","丁香","熟附子","香附","辛夷","苍术",
+		"川芎","玉米须","紫草","大黄","丹参","车前草",
+		"乌药","木瓜","络石藤","蒲公英",
+		"厚朴","槐花","橘核","檀香",
+		"香薷","鹿角霜","薤白","当归",
+		"小茴香","桑枝","首乌藤","知母",
+		"煅龙骨","夏枯草","茯苓","合欢皮","干姜",
+		"赤芍","珍珠母","小蓟","青蒿","桃仁","荆芥穗","田基黄"
 	};
 	
-	public static String[] sortCode = {
-			"qixu",
-			"tanyu",
-			"hujie",
-			"zuluo",
-			"qiyinliangxu",
-			"pixu",
-			"tanshi",
-			"rejie",
-			"shiyu",
-			"jiare",
-			"yure",
-			"shizu",
-			"erming",
-			"qili",
-			"tanse",
-			"maixi",
-			"tanliang",
-			"hann",
-			"futong",
-			"shijianzhuangtai",
-			"wantong",
-			"shenzhong",
-			"maifu",
-			"maishu",
-			"han",
-			"shetai",
-			"xiaobian",
-			"xiongleitong",
-			"xinji",
-			"mamu",
-			"xuetan",
-			"kesou",
-			"mian",
-			"maichi",
-			"touyun",
-			"toutong",
-			"re",
-			"xiongmen",
-			"maichen",
-			"hanrewanglai",
-			"maixian",
-			"na",
-			"dabian",
-			"muxuan",
-			"shese",
-			"fuzhang",
-			"maihua",
-			"wanzhang",
-			"xiexie",
-			"kouwei",
-			"kouke",
-			"yaotong",
-			"maicu"
+	/**
+	 * The sorted code
+	 */
+	public final static String[] sortCode = {
+			"qixu","tanyu","hujie","zuluo","qiyinliangxu","pixu","tanshi","rejie","shiyu","jiare","yure",
+			"shizu","erming","qili","tanse","maixi","tanliang","hann","futong","shijianzhuangtai",
+			"wantong","shenzhong","maifu","maishu","han","shetai","xiaobian","xiongleitong","xinji","mamu","xuetan",
+			"kesou","mian","maichi","touyun","toutong","re","xiongmen","maichen",
+			"hanrewanglai","maixian","na","dabian","muxuan","shese","fuzhang","maihua",
+			"wanzhang","xiexie","kouwei","kouke","yaotong","maicu"
 	};
 	
-	public static String[] mainDescriptionStrings = {"okdefecate","baddefecate","worsedefecate","xiexie","badurinate","worseurinate","bloodurinate",
-			"okxonglei","badxonglei","worsexonglei","littlesputumamount","muchsputumamount","yellowsputumcolor","whitesputumcolor","redlittlesputumcolor","slimpulse","floatpulse","sinkpulse",
+	/**
+	 * The main description key words
+	 */
+	public final static String[] mainDescriptionStrings = {"okdefecate","baddefecate","worsedefecate","xiexie","badurinate","worseurinate","bloodurinate",
+			"okxonglei","badxonglei","worsexonglei","li                                      ttlesputumamount","muchsputumamount","yellowsputumcolor","whitesputumcolor","redlittlesputumcolor","slimpulse","floatpulse","sinkpulse",
 			"roughpulse","latepulse","numberpulse","chordpulse","slidepulse","badna","anorexiana","worsena",
 			"redmuchsputumcolor","redmoresputumcolor","badcough","worsecough","worstcough" }; // 主要症状
-	
-	public static String[] seconddescriptionStrings = {"okfutong","badfutong","worsefutong","yaotong","wantong","toutong","touyun","xinji","xiongmen","fuzhang","wanzhang","shenzhong","erming","muxuan","mamu","whitetonguecolor","redtonguecolor","jiangtonguecolor","purpletonguecolor","cyantonguecolor","bluetonguecolor","yellowcoatedtongue",
+	/**
+	 * The second description key words
+	 */
+	public final static String[] seconddescriptionStrings = {"okfutong","badfutong","worsefutong","yaotong","wantong","toutong","touyun","xinji","xiongmen","fuzhang","wanzhang","shenzhong","erming","muxuan","mamu","whitetonguecolor","redtonguecolor","jiangtonguecolor","purpletonguecolor","cyantonguecolor","bluetonguecolor","yellowcoatedtongue",
 			"purplecoatedtongue","blackcoatedtongue","nitaicoatedtongue","houtaicoatedtongue","badenergy","worseenergy","badsleep","worsesleep","worstsleep","somnolencesleep",
 			"hanqing","hanzhong","rewu","reqing","rezhong","hanre","sweat","zihan","daohan","dahan","badthirst","worsethirst","acidtaste","bittertaste" }; // 次要症状
 	
-	public static String[]  thirddescriptionStrings = { }; // 第三症状描述
-	
-	public static String[] diagKeywords = {"气虚","痰瘀","互结","阻络","气阴两虚","脾虚","痰湿","热结",	"湿瘀",	"夹热",	"瘀热",	"湿阻"};
+	public final static String[]  thirddescriptionStrings = { }; // 第三症状描述
+	/**
+	 * The diagnose key words
+	 */
+	public final static String[] diagKeywords = {"气虚","痰瘀","互结","阻络","气阴两虚","脾虚","痰湿","热结",	"湿瘀",	"夹热",	"瘀热",	"湿阻"};
 }
