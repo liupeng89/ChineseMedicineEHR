@@ -132,10 +132,8 @@ public class MedicineByDescription {
 		// 1.1 读取数据库种病例数据
 		CWRelationMapping cwRelationMapping = new CWRelationMapping();
 		List<EHealthRecord> allEHealthRecords = cwRelationMapping.queryEhealthDataByCollection(DataBaseSetting.ehealthcollection); // 全部病例
-		System.out.println("all data:" + allEHealthRecords.size());
 		// 1.2 选取批次
 		List<EHealthRecord> eHealthRecordsByBatch = null; // 符合某一批次的全部病历
-		System.out.println("---batch:" + batch);
 		if(batch.equals("null")){
 			eHealthRecordsByBatch = allEHealthRecords; // 全部病历，不区分批次
 		}else{
@@ -152,7 +150,6 @@ public class MedicineByDescription {
 				}
 			}
 		}
-		System.out.println(eHealthRecordsByBatch.size());
 		// 1.3 统计所有的中药处方统计－－－－ <名称，数量>
 		Map<String, Integer> allMedicineMap = DiagMedicineProcess.statisEhealthMedicine(eHealthRecordsByBatch);
 //		allMedicineMap = DiagMedicineProcess.sortMapByValue(allMedicineMap); // 统计结果排序
@@ -206,7 +203,6 @@ public class MedicineByDescription {
 		/**
 		 * 3. 若统计的中药还是不足，在根据起一些人工规则，继续推导
 		 */
-		System.out.println("统计结果：" + medicineList);
 		return medicineList;
 	}
 	

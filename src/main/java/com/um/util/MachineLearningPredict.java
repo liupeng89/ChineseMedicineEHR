@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 import newpredictum.Predictum;
 
 import com.mathworks.toolbox.javabuilder.MWClassID;
@@ -41,7 +44,9 @@ public class MachineLearningPredict {
 		Object[] y = null;
 		
 		try {
-			predictum = new Predictum();
+			// predict bean
+			ApplicationContext context = new AnnotationConfigApplicationContext(Predictum.class);
+			predictum = (Predictum)context.getBean("predictum");
 			
 			int[] dims1 = { 1, predictConditionCount }; // x 输入 52项
 			x = MWNumericArray.newInstance(dims1, MWClassID.DOUBLE,MWComplexity.REAL); // 生成x数组
@@ -57,11 +62,11 @@ public class MachineLearningPredict {
 			e.printStackTrace();
 		} 
 		
-		if(y == null){ return null; }
+		if(y == null) return null;
 		
 		MWLogicalArray yy = (MWLogicalArray) y[0];
 		
-		if(yy == null || yy.numberOfElements() == 0){ return null; }
+		if(yy == null || yy.numberOfElements() == 0) return null;
 		
 		int count = yy.numberOfElements(); // output variable count
 		// 输出结果

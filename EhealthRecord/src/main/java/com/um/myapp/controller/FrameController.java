@@ -67,7 +67,7 @@ public class FrameController {
 		public ModelAndView displayDiagMedicineByCase(){
 			ModelAndView mv = new ModelAndView("casePredictMedicine");
 			List<String> batchList = DiagMedicineProcess.getBatch();
-			System.out.println(batchList);
+//			System.out.println(batchList);
 			
 			CWRelationMapping cwRelationMapping = new CWRelationMapping();
 			List<EHealthRecord> allEHealthRecords = cwRelationMapping.queryEhealthDataByCollection(DataBaseSetting.ehealthcollection); // 全部病例

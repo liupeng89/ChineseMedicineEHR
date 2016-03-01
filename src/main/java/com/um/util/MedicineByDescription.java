@@ -491,18 +491,14 @@ public class MedicineByDescription {
 		
 		// 2. convert
 		String[] splits = desString.split(",");
-		if( splits == null || splits.length == 0 ){ return ""; }
+		if( splits == null || splits.length == 0 ) return result;
 		
 		int length = splits.length;
 		for (int i = 0; i < length; i++) {
 			String s = splits[i];
 			if(normalTableMap.get(s) == null) continue;
 			if( !normalTableMap.get(s).equals("0") ){ 
-				if (i == length - 1) {
-					result += descTableMap.get(s);
-				} else {
-					result += descTableMap.get(s) + ","; 
-				}
+				result += (i== length-1) ? descTableMap.get(s) : descTableMap.get(s) + ",";
 			}
 		}
 		return result;
@@ -525,14 +521,13 @@ public class MedicineByDescription {
 	}
 	
 	/**
-	 *  
+	 *  Convert array of description to map
 	 * @param arrays
 	 * @return
 	 */
 	public static Map<String, String> convertArraysToMap(String[] arrays){
-		if( arrays == null || arrays.length == 0 ){
-			return null;
-		}
+		if( arrays == null || arrays.length == 0 ) return null;
+
 		Map<String, String> result = new HashMap<String, String>();
 		for( String a : arrays ){
 			String[] split = a.split(":");
@@ -545,6 +540,32 @@ public class MedicineByDescription {
 	}
 	
 	/**
+	 * Convert array of description keywords to map list
+	 * @param arrays
+	 * @return
+	 */
+	public static Map<String, ArrayList<String>> convertArraysToMapList(String[] arrays){
+		if (arrays == null || arrays.length == 0) return null;
+		
+		Map<String, ArrayList<String>> result = new HashMap<String, ArrayList<String>>();
+		
+		for (String string : arrays) {
+			ArrayList<String> contents = new ArrayList<String>();
+			String[] splits = string.split(":");
+			if (splits == null || splits.length != 2) continue;
+					
+			String[] list = splits[1].split("\\|");
+			if (list == null || list.length == 0) continue;
+			for (String lString : list) {
+				contents.add(lString);
+			}
+			result.put(splits[0], contents);
+		}
+		
+		return result;
+	}
+	
+	/**
 	 *  Get the e-health records by the batch
 	 *  
 	 * @param batch
@@ -552,7 +573,7 @@ public class MedicineByDescription {
 	 */
 	public static List<EHealthRecord> getRecordsByBatch(String batch){
 		
-		if( batch.equals("") ){ return null; }
+		if( batch.equals("") ) return null;
 		// built the conditions structure of batch
 		Document conditons = new Document();
 		if(!batch.equals("")){
@@ -572,54 +593,39 @@ public class MedicineByDescription {
 	 */
 	public static String formattedDescriptionByCount(String description){
 		
-		if( description.equals("") ){ return null; }
+		if( description.equals("") ) return null;
 		String formattedDescriptionString = "";
 		
-		Map<String, HashMap<String, ArrayList<String>>> keyworCodeMap = DiagMedicineProcess.createReference(DiagClassifyData.descriptionKeywords);
-		
-		// 3. 根据输入，确定输入编码
-		Map<String, String> formattedMap = new HashMap<String, String>();
-		Set<String> projectKeySet = keyworCodeMap.keySet();
-		// project
-		for( String project : projectKeySet ){
-			// status
-			Set<String> statusSet = keyworCodeMap.get(project).keySet();
+		// keyword list 
+		Map<String, ArrayList<String>> keywordList = MedicineByDescription.convertArraysToMapList(DiagClassifyData.descKeywords);
+		// the description code
+		Set<String> descriptionFormatted = new HashSet<String>();
+		Set<String> keywordListSet = keywordList.keySet();
+		for (String k : keywordListSet) {
+			ArrayList<String> contents = keywordList.get(k);
+			if (contents == null || contents.size() == 0 ) continue;
 			
-			if( statusSet == null || statusSet.size() == 0 ){ continue; }
-			
-			for( String status : statusSet ){
-				int index = 0;
-				ArrayList<String> keyArrayList = keyworCodeMap.get(project).get(status);
-				if( keyArrayList == null || keyArrayList.size() == 0 ){ continue; }
-				
-				for( String k : keyArrayList ){
-					if( description.matches(".*" + k + ".*")){
-						formattedMap.put(status, "1");
-					}
-					if(index == statusSet.size() - 1){
-						formattedMap.put(status, "0");
-					}
-					index++;
+			for (String c : contents) {
+				if (description.contains(c)) {
+					// match 
+					descriptionFormatted.add(k);
+					break;
 				}
 			}
 		}
-		// Input code to chinese description to output
+		
+		if (descriptionFormatted.size() == 0) {
+			return formattedDescriptionString;
+		}
+		// key word reference
 		Map<String, String> descTableMap = MedicineByDescription.convertArraysToMap(DiagClassifyData.descriptionStrings);
 		Map<String, String> normalTableMap = MedicineByDescription.convertArraysToMap(DiagClassifyData.normalAndBaddescription);
-		// Key set of input code
-		Set<String> formattedSet = formattedMap.keySet();
 		
-		if( formattedSet == null || formattedSet.size() == 0 ){
-			return "";
-		}
-		for( String f : formattedSet ){
-			if(normalTableMap.get(f)==null|| formattedMap.get(f) ==null){
+		for (String d : descriptionFormatted) {
+			if (normalTableMap.get(d) == null || normalTableMap.get(d).equals("0") || descTableMap.get(d) == null) {
 				continue;
 			}
-			if( normalTableMap.get(f).equals("0") || formattedMap.get(f).equals("0")){
-				continue;
-			}
-			formattedDescriptionString += descTableMap.get(f) + ",";
+			formattedDescriptionString += descTableMap.get(d) + ",";
 		}
 		
 		return formattedDescriptionString;

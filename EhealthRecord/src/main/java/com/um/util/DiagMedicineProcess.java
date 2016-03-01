@@ -214,7 +214,7 @@ public class DiagMedicineProcess {
 			for(String ss : keSet){
 				int count = meMap.get(ss);
 				if(count > resultMap.get(s).size() * 0.8 && resultMap.get(s).size() > 4){
-					System.out.println(s + ":" + resultMap.get(s).size() + "----" + meMap);
+//					System.out.println(s + ":" + resultMap.get(s).size() + "----" + meMap);
 				}
 			}
 				
@@ -330,7 +330,7 @@ public class DiagMedicineProcess {
 			}
 		}
 		
-		System.out.println(descriptionCodeMap);
+//		System.out.println(descriptionCodeMap);
 		
 		
 		// 4. 扫描全部的病例，根据每一个病例，生成对应的编码
@@ -356,17 +356,14 @@ public class DiagMedicineProcess {
 			}
 		}
 		
-		if( eRecords.size() == 0 ){
-			System.out.println("erecords is null");
-			return null;
-		}
+		if( eRecords.size() == 0 ) return null;
+
 		
 		// 3. 统计中药
 		Map<String, Integer> medicineMap = statisEhealthMedicine(eRecords);
 		medicineMap = DiagMedicineProcess.sortMapByValue(medicineMap); //排序！！
 		
 		Set<String> medicineSet = medicineMap.keySet();
-		System.out.println("medicine:" + medicineSet);
 		return medicineSet;
 	}
 	
@@ -417,9 +414,6 @@ public class DiagMedicineProcess {
 			}
 		}
 		
-		System.out.println(descriptionCodeMap);
-		
-		
 		// 4. 扫描全部的病例，根据每一个病例，生成对应的编码
 		List<EHealthRecord> eRecords = new ArrayList<EHealthRecord>(); // 同种描述的病历
 		
@@ -445,10 +439,8 @@ public class DiagMedicineProcess {
 			}
 		}
 		
-		if( eRecords.size() == 0 ){
-			System.out.println("erecords is null");
-			return null;
-		}
+		if( eRecords.size() == 0 ) return null;
+
 		return eRecords;
 	}
 	
@@ -785,8 +777,6 @@ public class DiagMedicineProcess {
 			}
 			keyMap.put(keyword, MedicineStatics.staticsChineseMedicine(medicineList));
 		}
-		System.out.println("[record size]:" + eHealthRecords.size());
-		System.out.println(keyMap);
 		//3. 对统计结果进行分析汇总，整理
 		
 		// 每一种症状，取前15种中药
@@ -833,14 +823,12 @@ public class DiagMedicineProcess {
 			HashMap<String, ArrayList<String>> descMap = new HashMap<String, ArrayList<String>>();
 			for(String s : descriptions){
 				String[] desc = s.split(":");
-//				System.out.println(desc[1]);
 				String[] descKey = desc[1].split("\\|");
 				ArrayList<String> descList = (ArrayList<String>) DiagMedicineProcess.arrayToList(descKey);
 				descMap.put(desc[0], descList);
 			}
 			keyMap.put(projects[0], descMap);
 		}
-//		System.out.println(keyMap);
 		// 2. 解析
 		String conditionString = eRecord.getConditionsdescribed(); // 病症描述
 		// 3.返回结果
@@ -881,7 +869,6 @@ public class DiagMedicineProcess {
 			HashMap<String, ArrayList<String>> descMap = new HashMap<String, ArrayList<String>>();
 			for(String s : descriptions){
 				String[] desc = s.split(":");
-//				System.out.println(desc[1]);
 				String[] descKey = desc[1].split("\\|");
 				ArrayList<String> descList = (ArrayList<String>) DiagMedicineProcess.arrayToList(descKey);
 				descMap.put(desc[0], descList);
@@ -969,7 +956,6 @@ public class DiagMedicineProcess {
 			// 3. 若符合，则结束循环，输出
 			// 4. 不符合，继续循环，构建分组
 		}
-		System.out.println(results);
 		return results;
 	}
 	

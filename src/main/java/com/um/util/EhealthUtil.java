@@ -19,9 +19,8 @@ public class EhealthUtil {
 	 * @return
 	 */
 	public static List<EHealthRecord> getEhealthRecordListByConditions(Document conditions){
-		if (conditions == null) {
-			return null;
-		}
+		if(conditions == null) return null;
+		
 		// Get the data collections
 		final List<EHealthRecord> eHealthRecords = new ArrayList<EHealthRecord>();
 		MongoCollection<Document> collection = ConnectionDB.getCollections(DataBaseSetting.ehealthcollection);

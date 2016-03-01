@@ -426,14 +426,11 @@ public class DiagMedicineProcess {
 		List<EHealthRecord> similarRecords = new ArrayList<EHealthRecord>(); // 同种描述的病历
 		// 1. 处理description
 		String[] descriptionSplits = description.split(",");
-		if( descriptionSplits == null || descriptionSplits.length == 0 ){
-			return null;
-		}
-//		System.out.println("desc: " + description);
+		if( descriptionSplits == null || descriptionSplits.length == 0 ) return null;
 		
 		// 2. 生成关键字编码表  <部位， < 状态：［k1,k2,k3.....］>>
-		Map<String, HashMap<String, ArrayList<String>>> keywordCodeMap = createReference(DiagClassifyData.descriptionKeywords);
-		Map<String, String> normalTableMap = MedicineByDescription.convertArraysToMap(DiagClassifyData.normalAndBaddescription);
+		Map<String, String> normalTableMap = MedicineByDescription.convertArraysToMap(DiagClassifyData.normalAndBaddescription); // normal table
+		Map<String, ArrayList<String>> descTableMap = MedicineByDescription.convertArraysToMapList(DiagClassifyData.descKeywords); // descrition keyword list
 		
 		// 去掉正常的status
 		Set<String> descriptionSet = new HashSet<String>(); // 输入描述中的关键字
@@ -442,25 +439,16 @@ public class DiagMedicineProcess {
 				descriptionSet.add(string);
 			}
 		}
-		if (descriptionSet == null || descriptionSet.size() == 0) { return null; }
-		
-//		System.out.println(descriptionSet);
+		if (descriptionSet == null || descriptionSet.size() == 0) return null;
 		
 		// 3. 对输入的病症描述进行编码
 		Map<String, ArrayList<String>> inputCodeMap = new HashMap<String, ArrayList<String>>();
-		Set<String> projectKey = keywordCodeMap.keySet();
-		for (String project : projectKey) {
-			// project
-			Set<String> statusKeySet = keywordCodeMap.get(project).keySet();
-			if( statusKeySet == null || statusKeySet.size() == 0 ){
+		
+		for (String d : descriptionSet) {
+			if (normalTableMap.get(d) == null || descTableMap.get(d) == null || normalTableMap.get(d).equals("0")) {
 				continue;
 			}
-			for (String inString : descriptionSet) {
-				if (keywordCodeMap.get(project).get(inString) != null && !keywordCodeMap.get(project).get(inString).contains("无")) {
-					ArrayList<String> contentList = keywordCodeMap.get(project).get(inString);
-					inputCodeMap.put(inString, contentList);
-				}
-			}
+			inputCodeMap.put(d, descTableMap.get(d));
 		}
 		
 		Set<String> keySet = inputCodeMap.keySet();
@@ -490,23 +478,22 @@ public class DiagMedicineProcess {
 				secondInputCodeMap.put(s, inputCodeMap.get(s));
 			}
 		}
-//		System.out.println("main size: " + mainInputCodeMap.size() + " second: " + secondInputCodeMap.size() );
 		
 		for (EHealthRecord eHealthRecord : eHealthRecords) {
 			
-			boolean ismatched = false;
+			boolean isMainMatched = false;
 			boolean isSecondMatched = false;
 			
 			// main description match
 			if (mainInputCodeMap.size() > 0) {
 				// main description need 100% match
 				int size = mainInputCodeMap.size();
-				ismatched = checkMatchBasedOnDescription(eHealthRecord, mainInputCodeMap, size);
+				isMainMatched = checkMatchBasedOnDescription(eHealthRecord, mainInputCodeMap, size);
 			}
 			// second description match
 			if (secondInputCodeMap.size() > 0) {
 				// Second description need 50% match
-				int size = secondInputCodeMap.size() / 4 + 1;
+				int size = secondInputCodeMap.size() / 2 + 1;
 				isSecondMatched = checkMatchBasedOnDescription(eHealthRecord, secondInputCodeMap, size);
 			}
 			// based on the main description without second description
@@ -514,37 +501,45 @@ public class DiagMedicineProcess {
 				isSecondMatched = true;
 			}
 			
-			if (ismatched && isSecondMatched) {
+			if (isMainMatched && isSecondMatched) {
 				similarRecords.add(eHealthRecord);
 			}
 		}
 		
-//		// 4. 匹配
-//		for (EHealthRecord eHealthRecord : eHealthRecords) {
-//			int statusmatchnum = 0;
-//			Set<String> statusSet = inputCodeMap.keySet();
-//			
-//			for (String status : statusSet) {
-//				int contentmatchnum = 0;
-//				ArrayList<String> desckeywordlist = inputCodeMap.get(status);
-//				for (String c : desckeywordlist) {
-//					if (eHealthRecord.getConditionsdescribed().contains(c)) {
-//						statusmatchnum++;
-//						break;
-//					}
-//					contentmatchnum++;
-//				}
-//				if (contentmatchnum == desckeywordlist.size()-1) {
-//					// 该状态的关键字全部都不一致，则该病例不属于相似病例
-//					break;
-//				}
-//			}
-//			// The match conditions: the number of match bigger than half of status
-//			if (statusmatchnum >= (statusSet.size() / 4 * 3)) {
-//				similarRecords.add(eHealthRecord);
-//			}
-//		}
 		return similarRecords;
+	}
+	
+	/**
+	 * Check the record match the description or not.
+	 * @param e
+	 * @param description <status, contents > 
+	 * @param size
+	 * @return
+	 */
+	public static boolean checkMatchBasedOnDescription(EHealthRecord e, Map<String, ArrayList<String>> description, int size){
+		
+		int statusmatchnum = 0;
+		Set<String> statusSet = description.keySet();
+		
+		for (String status : statusSet) {
+			int contentmatchnum = 0; // 
+			ArrayList<String> desckeywordlist = description.get(status);
+			for (String c : desckeywordlist) {
+				if (e.getConditionsdescribed().contains(c)) {
+					statusmatchnum++;
+					break;
+				}
+				contentmatchnum++;
+			}
+			if (contentmatchnum == desckeywordlist.size()-1) {
+				// 该状态的关键字全部都不一致，则该病例不属于相似病例
+				break;
+			}
+		}
+		// The match conditions: the number of match bigger than half of status
+		if (statusmatchnum >= (size > 1 ? size-1 : 1))  return true; 
+		
+		return false;
 	}
 	
 	/**
@@ -565,39 +560,8 @@ public class DiagMedicineProcess {
 		return false;
 	}
 	
-	/**
-	 * Check the record match the description or not.
-	 * @param e
-	 * @param description
-	 * @param size
-	 * @return
-	 */
-	public static boolean checkMatchBasedOnDescription(EHealthRecord e, Map<String, ArrayList<String>> description, int size){
-		
-		int statusmatchnum = 0;
-		Set<String> statusSet = description.keySet();
-		
-		for (String status : statusSet) {
-			int contentmatchnum = 0;
-			ArrayList<String> desckeywordlist = description.get(status);
-			for (String c : desckeywordlist) {
-				if (e.getConditionsdescribed().contains(c)) {
-					statusmatchnum++;
-					break;
-				}
-				contentmatchnum++;
-			}
-			if (contentmatchnum == desckeywordlist.size()-1) {
-				// 该状态的关键字全部都不一致，则该病例不属于相似病例
-				break;
-			}
-		}
-		// The match conditions: the number of match bigger than half of status
-		if (statusmatchnum >= size-1) {
-			return true;
-		}
-		return false;
-	}
+	
+	
 	
 	/**
 	 *  判断编码是否相同

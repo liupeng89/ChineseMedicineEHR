@@ -53,7 +53,7 @@ public class QueryController {
 	                ehealthList.add(eHealthRecord);
 	            }
 	        }
-			System.out.println(batch + "size ： " + ehealthList.size());
+//			System.out.println(batch + "size ： " + ehealthList.size());
 	        // 2. 查询姓名
 	        if(ehealthList.size() == 0){
 	        	List<String> batchList = DiagMedicineProcess.getBatch();
@@ -84,7 +84,7 @@ public class QueryController {
 	        	return new ModelAndView("dquery").addObject("batchList", batchList);
 	        }
 		}else{
-			System.out.println("batch is null");
+//			System.out.println("batch is null");
 			if(!pname.equals("")){
 				
 				List<EHealthRecord> ehealthList = new ArrayList<EHealthRecord>(); //查询病例
@@ -123,7 +123,7 @@ public class QueryController {
 	// 详细信息
 	@RequestMapping(value="detailRecord",method=RequestMethod.GET)
 	public ModelAndView detailRecrod(String ehealthregno){
-		System.out.println("regno" + ehealthregno);
+//		System.out.println("regno" + ehealthregno);
 		EHealthRecord eHealthRecord = null;
         ModelAndView mv = null;
 		if("".equals(ehealthregno)){
@@ -143,13 +143,13 @@ public class QueryController {
             	mv =  new ModelAndView("detail");
             	
             	Map<String, HashMap<String, String>> conditionMap = DiagMedicineProcess.getConditionDescription(eHealthRecord);
-            	System.out.println(conditionMap);
+//            	System.out.println(conditionMap);
             	mv.addObject("ehealthrecordss",eHealthRecord);
             	mv.addObject("allCnMedicines", eHealthRecord.getChineseMedicines());
             	mv.addObject("allWeMedicines", eHealthRecord.getWesternMedicines());
             	mv.addObject("conditions", conditionMap);
             }else{
-            	System.out.println("ehealth is null");
+//            	System.out.println("ehealth is null");
             	List<String> batchList = DiagMedicineProcess.getBatch();
 	        	return new ModelAndView("dquery").addObject("batchList", batchList);
             }

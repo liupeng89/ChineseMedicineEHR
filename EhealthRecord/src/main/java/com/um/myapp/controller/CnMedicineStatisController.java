@@ -28,7 +28,7 @@ public class CnMedicineStatisController {
 			mv.addObject("batchList", batchList);
 			return mv;
 		}
-		System.out.println("[批次]:" +  batch);
+//		System.out.println("[批次]:" +  batch);
 		/**
 		 * 1. 对中医处方进行统计，选择出现概率大于90%的中药作为结果输出；
 		 */
@@ -55,7 +55,7 @@ public class CnMedicineStatisController {
 				}
 			}
 		}
-		System.out.println(eHealthRecordsByBatch.size());
+//		System.out.println(eHealthRecordsByBatch.size());
 		if(eHealthRecordsByBatch == null || eHealthRecordsByBatch.size() == 0){
 			
 			List<String> batchList = DiagMedicineProcess.getBatch();
