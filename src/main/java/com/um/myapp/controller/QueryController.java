@@ -125,7 +125,13 @@ public class QueryController {
 		}
 	}
 	
-	//保存信息
+	/**
+	 * save info
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
 	@RequestMapping(value="saveEditRecord",method=RequestMethod.POST)
 	public ModelAndView saveEdit(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		

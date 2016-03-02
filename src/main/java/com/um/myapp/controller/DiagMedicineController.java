@@ -27,8 +27,10 @@ import com.um.util.MedicineByDescription;
 public class DiagMedicineController {
 
 	/**
-	 *  基于用户输入预测处方
-	 *  	预测方法：1、基于案例统计；2、基于机器学习；3、基于规则；
+	 *  Predict the Chinese medicines based on the user input info
+	 *  	methods: 1. case statistics
+	 *  			2. machine learning 
+	 *  			3. based on the rules
 	 * 
 	 * @param request
 	 * @return
@@ -39,54 +41,58 @@ public class DiagMedicineController {
 		ModelAndView mv = new ModelAndView("predictMedicine");
 		
 		/**
-		 * 1. 整理参数
+		 * 1. Parse the request parameters
 		 */
-		// 1.1 解析请求参数
+		// 1.1 parse the request parameters
 		Map<String, String> requestMap = MedicineByDescription.parseRequestParameter(request);
 		
-		// 1.2 生成 诊断/描述
-		String diagnose = requestMap.get("diagnose"); // 证型
-		String description = requestMap.get("description"); // 症状
-		String batch = requestMap.get("batch");  // 年度
-		double threshold = Double.valueOf(requestMap.get("threshold"));  // 机器学习阈值
+		// 1.2 get the diagnose, description, batch, threshold of machine learning
+		String diagnose = requestMap.get("diagnose"); // diagnose
+		String description = requestMap.get("description"); // description
+		String batch = requestMap.get("batch");  // batch
+		double threshold = Double.valueOf(requestMap.get("threshold"));  // threshold of machine learning
 		
-		// 1.3 格式化描述输出，作为对描述的输出
+		// 1.3 formatted the description to output
 		String descconvertString = MedicineByDescription.getFormatedDescirption(description);
 		String descriptionString = diagnose + descconvertString;
 		
 		/**
-		 * 2. 基于统计的方法预测中药
+		 * 2. Case-base statistics to predict medicines
 		 */
-		List<String> medicineListByStatis = MedicineByDescription.getMedicineByDiagAndDesc(batch,diagnose,description); // 根据描述，得出处方
+		// 2.1 predict the medicines based on the user input
+		List<String> medicineListByStatis = MedicineByDescription.getMedicineByDiagAndDesc(batch,diagnose,description);
 		
-		// Sort the medicine with same order with machine learning result
+		// 2.2 Sort the medicine with same order with machine learning result
 		List<String> medicineListByStatisticSorted = new ArrayList<String>();
 		for( String s : DiagClassifyData.machineMedicine ){
 			for( String o : medicineListByStatis ){
-				if( s == o || s.equals(o) ){ medicineListByStatisticSorted.add(s); }
+				if( s.equals(o) ){ 
+					medicineListByStatisticSorted.add(s); 
+				}
 			}
 		}
 		
-		// 2.1 提供相似病历  最多六个
+		// 2.3 get the similar records based on the input info, no more than 6 records
 		List<EHealthRecord> similaryRecords = MedicineByDescription.getSimilaryEHealthRecords(batch, diagnose, description);
-		
-		if (similaryRecords.size() > 6) { similaryRecords = similaryRecords.subList(0, 6); }
+		if (similaryRecords.size() > 6)  similaryRecords = similaryRecords.subList(0, 6); 
 		
 		/**
-		 *  3. 基于机器学习的方法预测中药
+		 *  3. Machine learning to predict the medicines
 		 */
-		//  3.1 初始化输入参数
-		List<String> inputcode = MachineLearningPredict.parseDiagAndDesc(diagnose, description); // 解析机器学习算法输入格式
-		// 	3.2 机器学习预测   machine learning object
-		List<String> medicineListByMachine = MachineLearningPredict.predict(inputcode, threshold); // 机器学习预测结果
+		//  3.1 initial the input parameters of machine learning
+		List<String> inputcode = MachineLearningPredict.parseDiagAndDesc(diagnose, description); // format the input parameters
+		// 	3.2 predict the medicines based on the machine learning
+		List<String> medicineListByMachine = MachineLearningPredict.predict(inputcode, threshold); // the predict result of machine learning
 		
 		/**
-		 *  4. Based on the rules
+		 *  4. Based on the rules to predict the medicines
 		 */
 		List<String> medicineListByRules = BasedOnRulePredict.predictBasedOnRules(descriptionString);
 		
-		// 5. 获取批次
-		List<String> batchList = DiagMedicineProcess.getBatch();
+		/**
+		 * 5. Return the batch and other info
+		 */
+		List<String> batchList = DiagMedicineProcess.getBatch(); // batch info
 		mv.addObject("batchList", batchList);
 		mv.addObject("batch", batch);
 		mv.addObject("medicineListByStatis", medicineListByStatisticSorted);
@@ -101,33 +107,31 @@ public class DiagMedicineController {
 	
 	
 	/**
-	 *  基于现有病例来处方预测 ----序号， 结合统计 ＋ 机器学习
+	 *  Predict medicines based on the existed records
+	 *  	methods:
+	 *  			1. case-based statistics
+	 *  			2. machine learning 
 	 * @return
 	 * @throws MWException 
 	 */
 	@RequestMapping("predicetByCase")
 	public String predictByCaseController(HttpServletRequest request,Model model){
-		// 1. 获取参数
-		String countString = request.getParameter("count"); // 病例序号
-		String thresholdString = request.getParameter("threshold");  // 机器学习阈值
-		
-		int count = 0; // 病例序号
-		double threshold = Double.valueOf(thresholdString); // 机器学习阈值
-		// 2. 查找病例
-		
-		// 1.1 读取数据库种病例数据
+		// 1. get the input parameters
+		String countString = request.getParameter("count"); // the order number of records
+		int count = 0; // record order number
+		double threshold = Double.valueOf(request.getParameter("threshold").trim()); // threshold of machine learning
+		// 2. find all records with batch 2012
 		Document conditions = new Document();
-		conditions.append("ehealthrecord.batch", "2012");
+		conditions.append("ehealthrecord.batch", "2012"); // the find conditions
 		
-		List<EHealthRecord> allList = EhealthUtil.getEhealthRecordListByConditions(conditions);
+		List<EHealthRecord> allList = EhealthUtil.getEhealthRecordListByConditions(conditions); // all records with batch 2012
+		int allcount = allList.size(); // the count of batch 2012 records
 		
-		int allcount = allList.size(); // 全部病例数量
-		
-		// 3. 目标病例
+		// 3. find the target record based on the conditions
 		EHealthRecord targetRecord = null;
 		
 		if( countString.length() > 4 ){
-			// 输入的是挂号号
+			// the input info is the register number of record
 			for( EHealthRecord e : allList ){
 				if( e.getRegistrationno().equals(countString) ){
 					targetRecord = e;
@@ -136,8 +140,8 @@ public class DiagMedicineController {
 				count++;
 			}
 		}else{
-			// 输入的是序号
-			count = Integer.valueOf(countString); // 病例序号
+			// the input info is the order number of all records
+			count = Integer.valueOf(countString); // order number
 			count--;
 			targetRecord = allList.get( count );
 			
@@ -146,7 +150,7 @@ public class DiagMedicineController {
 		if(targetRecord == null){
 			model.addAttribute("allcount",allcount);
 		}
-		//4 . 目标病例的诊断和描述
+		//4. the diagnose and description info of target record
 		String diag = targetRecord.getChinesediagnostics();
 		String description = targetRecord.getConditionsdescribed();
 		String diagnose = "";
@@ -156,10 +160,10 @@ public class DiagMedicineController {
 				diagnose += k + " ";
 			}
 		}
-		// 格式化病症描述
+		// format the description of target record
 		String formattedDescription = MedicineByDescription.formattedDescriptionByCount(description);
 		System.out.println(formattedDescription);
-		// 5. 原病例中药            
+		// 5. the origin medicines in target record            
 		List<String> orignMedicines = new ArrayList<String>();
 		if( targetRecord.getChineseMedicines() != null && targetRecord.getChineseMedicines().size() > 0 ){
 			for(ChineseMedicine c : targetRecord.getChineseMedicines()){
@@ -167,7 +171,7 @@ public class DiagMedicineController {
 			}
 		}
 		
-		// 原始中药进行排序
+		// 6. sort the origin medicines with a fix order
 		List<String> sortedList = new ArrayList<String>();
 		
 		for( String s : DiagClassifyData.machineMedicine ){
@@ -178,20 +182,20 @@ public class DiagMedicineController {
 			}
 		}
 		
-		// 7. 机器学习预测
-		//  7.1 初始化算法输入
+		// 7. predict medicines with machine learning 
+		//  7.1 initial input parameters of machine learning
 		List<String> inputcode = MachineLearningPredict.parseDiagAndDescByEhealthRecords(targetRecord);
-		System.out.println(inputcode.size());
-		//  7.2 机器学习预测
-		List<String> medicineListByMachine = MachineLearningPredict.predict(inputcode, threshold); // 机器学习预测结果
 		
-		// 8. 计算准确率
-		double statisticsPercent = 0.0; // 案例统计准确率
-		double mechineLearningPercent = 0.0;  // 机器学习准确率
+		//  7.2 predict medicines with machine learning
+		List<String> medicineListByMachine = MachineLearningPredict.predict(inputcode, threshold); // the result of machine learning
+		
+		// 8. calculate the accuracy
+		double statisticsPercent = 0.0; // the accuracy of case-based
+		double mechineLearningPercent = 0.0;  // the accuracy of machine learning
 		
 		int index = 0;
 		
-		statisticsPercent = 1.0 * orignMedicines.size() / orignMedicines.size(); // 统计正确率
+		statisticsPercent = 1.0 * orignMedicines.size() / orignMedicines.size(); //accuracy of case-based
 		index = 0;
 		
 		for( String s : medicineListByMachine ){
@@ -199,9 +203,9 @@ public class DiagMedicineController {
 				index++;
 			}
 		}
-		mechineLearningPercent = 1.0 * index / orignMedicines.size(); // 机器学习准确率
+		mechineLearningPercent = 1.0 * index / orignMedicines.size(); // the accuracy of machine learning
 		
-		// 9. 返回结果
+		// 9. return result
 		model.addAttribute("allcount",allcount);
 		model.addAttribute("orignMedicines",sortedList);
 		model.addAttribute("medicineListByStatis",sortedList);
