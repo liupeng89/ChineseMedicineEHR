@@ -22,7 +22,6 @@ public class UserController {
 			
 			ModelAndView mvAndView = null;
 			
-			
 			MongoCollection<Document> collection = ConnectionDB.getCollections(DataBaseSetting.infocollection);
 		     
 	        String passString = "";

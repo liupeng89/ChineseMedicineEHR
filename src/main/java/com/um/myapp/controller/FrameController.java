@@ -34,7 +34,7 @@ public class FrameController {
 	@RequestMapping(value="mainquery",method=RequestMethod.GET)
 	public ModelAndView displayDquery(){
 		ModelAndView mv = new ModelAndView("dquery");
-		//同时查询批次数据
+		// get the batch info
 		List<String> batchList = DiagMedicineProcess.getBatch();
 		mv.addObject("batchList", batchList);
 		return mv;
@@ -49,7 +49,7 @@ public class FrameController {
 		return mv;
 	}
 	
-	// 输入处方预测
+	// predict medicine 
 	@RequestMapping(value="maindiagmedic",method=RequestMethod.GET)
 	public ModelAndView displayDiagMedicine(){
 		ModelAndView mv = new ModelAndView("predictMedicine");
@@ -60,14 +60,14 @@ public class FrameController {
 		return mv;
 	}
 	
-	// 输入处方预测
+	// predict medicines based on the case 
 		@RequestMapping(value="casediagmedic",method=RequestMethod.GET)
 		public ModelAndView displayDiagMedicineByCase(){
 			ModelAndView mv = new ModelAndView("casePredictMedicine");
 			List<String> batchList = DiagMedicineProcess.getBatch();
 			System.out.println(batchList);
 			
-			List<EHealthRecord> allEHealthRecords = CWRelationMapping.queryEhealthDataByCollection(DataBaseSetting.ehealthcollection); // 全部病例
+			List<EHealthRecord> allEHealthRecords = CWRelationMapping.queryEhealthDataByCollection(DataBaseSetting.ehealthcollection); // get all records 
 			List<EHealthRecord> aList = new ArrayList<EHealthRecord>();
 			
 			for(EHealthRecord e:allEHealthRecords){
@@ -82,13 +82,13 @@ public class FrameController {
 				}
 			}
 			
-			int allcount = aList.size(); // 全部病例数量
+			int allcount = aList.size(); // the number of all records
 			mv.addObject("allcount",allcount);
 			mv.addObject("batchList", batchList);
 			return mv;
 		}
 	
-	// 输入病症统计
+	// statistics based on the ill
 	@RequestMapping(value="statisByIll",method=RequestMethod.GET)
 	public ModelAndView displayByILL(){
 		ModelAndView mv = new ModelAndView("statisticsByILL");

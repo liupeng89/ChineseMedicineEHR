@@ -49,14 +49,7 @@ public class CnMedicinePrescription {
 		return medicieList;
 	}
 	
-	
-	
-	
-	
-	
-	
 	// get and set
-
 	public List<EHealthRecord> getAllEHealthRecords() {
 		return allEHealthRecords;
 	}

@@ -52,7 +52,7 @@ public class DiagMedicineProcess {
 	
 	
 	/**
-	 *  查询批次
+	 *  Get the batch info of all records
 	 * @return
 	 */
 	public static List<String> getBatch(){

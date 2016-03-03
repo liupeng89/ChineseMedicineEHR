@@ -39,7 +39,7 @@ public class MachineLearningPredict {
 		}
 		// Machine learning object
 		Predictum predictum = null;
-		int predictConditionCount = inputcode.size(); //   机器学习输入条件个数
+		int predictConditionCount = inputcode.size(); // the number of machine learning input parameters
 		MWNumericArray x = null; /* Array of x values */
 		Object[] y = null;
 		
@@ -48,13 +48,13 @@ public class MachineLearningPredict {
 			ApplicationContext context = new AnnotationConfigApplicationContext(Predictum.class);
 			predictum = (Predictum)context.getBean("predictum");
 			
-			int[] dims1 = { 1, predictConditionCount }; // x 输入 52项
-			x = MWNumericArray.newInstance(dims1, MWClassID.DOUBLE,MWComplexity.REAL); // 生成x数组
-			// 初始化 x 输入
+			int[] dims1 = { 1, predictConditionCount }; // the x input parameters of machine learning
+			x = MWNumericArray.newInstance(dims1, MWClassID.DOUBLE,MWComplexity.REAL); // x input matrix
+			// initial x input of machine learning
 			for(int i = 1; i <= predictConditionCount; i++){
 				x.set(i, Integer.valueOf(inputcode.get(i-1)));
 			}
-			// 机器预测
+			// machine learning predict medicines
 			y = predictum.newpredictum(1, x, threshold);
 			
 		} catch (MWException e) {
@@ -69,7 +69,8 @@ public class MachineLearningPredict {
 		if(yy == null || yy.numberOfElements() == 0) return null;
 		
 		int count = yy.numberOfElements(); // output variable count
-		// 输出结果
+		
+		// sort the predict result
 		String[] sortedmedicine = DiagClassifyData.machineMedicine;
 		List<String> medicineListByMachine = new ArrayList<String>();
 		for( int i = 0; i < count; i++ ){
@@ -81,27 +82,26 @@ public class MachineLearningPredict {
 	}
 	
 	/**
-	 *  处理数据，生成符合机器学习输入格式的输入
+	 *  Format the input parameters of machine learning
 	 *  
 	 * @param diagnose
 	 * @param description
 	 * @return
 	 */
 	public static List<String> parseDiagAndDesc(String diagnose, String description){
-		if( diagnose == "" || description == "" ){
-			return null;
-		}
-		// 1. 证型
+		if("".equals(diagnose) || "".equals(description)) return null;
+		
+		// 1. split the diagnose
 		String[] diagStrings = diagnose.split(" ");
 		String diagString = "";
 		for(String s:diagStrings){
 			diagString += s + ",";
 		}
-		
+		// 2. built the x input of machine learning
 		description = diagString + description;
 		
 		Map<String, String> descriptionCode = new HashMap<String, String>();
-		//1， 读取关键字表---<部位 ， < 状态， [k1,k2,k3......] > >
+		// 3. the standard keyword table
 		Map<String, HashMap<String, ArrayList<String>>> descriptionTableMap = DiagMedicineProcess.getDescriptionMap(DiagClassifyData.machineKeywords); //描述关键字列表
 		
 		Set<String> project = descriptionTableMap.keySet();
@@ -114,7 +114,7 @@ public class MachineLearningPredict {
 				ArrayList<String> keywordList = desHashMap.get(s);
 				for(String key: keywordList){
 					if(description.matches(".*" + key + ".*")){
-						// 匹配
+						// match
 						valueString = s;
 						break;
 					}
@@ -123,7 +123,8 @@ public class MachineLearningPredict {
 			descriptionCode.put(descString, valueString);
 		}
 		
-		List<String> inputcode = new ArrayList<String>(); // 最终结果－－需要按照顺序
+		// Sort the result with a fix order
+		List<String> inputcode = new ArrayList<String>(); 
 		String[] sortedcode = DiagClassifyData.sortCode;
 		for(String s : sortedcode){
 			inputcode.add(descriptionCode.get(s));
