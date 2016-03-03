@@ -603,7 +603,7 @@ public class MedicineByDescription {
 		Set<String> keywordListSet = keywordList.keySet();
 		for (String k : keywordListSet) {
 			ArrayList<String> contents = keywordList.get(k);
-			if (contents == null || contents.size() == 0 ) continue;
+			if (contents == null || contents.size() == 0 ) { continue; }
 			
 			for (String c : contents) {
 				if (description.contains(c)) {
