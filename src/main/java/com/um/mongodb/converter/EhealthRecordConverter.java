@@ -277,7 +277,7 @@ public class EhealthRecordConverter {
     
     /**
      *  病人隐私信息处理－－－姓名 ＋ 地址 ＋ 联系方式 ＋ 手机号
-     * @param e
+     * @param 
      * @return
      */
     public static EHealthRecord protectPatientInfo(EHealthRecord e){
