@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.bson.Document;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +18,6 @@ import com.um.model.ChineseMedicine;
 import com.um.model.EHealthRecord;
 import com.um.util.BasedOnRulePredict;
 import com.um.util.DiagMedicineProcess;
-import com.um.util.EhealthUtil;
 import com.um.util.MachineLearningPredict;
 import com.um.util.MedicineByDescription;
 
@@ -121,10 +119,11 @@ public class DiagMedicineController {
 		int count = 0; // record order number
 		double threshold = Double.valueOf(request.getParameter("threshold").trim()); // threshold of machine learning
 		// 2. find all records with batch 2012
-		Document conditions = new Document();
-		conditions.append("ehealthrecord.batch", "2012"); // the find conditions
-		
-		List<EHealthRecord> allList = EhealthUtil.getEhealthRecordListByConditions(conditions); // all records with batch 2012
+//		Document conditions = new Document();
+//		conditions.append("ehealthrecord.batch", "2012"); // the find conditions
+//		
+//		List<EHealthRecord> allList = EhealthUtil.getEhealthRecordListByConditions(conditions); // all records with batch 2012
+		List<EHealthRecord> allList = MedicineByDescription.getRecordsByBatch("2012");
 		int allcount = allList.size(); // the count of batch 2012 records
 		
 		// 3. find the target record based on the conditions

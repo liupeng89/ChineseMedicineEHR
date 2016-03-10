@@ -1,6 +1,7 @@
 package com.um.myapp.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.bson.Document;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,10 +21,12 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.client.MongoCollection;
 import com.um.dao.ConnectionDB;
+import com.um.dao.DataBaseBean;
 import com.um.data.DataBaseSetting;
 import com.um.model.EHealthRecord;
 import com.um.util.DiagMedicineProcess;
 import com.um.util.EhealthUtil;
+import com.um.util.MedicineByDescription;
 
 @Controller
 public class QueryController {
@@ -39,13 +44,18 @@ public class QueryController {
         	return new ModelAndView("dquery").addObject("batchList", batchList);
 		}
 		
-		Document conditions = new Document();
-		if(!batch.equals("")){
-			conditions.append("ehealthrecord.batch", batch.substring(0, 4));
+		// get batch records
+		List<EHealthRecord> eHealthRecordsByBatch = MedicineByDescription.getRecordsByBatch(batch);
+		// get records by name
+		List<EHealthRecord> ehealthList = new ArrayList<EHealthRecord>();
+		for (EHealthRecord e : eHealthRecordsByBatch) {
+			if (e.getPatientInfo() == null) {
+				continue;
+			}
+			if (e.getPatientInfo().getName().equals(pname.trim())) {
+				ehealthList.add(e);
+			}
 		}
-		conditions.append("ehealthrecord.patientinfo.name", pname);
-		
-		final List<EHealthRecord> ehealthList = EhealthUtil.getEhealthRecordListByConditions(conditions);
 		
 		ModelAndView mv = new ModelAndView("recordQuery");
         
@@ -63,33 +73,39 @@ public class QueryController {
 	@RequestMapping(value="detailRecord",method=RequestMethod.GET)
 	public ModelAndView detailRecrod(String ehealthregno){
 		
-		EHealthRecord eHealthRecord = null;
-        ModelAndView mv = null;
-		if("".equals(ehealthregno)){
+		if ("".equals(ehealthregno)) {
 			List<String> batchList = DiagMedicineProcess.getBatch();
         	return new ModelAndView("dquery").addObject("batchList", batchList);
-		}else{
-            
-			Document conditions = new Document();
-			conditions.append("ehealthrecord.registrationno",ehealthregno);
-			
-			eHealthRecord = EhealthUtil.getOneEhealthRecordByConditions(conditions);
-			
-			if( eHealthRecord != null){
-				mv =  new ModelAndView("detail");
-            	
-            	Map<String, HashMap<String, String>> conditionMap = DiagMedicineProcess.getConditionDescription(eHealthRecord);
-            	mv.addObject("ehealthrecordss",eHealthRecord);
-            	mv.addObject("allCnMedicines", eHealthRecord.getChineseMedicines());
-            	mv.addObject("allWeMedicines", eHealthRecord.getWesternMedicines());
-            	mv.addObject("conditions", conditionMap);
-			}else {
-				List<String> batchList = DiagMedicineProcess.getBatch();
-	        	return new ModelAndView("dquery").addObject("batchList", batchList);
-			}
-			
-			return mv;
 		}
+		
+		EHealthRecord eHealthRecord = null;
+        ModelAndView mv = null;
+        
+        // all record data
+     	ApplicationContext context = new AnnotationConfigApplicationContext(DataBaseBean.class);
+     	DataBaseBean dataBaseBean = (DataBaseBean)context.getBean("dataBaseBean");
+     	
+     	for (EHealthRecord e : dataBaseBean.geteHealthRecords()) {
+     		if (e.getRegistrationno().equals(ehealthregno)) {
+     			eHealthRecord = e;
+     		}
+     	}
+     			
+     	if( eHealthRecord != null){
+     		mv =  new ModelAndView("detail");
+                 	
+//     		Map<String, HashMap<String, String>> conditionMap = DiagMedicineProcess.getConditionDescription(eHealthRecord);
+            mv.addObject("ehealthrecordss",eHealthRecord);
+            mv.addObject("allCnMedicines", eHealthRecord.getChineseMedicines());
+            mv.addObject("allWeMedicines", eHealthRecord.getWesternMedicines());
+//            mv.addObject("conditions", conditionMap);
+     	}else {
+     		List<String> batchList = DiagMedicineProcess.getBatch();
+     		mv = new ModelAndView("dquery");
+     		mv.addObject("batchList", batchList);
+     	}
+     			
+     	return mv;
 	}
 	
 	

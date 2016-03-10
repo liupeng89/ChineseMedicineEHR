@@ -24,7 +24,7 @@
 		</script>
 	</head>
 	<body class="container">
-		<div id="conditions">
+		<div class="col-sm-12">
 			<div>
 	    		<h1>病历查询</h1>
 	    	</div>

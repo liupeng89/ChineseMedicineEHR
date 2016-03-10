@@ -2,6 +2,7 @@ package com.um.util;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.bson.Document;
 import com.mongodb.Block;
 import com.mongodb.client.FindIterable;
@@ -12,6 +13,7 @@ import com.um.model.EHealthRecord;
 import com.um.mongodb.converter.EhealthRecordConverter;
 
 public class EhealthUtil {
+	
 	
 	/**
 	 * Query records based on the conditions

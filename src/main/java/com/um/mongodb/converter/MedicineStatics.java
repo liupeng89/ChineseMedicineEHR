@@ -30,7 +30,7 @@ public class MedicineStatics {
      */
     public static HashMap<String, Integer> staticsChineseMedicine(List<String> list){
     	
-    	if(list == null || list.size() == 0){ return null; }
+    	if(list == null || list.size() == 0) return null;
     	
     	HashMap<String, Integer> results = new HashMap<String, Integer>();
     	

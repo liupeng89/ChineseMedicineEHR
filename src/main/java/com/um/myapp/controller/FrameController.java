@@ -1,6 +1,5 @@
 package com.um.myapp.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -8,10 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.um.classify.CWRelationMapping;
-import com.um.data.DataBaseSetting;
 import com.um.model.EHealthRecord;
 import com.um.util.DiagMedicineProcess;
+import com.um.util.MedicineByDescription;
 
 @Controller
 public class FrameController {
@@ -54,39 +52,38 @@ public class FrameController {
 	public ModelAndView displayDiagMedicine(){
 		ModelAndView mv = new ModelAndView("predictMedicine");
 		List<String> batchList = DiagMedicineProcess.getBatch();
-		int allcount = CWRelationMapping.queryEhealthData().size();
+//		int allcount = CWRelationMapping.queryEhealthData().size();
+		int allcount = MedicineByDescription.getRecordsByBatch("2012").size();
 		mv.addObject("allcount",allcount);
 		mv.addObject("batchList", batchList);
 		return mv;
 	}
 	
 	// predict medicines based on the case 
-		@RequestMapping(value="casediagmedic",method=RequestMethod.GET)
-		public ModelAndView displayDiagMedicineByCase(){
-			ModelAndView mv = new ModelAndView("casePredictMedicine");
-			List<String> batchList = DiagMedicineProcess.getBatch();
-			System.out.println(batchList);
+	@RequestMapping(value="casediagmedic",method=RequestMethod.GET)
+	public ModelAndView displayDiagMedicineByCase(){
+		ModelAndView mv = new ModelAndView("casePredictMedicine");
+		List<String> batchList = DiagMedicineProcess.getBatch();
 			
-			List<EHealthRecord> allEHealthRecords = CWRelationMapping.queryEhealthDataByCollection(DataBaseSetting.ehealthcollection); // get all records 
-			List<EHealthRecord> aList = new ArrayList<EHealthRecord>();
+		List<EHealthRecord> aList = MedicineByDescription.getRecordsByBatch("2012");
 			
-			for(EHealthRecord e:allEHealthRecords){
-				String batchString = "";
-				if(e.getBatchString().contains(".")){
-					batchString = e.getBatchString().substring(0, 4).trim();
-				}else{
-					batchString = e.getBatchString().trim();
-				}
-				if(batchString.equals("2012") || batchString == "2012"){
-					aList.add(e);
-				}
-			}
+//		for(EHealthRecord e:allEHealthRecords){
+//			String batchString = "";
+//			if(e.getBatchString().contains(".")){
+//				batchString = e.getBatchString().substring(0, 4).trim();
+//			}else{
+//				batchString = e.getBatchString().trim();
+//			}
+//			if(batchString.equals("2012") || batchString == "2012"){
+//				aList.add(e);
+//			}
+//		}
 			
-			int allcount = aList.size(); // the number of all records
-			mv.addObject("allcount",allcount);
-			mv.addObject("batchList", batchList);
-			return mv;
-		}
+		int allcount = aList.size(); // the number of all records
+		mv.addObject("allcount",allcount);
+		mv.addObject("batchList", batchList);
+		return mv;
+	}
 	
 	// statistics based on the ill
 	@RequestMapping(value="statisByIll",method=RequestMethod.GET)

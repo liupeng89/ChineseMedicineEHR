@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.um.model.ChineseMedicine;
 import com.um.model.EHealthRecord;
 import com.um.mongodb.converter.MedicineStatics;
-import com.um.util.EhealthUtil;
+import com.um.util.DiagMedicineProcess;
+import com.um.util.MedicineByDescription;
 
 @Controller
 public class ILLMedicinesStatistics {
@@ -30,11 +31,7 @@ public class ILLMedicinesStatistics {
 		}
 		
 		// !.Get all records
-		Document conditions = new Document();
-		if(!batch.equals("")){
-			conditions.append("ehealthrecord.batch", batch.substring(0, 4));
-		}
-		final List<EHealthRecord> ehealthList = EhealthUtil.getEhealthRecordListByConditions(conditions);
+		final List<EHealthRecord> ehealthList = MedicineByDescription.getRecordsByBatch(batch);
 		// 2. Find the ill records
 		String[] illArray = illstring.split(" ");
 		List<EHealthRecord> records = new ArrayList<EHealthRecord>();
@@ -69,7 +66,8 @@ public class ILLMedicinesStatistics {
 
         // 根据全部的中药名称，进行统计中药数量
         HashMap<String, Integer> rHashMaps = MedicineStatics.staticsChineseMedicine(medicineNamesList);
-        model.addAttribute("batchList", batch);
+        List<String> batchList = DiagMedicineProcess.getBatch();
+        model.addAttribute("batchList", batchList);
         
         model.addAttribute("medicinestatics", rHashMaps);
         model.addAttribute("patientCount", length);

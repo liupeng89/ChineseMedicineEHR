@@ -74,7 +74,7 @@
 	       		<td colspan="3">${ehealthrecordss.getConditionsdescribed() }</td>
 	       	</tr>
 	       	
-	       	<tr>
+	       	<%-- <tr>
 	       		<th class="info"><label>病症描述分析</label></th>
 	       		<td colspan="3">
 	       			<table>
@@ -95,7 +95,7 @@
 	       				</c:forEach>
 	       			</table>
 				</td>
-	       	</tr>
+	       	</tr> --%>
 	       	<tr>
 	       		<th class="info"><label>西医诊断</label></th>
 	       		<td colspan="3">${ehealthrecordss.getWesterndiagnostics() }</td>
