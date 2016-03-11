@@ -16,10 +16,6 @@ import newpredictum.Predictum;
 @Configuration
 public class DaoConfig {
 	
-//	@Bean
-//	public DaoConnectionBean daoConnectionBean(){
-//		return new DaoConnectionBean();
-//	}
 	
 	@Bean 
 	public Predictum predictum() throws MWException {

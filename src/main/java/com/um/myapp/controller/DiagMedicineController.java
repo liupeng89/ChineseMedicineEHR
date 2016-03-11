@@ -90,7 +90,7 @@ public class DiagMedicineController {
 		/**
 		 * 5. Return the batch and other info
 		 */
-		List<String> batchList = DiagMedicineProcess.getBatch(); // batch info
+		List<String> batchList = DiagMedicineProcess.getBatchString(); // batch info
 		mv.addObject("batchList", batchList);
 		mv.addObject("batch", batch);
 		mv.addObject("medicineListByStatis", medicineListByStatisticSorted);

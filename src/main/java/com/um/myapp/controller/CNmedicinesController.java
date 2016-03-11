@@ -46,7 +46,7 @@ public class CNmedicinesController {
         HashMap<String, Integer> rHashMaps = MedicineStatics.staticsChineseMedicine(medicineNamesList);
         
         ModelAndView mv = new ModelAndView("statisticsByCM");
-        List<String> batchList = DiagMedicineProcess.getBatch();
+        List<String> batchList = DiagMedicineProcess.getBatchString();
 		mv.addObject("batchList", batchList);
         mv.addObject("medicinestatics", rHashMaps);
         mv.addObject("patientCount", length);

@@ -58,7 +58,7 @@ public class DiagMedicineProcess {
 	 *  Get the batch info of all records
 	 * @return
 	 */
-	public static List<String> getBatch(){
+	public static List<String> getBatchString(){
 		
 		ApplicationContext context = new AnnotationConfigApplicationContext(DataBaseBean.class);
 		DataBaseBean dataBaseBean = (DataBaseBean)context.getBean("dataBaseBean");

@@ -82,9 +82,6 @@ public class DataBaseBean {
 		Collections.sort(batchList);
 		Collections.reverse(batchList);
 		
-		System.out.println("all data size: " + eHealthRecords.size());
-		System.out.println("batch" + batchList.toString());
-		
 		// close database
 		client.close();
 	}

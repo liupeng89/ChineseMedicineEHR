@@ -32,7 +32,7 @@ public class FrameController {
 	public ModelAndView displayDquery(){
 		ModelAndView mv = new ModelAndView("dquery");
 		// get the batch info
-		List<String> batchList = DiagMedicineProcess.getBatch();
+		List<String> batchList = DiagMedicineProcess.getBatchString();
 		mv.addObject("batchList", batchList);
 		return mv;
 	}
@@ -41,7 +41,7 @@ public class FrameController {
 	@RequestMapping(value="mainstatis",method=RequestMethod.GET)
 	public ModelAndView displayDstatis(){
 		ModelAndView mv = new ModelAndView("dstatis");
-		List<String> batchList = DiagMedicineProcess.getBatch();
+		List<String> batchList = DiagMedicineProcess.getBatchString();
 		mv.addObject("batchList", batchList);
 		return mv;
 	}
@@ -50,7 +50,7 @@ public class FrameController {
 	@RequestMapping(value="maindiagmedic",method=RequestMethod.GET)
 	public ModelAndView displayDiagMedicine(){
 		ModelAndView mv = new ModelAndView("predictMedicine");
-		List<String> batchList = DiagMedicineProcess.getBatch();
+		List<String> batchList = DiagMedicineProcess.getBatchString();
 		int allcount = MedicineByDescription.getRecordsByBatch("2012").size();
 		mv.addObject("allcount",allcount);
 		mv.addObject("batchList", batchList);
@@ -61,7 +61,7 @@ public class FrameController {
 	@RequestMapping(value="casediagmedic",method=RequestMethod.GET)
 	public ModelAndView displayDiagMedicineByCase(){
 		ModelAndView mv = new ModelAndView("casePredictMedicine");
-		List<String> batchList = DiagMedicineProcess.getBatch();
+		List<String> batchList = DiagMedicineProcess.getBatchString();
 		
 		int allcount = MedicineByDescription.getRecordsByBatch("2012").size(); // the number of all records
 		mv.addObject("allcount",allcount);
@@ -73,7 +73,7 @@ public class FrameController {
 	@RequestMapping(value="statisByIll",method=RequestMethod.GET)
 	public ModelAndView displayByILL(){
 		ModelAndView mv = new ModelAndView("statisticsByILL");
-		List<String> batchList = DiagMedicineProcess.getBatch();
+		List<String> batchList = DiagMedicineProcess.getBatchString();
 		mv.addObject("batchList", batchList);
 		return mv;
 	}
@@ -82,7 +82,7 @@ public class FrameController {
 	@RequestMapping(value="maincnmedicine",method=RequestMethod.GET)
 	public ModelAndView cnMedicineStatis(){
 		ModelAndView mv = new ModelAndView("cnmedicproba");
-		List<String> batchList = DiagMedicineProcess.getBatch();
+		List<String> batchList = DiagMedicineProcess.getBatchString();
 		mv.addObject("batchList", batchList);
 		return mv;
 	}
@@ -91,7 +91,7 @@ public class FrameController {
 	@RequestMapping(value="statisByCN",method=RequestMethod.GET)
 	public ModelAndView displaystatisByCN(){
 		ModelAndView mv = new ModelAndView("statisticsByCM");
-		List<String> batchList = DiagMedicineProcess.getBatch();
+		List<String> batchList = DiagMedicineProcess.getBatchString();
 		mv.addObject("batchList", batchList);
 		return mv;
 	}
@@ -100,7 +100,7 @@ public class FrameController {
 	@RequestMapping(value="statisByCWCassify",method=RequestMethod.GET)
 	public ModelAndView displaystatisByCWCassify(){
 		ModelAndView mv = new ModelAndView("statisticsByCWClassify");
-		List<String> batchList = DiagMedicineProcess.getBatch();
+		List<String> batchList = DiagMedicineProcess.getBatchString();
 		mv.addObject("batchList", batchList);
 		return mv;
 	}
@@ -108,7 +108,7 @@ public class FrameController {
 	@RequestMapping(value="statisByCNDiagnose",method=RequestMethod.GET)
 	public ModelAndView displaystatisByCNDiagnose(){
 		ModelAndView mv = new ModelAndView("statisticsByCNDiagnose");
-		List<String> batchList = DiagMedicineProcess.getBatch();
+		List<String> batchList = DiagMedicineProcess.getBatchString();
 		mv.addObject("batchList", batchList);
 		return mv;
 	}

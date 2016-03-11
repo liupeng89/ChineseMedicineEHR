@@ -40,7 +40,7 @@ public class QueryController {
 	@RequestMapping(value="recordquery",method=RequestMethod.GET)
 	public ModelAndView queryRecord(String batch, String pname){
 		if( pname == "" || pname.equals("")){
-			List<String> batchList = DiagMedicineProcess.getBatch();
+			List<String> batchList = DiagMedicineProcess.getBatchString();
         	return new ModelAndView("dquery").addObject("batchList", batchList);
 		}
 		
@@ -74,7 +74,7 @@ public class QueryController {
 	public ModelAndView detailRecrod(String ehealthregno){
 		
 		if ("".equals(ehealthregno)) {
-			List<String> batchList = DiagMedicineProcess.getBatch();
+			List<String> batchList = DiagMedicineProcess.getBatchString();
         	return new ModelAndView("dquery").addObject("batchList", batchList);
 		}
 		
@@ -100,7 +100,7 @@ public class QueryController {
             mv.addObject("allWeMedicines", eHealthRecord.getWesternMedicines());
 //            mv.addObject("conditions", conditionMap);
      	}else {
-     		List<String> batchList = DiagMedicineProcess.getBatch();
+     		List<String> batchList = DiagMedicineProcess.getBatchString();
      		mv = new ModelAndView("dquery");
      		mv.addObject("batchList", batchList);
      	}
@@ -119,7 +119,7 @@ public class QueryController {
 		
 		EHealthRecord eHealthRecord = null;
 		if("".equals(ehealthregno)){
-			List<String> batchList = DiagMedicineProcess.getBatch();
+			List<String> batchList = DiagMedicineProcess.getBatchString();
         	return new ModelAndView("dquery").addObject("batchList", batchList);
 		}else{
 			
@@ -135,7 +135,7 @@ public class QueryController {
             	mv.addObject("allWeMedicines", eHealthRecord.getWesternMedicines());
             	return mv;
             }else{
-            	List<String> batchList = DiagMedicineProcess.getBatch();
+            	List<String> batchList = DiagMedicineProcess.getBatchString();
 	        	return new ModelAndView("dquery").addObject("batchList", batchList);
             }
 		}
@@ -157,7 +157,7 @@ public class QueryController {
 		String chinesediagString = request.getParameter("chinesediag");
 		
 		if("".equals(regnoString)){
-			List<String> batchList = DiagMedicineProcess.getBatch();
+			List<String> batchList = DiagMedicineProcess.getBatchString();
         	return new ModelAndView("dquery").addObject("batchList", batchList);
 		}else{
 			
@@ -182,7 +182,7 @@ public class QueryController {
 	        if(collection.updateOne(updateCondition, updateSetValue) != null){
 	        	response.sendRedirect("detailRecord?ehealthregno="+regnoString);
 	        }
-	        List<String> batchList = DiagMedicineProcess.getBatch();
+	        List<String> batchList = DiagMedicineProcess.getBatchString();
         	return new ModelAndView("dquery").addObject("batchList", batchList);
 		}
 	}

@@ -66,7 +66,7 @@ public class ILLMedicinesStatistics {
 
         // 根据全部的中药名称，进行统计中药数量
         HashMap<String, Integer> rHashMaps = MedicineStatics.staticsChineseMedicine(medicineNamesList);
-        List<String> batchList = DiagMedicineProcess.getBatch();
+        List<String> batchList = DiagMedicineProcess.getBatchString();
         model.addAttribute("batchList", batchList);
         
         model.addAttribute("medicinestatics", rHashMaps);
