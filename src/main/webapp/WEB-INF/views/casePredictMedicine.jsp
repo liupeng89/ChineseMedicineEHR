@@ -31,7 +31,13 @@
 	
 	<div id="left">
 		<div>
-			<h1>处方预测</h1>
+			<div class="row">
+	        	<div class="col-lg-12">
+	            <h1 class="page-header">
+	            基于案例预测处方
+	            </h1>
+	            </div>
+	        </div>
 			<form name="form" method="post">
 
 				<div id="left_rigth">
@@ -46,7 +52,7 @@
 						<input type="text" name="threshold" value="0.5" />
 					</p>
 					<p>
-						<input type="submit" class="btn btn-success" value="根据病例预测处方" onclick="javascript: form.action='predicetByCase';" />
+						<input type="submit" class="btn btn-success btn-xs" value="根据病例预测处方" onclick="javascript: form.action='predicetByCase';" />
 					</p>
 				</div>
 			</form>

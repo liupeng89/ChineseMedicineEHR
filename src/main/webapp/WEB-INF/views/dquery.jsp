@@ -25,20 +25,28 @@
 	</head>
 	<body class="container">
 		<div class="col-sm-12">
-			<div>
-	    		<h1>病历查询</h1>
-	    	</div>
+			 <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            病历查询 
+                        </h1>
+                    </div>
+                </div>
 	    	<div>
-	    		<form action="recordquery" method="get">
-	    			年度：
-	    			<select id="recordbatch" name="batch">  
+	    		<form action="recordquery" method="get" role="form">
+	    			<div class="form-group">
+                    	<label>年度：</label>&nbsp;&nbsp;
+                        <select id="recordbatch" name="batch">  
         				<c:forEach items="${batchList }" var="item">  
             				<option value="${item }" <c:if test="${item == '2012'}">selected</c:if>>${item == 'null'? '全部' : item  }</option>  
         				</c:forEach>  
     				</select>  
-					<label for="tags">姓名： </label>
-					<input id="tags" type="text"  name="pname" />
-	    			<button id="query" type="submit" class="btn btn-success btn-sm" >查询</button>
+                    </div>
+                    <div class="form-group">
+                    	<label for="tags">姓名： </label>&nbsp;&nbsp;
+						<input id="tags" type="text"  name="pname" />&nbsp;&nbsp;
+	    				<button id="query" type="submit" class="btn btn-success btn-xs" >查询</button>
+                    </div>
 	        	</form>
 	    	</div>
 	    	

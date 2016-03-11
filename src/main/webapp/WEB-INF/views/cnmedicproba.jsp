@@ -4,64 +4,26 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-	<style type="text/css">
-		#description {
-			position: relative;
-			text-align:left;
-			vertical-align:middle;
-			border-radius: 0px;
-		  	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-		  	border-bottom: 1px solid #aaa;
-		  	
-		  	padding: 40px;
-			width: 274px;
-			background-color: #F7F7F7;
-			margin: 20px auto 10px;
-			border-radius: 0px;
-			box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-			overflow: hidden;
-			text-align:center;
-		}
-		#qdescription {
-			
-			position: relative;
-			background-color:#f5f5f5;
-			text-align:left;
-			vertical-align:middle;
-			height:80%;
-			width:100%;
-			border-radius: 0px;
-		  	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-		}
-		body {
-		margin:0;
-		padding:0;
-		font:12px/15px "Helvetica Neue",Arial, Helvetica, sans-serif;
-		color: #555;
-		border: 1px solid #aaa;
-		height:800px;
-	}
-	table, caption, tbody, tfoot, thead, tr, th, td {
-		margin:0;
-		padding:0;
-		border:0;
-		outline:0;
-		font-size:100%;
-		vertical-align:baseline;
-		background:transparent;
-	}
-	
-	</style>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+   	<link rel="stylesheet" href="css/style.css">
+   	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery-2.1.4.min.js"></script>
 </head>
 <body>
-	<div >
-		<div id="description">
+	<div class="container">
+		<div>
+			<div class="row">
+	        	<div class="col-lg-12">
+	            <h1 class="page-header">
+	           		中药关系统计
+	            </h1>
+	            </div>
+	        </div>
 			<form action="medicineProba" method="get">
+			
 				<p>
 	    				年度：
 	    				<select name="batch">  
@@ -78,10 +40,8 @@
 			 	<input type="submit" class="btn btn-success btn-xs" value="查询" />	
 			</form>
 			<hr>
-			<p>
-				<div>
-					<h3>输入中药：</h3> ${medicines }
-				</div>
+			<p class="text-danger">
+				<h4>输入中药：</h4> ${medicines }
 			</p>
 		</div>
 	</div>

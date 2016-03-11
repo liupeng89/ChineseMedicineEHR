@@ -15,7 +15,13 @@
 	<body>
 		<div class="container">
 			<div>
-				<h2>中医诊断处方统计</h2>
+				<div class="row">
+	                    <div class="col-lg-12">
+	                        <h1 class="page-header">
+	                            中医诊断统计
+	                        </h1>
+	                    </div>
+	                </div>
 					<form action="CDMedicineStatis" method="get">
 			    		年度：
 			    		<select name="batch">  
@@ -23,7 +29,7 @@
 		            			<option value="${item }" <c:if test="${item == '2012'}">selected</c:if>>${item == 'null'? '全部' : item }</option>  
 		        			</c:forEach>  
 		    			</select>  
-			    		<input type="submit" class="btn btn-success btn-sm" value="中医诊断处方统计" />
+			    		<input type="submit" class="btn btn-success btn-xs" value="中医诊断处方统计" />
 	        		</form>
 			</div>
 			

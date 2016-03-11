@@ -2,10 +2,7 @@ package com.um.myapp.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,7 +16,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import com.um.dao.ConnectionDB;
 import com.um.dao.DataBaseBean;
 import com.um.data.DataBaseSetting;
@@ -123,10 +122,13 @@ public class QueryController {
         	return new ModelAndView("dquery").addObject("batchList", batchList);
 		}else{
 			
-			Document conditions = new Document();
-			conditions.append("ehealthrecord.registrationno",ehealthregno);
-			
-			eHealthRecord = EhealthUtil.getOneEhealthRecordByConditions(conditions);
+			List<EHealthRecord> allRecordsList = MedicineByDescription.getAllRecords();
+			for (EHealthRecord record : allRecordsList) {
+				if (ehealthregno.equals(record.getRegistrationno())) {
+					eHealthRecord = record;
+					break;
+				}
+			}
 			
 			if(eHealthRecord != null){
             	ModelAndView mv = new ModelAndView("editRecord");
@@ -161,7 +163,10 @@ public class QueryController {
         	return new ModelAndView("dquery").addObject("batchList", batchList);
 		}else{
 			
-			MongoCollection<Document> collection = ConnectionDB.getCollections(DataBaseSetting.ehealthcollection);
+			MongoClient client = new MongoClient(DataBaseSetting.host,DataBaseSetting.port);
+			MongoDatabase db = client.getDatabase(DataBaseSetting.database);
+			
+			MongoCollection<Document> collection = db.getCollection(DataBaseSetting.ehealthcollection);
 			
 			DBObject updateCondition=new BasicDBObject();  
 	         
@@ -182,6 +187,9 @@ public class QueryController {
 	        if(collection.updateOne(updateCondition, updateSetValue) != null){
 	        	response.sendRedirect("detailRecord?ehealthregno="+regnoString);
 	        }
+	        // Close client
+	        client.close();
+	        
 	        List<String> batchList = DiagMedicineProcess.getBatchString();
         	return new ModelAndView("dquery").addObject("batchList", batchList);
 		}

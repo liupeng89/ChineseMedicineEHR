@@ -30,7 +30,7 @@ public class ILLMedicinesStatistics {
 			return "statisticsByILL";
 		}
 		
-		// !.Get all records
+		// 1.Get all records
 		final List<EHealthRecord> ehealthList = MedicineByDescription.getRecordsByBatch(batch);
 		// 2. Find the ill records
 		String[] illArray = illstring.split(" ");

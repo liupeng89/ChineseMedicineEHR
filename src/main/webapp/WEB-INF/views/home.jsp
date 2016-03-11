@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
+<%@ page import="java.util.*" %>
+<% session.invalidate(); %>
 <html>
 <style type="text/css">
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,100);

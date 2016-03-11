@@ -13,17 +13,24 @@
 <body>
 		<div class="container">
 			<div>
-				<h2>统计中药处方</h2>
+				<div class="row">
+	                    <div class="col-lg-12">
+	                        <h1 class="page-header">
+	                            中药处方统计
+	                        </h1>
+	                    </div>
+	                </div>
 				<form action="cnmedicinestatis" method="get">
 	    				年度：
 	    				<select name="batch">  
         					<c:forEach items="${batchList }" var="item">  
             					<option value="${item }" <c:if test="${item == '2012'}">selected</c:if>>${item == 'null'? '全部' : item }</option>  
         					</c:forEach>  
-    					</select> 
-        			<input type="submit" class="btn btn-success btn-sm" value="统计中药处方" />
+    					</select> &nbsp;&nbsp;
+        			<input type="submit" class="btn btn-success btn-xs" value="统计中药处方" />
         		</form>
 			</div>
+			<p></p>
 			<div>
 				<table class="table table-bordered">
 		           <thead>

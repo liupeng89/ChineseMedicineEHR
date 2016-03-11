@@ -1,5 +1,7 @@
 package com.um.myapp.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.bson.Document;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +19,7 @@ import com.um.data.DataBaseSetting;
 public class UserController {
 	
 	@RequestMapping(value="login",method=RequestMethod.POST)
-	public ModelAndView login(String username,String passwd){
+	public ModelAndView login(String username,String passwd, HttpSession session){
 		
 		ModelAndView mvAndView = null;
 		
@@ -44,6 +46,9 @@ public class UserController {
         }
         
 		if(passString != "" && passwd.equals(passString)){
+			// Save username to session
+			session.setAttribute("account", username);
+			
 			mvAndView = new ModelAndView("succ");
 			mvAndView.addObject("username",username);
 			mvAndView.addObject("passwd",passwd);
@@ -57,4 +62,13 @@ public class UserController {
 		
 		return mvAndView;
 	}
+	
+	@RequestMapping("logout")
+    public ModelAndView logout(HttpSession session ) {
+    
+       session.invalidate();
+       ModelAndView mv = new ModelAndView("home");
+       return mv;
+    }
+
 }

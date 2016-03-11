@@ -24,8 +24,13 @@
 			<form name="form" method="post">
 				<div id="left_left">
 					<!-- 症型 -->
-					<h1>处方预测</h1>
-					<hr>
+					 <div class="row">
+	                    <div class="col-lg-12">
+	                        <h1 class="page-header">
+	                            基于输入预测处方
+	                        </h1>
+	                    </div>
+	                </div>
 					<div>
 						<p>
 							年度：
@@ -34,7 +39,7 @@
 		            				<option value="${item }" <c:if test="${item == '2012'}">selected</c:if>>${item == 'null'? '全部' : item  }</option>  
 		        				</c:forEach>  
 		    				</select> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		    				<input id="predictButton" type="submit" class="btn btn-success" value="预测处方" onclick="javascript: form.action='predictByStatisticAndMachine';" /> 
+		    				<input id="predictButton" type="submit" class="btn btn-xs btn-success" value="预测处方" onclick="javascript: form.action='predictByStatisticAndMachine';" /> 
 		    				
 						</p>
 			    		<hr>

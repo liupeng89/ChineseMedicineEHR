@@ -31,8 +31,11 @@
        	<script src="js/bootstrap.min.js"></script>
 		<script src="js/jquery-2.1.4.min.js"></script>
 		<div>
-     		<a href="mainquery" target="showme"><h2>吴万垠教授肺癌中医专家系统</h2></a>
+     		<a class="navbar-brand" href="mainquery" target="showme"><h2>吴万垠教授肺癌中医专家系统</h2></a>
        </div>
+       <!-- <div>
+       		<a href="logout">logout</a>
+       </div> -->
     </body>
 </html>
 

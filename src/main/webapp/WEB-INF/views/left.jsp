@@ -31,9 +31,9 @@
 			<li class="list-group-item">
 				<a href="casediagmedic" target="showme">案例预测处方</a>
 			</li>
-			<li class="list-group-item">
+			<!-- <li class="list-group-item">
 				<a href="statisByIll" target="showme">病症统计</a>
-			</li>
+			</li> -->
 			<li class="list-group-item">
 				<a href="maincnmedicine" target="showme">中药关系统计</a>
 			</li>
@@ -44,7 +44,7 @@
 				<a href="statisByCWCassify" target="showme">中西医诊断分类统计</a>
 			</li>
 			<li class="list-group-item">
-				<a href="statisByCNDiagnose" target="showme">中医诊断处方</a>
+				<a href="statisByCNDiagnose" target="showme">中医诊断统计</a>
 			</li>
 			
 		</ul>
