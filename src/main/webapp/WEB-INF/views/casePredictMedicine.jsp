@@ -42,7 +42,7 @@
 
 				<div id="left_rigth">
 					<p class="text-danger">
-						<label>请入病例序号(1-${allcount }) 或挂号号</label>
+						<label>请入病例序号(1-1130) 或挂号号</label>
 					</p>
 					<p>
 						<input type="text" name="count" />

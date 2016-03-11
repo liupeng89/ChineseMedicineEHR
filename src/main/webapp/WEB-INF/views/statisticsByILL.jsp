@@ -25,9 +25,14 @@
 	        			<div class="col-lg-12">
 	        			年度：
 	    				<select name="batch">  
-        					<c:forEach items="${batchList }" var="item">  
+        					<%-- <c:forEach items="${batchList }" var="item">  
             					<option value="${item }" <c:if test="${item == '2012'}">selected</c:if>>${item == 'null'? '全部' : item }</option>  
-        					</c:forEach>  
+        					</c:forEach>  --%>
+        					<option value="null">全部</option>
+                        	<option value="2012" selected>2012</option>
+                        	<option value="2011">2011</option>
+                        	<option value="2010">2010</option>
+                        	<option value="2009">2009</option> 
     					</select> 
     					<input type="text" name="ills" />
         				<input type="submit" class="btn btn-success btn-xs" value="统计中药处方" />

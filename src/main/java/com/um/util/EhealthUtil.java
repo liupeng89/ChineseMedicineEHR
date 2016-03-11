@@ -15,53 +15,53 @@ import com.um.mongodb.converter.EhealthRecordConverter;
 public class EhealthUtil {
 	
 	
-	/**
-	 * Query records based on the conditions
-	 * @param conditions
-	 * @return
-	 */
-	public static List<EHealthRecord> getEhealthRecordListByConditions(Document conditions){
-		if(conditions == null) return null;
-		
-		// Get the data collections
-		final List<EHealthRecord> eHealthRecords = new ArrayList<EHealthRecord>();
-		MongoCollection<Document> collection = ConnectionDB.getCollections(DataBaseSetting.ehealthcollection);
-		// Query the records based on the conditions
-		FindIterable<Document> iterable = collection.find(conditions);
-		if(iterable == null){
-			return null;
-		}
-		iterable.forEach(new Block<Document>() {
-
-			@Override
-			public void apply(Document document) {
-				// TODO Auto-generated method stub
-				EHealthRecord eHealthRecord = EhealthRecordConverter.toEHealthRecord(document);
-				eHealthRecords.add(eHealthRecord);
-			}
-		});
-		return eHealthRecords;
-	}
+//	/**
+//	 * Query records based on the conditions
+//	 * @param conditions
+//	 * @return
+//	 */
+//	public static List<EHealthRecord> getEhealthRecordListByConditions(Document conditions){
+//		if(conditions == null) return null;
+//		
+//		// Get the data collections
+//		final List<EHealthRecord> eHealthRecords = new ArrayList<EHealthRecord>();
+//		MongoCollection<Document> collection = ConnectionDB.getCollections(DataBaseSetting.ehealthcollection);
+//		// Query the records based on the conditions
+//		FindIterable<Document> iterable = collection.find(conditions);
+//		if(iterable == null){
+//			return null;
+//		}
+//		iterable.forEach(new Block<Document>() {
+//
+//			@Override
+//			public void apply(Document document) {
+//				// TODO Auto-generated method stub
+//				EHealthRecord eHealthRecord = EhealthRecordConverter.toEHealthRecord(document);
+//				eHealthRecords.add(eHealthRecord);
+//			}
+//		});
+//		return eHealthRecords;
+//	}
 	
-	/**
-	 * 
-	 * @param document
-	 * @return
-	 */
-	public static EHealthRecord getOneEhealthRecordByConditions(Document conditions){
-		if(conditions == null){
-			return null;
-		}
-		EHealthRecord eHealthRecord = null;
-		MongoCollection<Document> collection = ConnectionDB.getCollections(DataBaseSetting.ehealthcollection);
-		FindIterable<Document> iterable = collection.find(conditions);
-		
-		Document document = iterable.first();
-		if(document != null){
-			eHealthRecord = EhealthRecordConverter.toEHealthRecord(document);
-		}
-		return eHealthRecord;
-	}
+//	/**
+//	 * 
+//	 * @param document
+//	 * @return
+//	 */
+//	public static EHealthRecord getOneEhealthRecordByConditions(Document conditions){
+//		if(conditions == null){
+//			return null;
+//		}
+//		EHealthRecord eHealthRecord = null;
+//		MongoCollection<Document> collection = ConnectionDB.getCollections(DataBaseSetting.ehealthcollection);
+//		FindIterable<Document> iterable = collection.find(conditions);
+//		
+//		Document document = iterable.first();
+//		if(document != null){
+//			eHealthRecord = EhealthRecordConverter.toEHealthRecord(document);
+//		}
+//		return eHealthRecord;
+//	}
 	
 	
 	/**
@@ -82,25 +82,5 @@ public class EhealthUtil {
 			}
 		}
 		return resultList;
-	}
-	
-	/** 
-	 *  test main
-	 * @param argvs
-	 */
-	public static void main(String[] argvs){
-		List<String> list = new ArrayList<String>();
-		list.add("A");
-		list.add("B");
-		list.add("C");
-		list.add("D");
-		list.add("E");
-		list.add("F");
-		
-		List<String> resultList = getCombination(list);
-		for(String string : resultList){
-			System.out.println(string);
-		}
-		
 	}
 }

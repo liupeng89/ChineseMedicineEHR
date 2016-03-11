@@ -30,41 +30,41 @@ import com.um.mongodb.converter.MedicineStatics;
 public class DiagMedicineProcess {
 	
 	
-	/**
-	 *  返回某一批次的病历
-	 *  
-	 * @param batch
-	 * @param allEHealthRecords
-	 * @return
-	 */
-	public static List<EHealthRecord> getRecordsByBatch(String batch,List<EHealthRecord> allEHealthRecords){
-		if(batch == "" || batch.equals("") || batch == "null" ){
-			return allEHealthRecords;
-		}
-		
-		List<EHealthRecord> results = new ArrayList<EHealthRecord>();
-		
-		for( EHealthRecord e : allEHealthRecords ){
-			if(e.getBatchString().equals(batch) || e.getBatchString() == batch){
-				results.add(e);
-			}
-		}
-		
-		return results;
-	}
+//	/**
+//	 *  返回某一批次的病历
+//	 *  
+//	 * @param batch
+//	 * @param allEHealthRecords
+//	 * @return
+//	 */
+//	public static List<EHealthRecord> getRecordsByBatch(String batch,List<EHealthRecord> allEHealthRecords){
+//		if(batch == "" || batch.equals("") || batch == "null" ){
+//			return allEHealthRecords;
+//		}
+//		
+//		List<EHealthRecord> results = new ArrayList<EHealthRecord>();
+//		
+//		for( EHealthRecord e : allEHealthRecords ){
+//			if(e.getBatchString().equals(batch) || e.getBatchString() == batch){
+//				results.add(e);
+//			}
+//		}
+//		
+//		return results;
+//	}
 	
 	
-	/**
-	 *  Get the batch info of all records
-	 * @return
-	 */
-	public static List<String> getBatchString(){
-		
-		ApplicationContext context = new AnnotationConfigApplicationContext(DataBaseBean.class);
-		DataBaseBean dataBaseBean = (DataBaseBean)context.getBean("dataBaseBean");
-		
-		return dataBaseBean.getBatchList();
-	}
+//	/**
+//	 *  Get the batch info of all records
+//	 * @return
+//	 */
+//	public static List<String> getBatchString(){
+//		
+//		ApplicationContext context = new AnnotationConfigApplicationContext(DataBaseBean.class);
+//		DataBaseBean dataBaseBean = (DataBaseBean)context.getBean("dataBaseBean");
+//		
+//		return dataBaseBean.getBatchList();
+//	}
 	
 	/**
 	 *  根据诊断关键字，对病例进行分类，
@@ -1823,24 +1823,5 @@ public class DiagMedicineProcess {
 			return string.split(" ");
 		}
 		return null;
-	}
-	
-	public static void main(String[] args){
-		
-//		CWRelationMapping cwRelationMapping = new CWRelationMapping();
-//		List<EHealthRecord> eList = cwRelationMapping.queryEhealthData();
-//		
-//		Map<String, HashMap<String, String>> resultMap = getConditionDescription(eList.get(1));
-//		System.out.println(eList.get(1).getConditionsdescribed());
-//		System.out.println(resultMap);
-//		String s1 = "abcdefg";
-//		String[] ss1 = {"a","g","d"};
-//		String[] ss2 = {"a","j"};
-//		System.out.println(isMaxMatch(s1, ss1));
-//		System.out.println(isMaxMatch(s1, ss2));
-		
-//		String string = "纳眠可，便秘";
-//		Map<String, String> result = getDescritionCode(string);
-		
 	}
 }

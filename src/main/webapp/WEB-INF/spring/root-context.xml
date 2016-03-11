@@ -6,6 +6,6 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
 	<!-- Dao connection -->
-	<bean id="dbconnection" class="com.um.dao.DaoConnectionBean" scope="singleton">
-	</bean>
+	<!-- <bean id="dataBaseBean" class="com.um.dao.DataBaseBean" scope="singleton">
+	</bean> -->
 </beans>

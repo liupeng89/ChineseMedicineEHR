@@ -16,6 +16,7 @@ import com.mathworks.toolbox.javabuilder.MWComplexity;
 import com.mathworks.toolbox.javabuilder.MWException;
 import com.mathworks.toolbox.javabuilder.MWLogicalArray;
 import com.mathworks.toolbox.javabuilder.MWNumericArray;
+import com.um.dao.PredictumBean;
 import com.um.data.DiagClassifyData;
 import com.um.model.EHealthRecord;
 
@@ -45,8 +46,11 @@ public class MachineLearningPredict {
 		
 		try {
 			// predict bean
-			ApplicationContext context = new AnnotationConfigApplicationContext(Predictum.class);
-			predictum = (Predictum)context.getBean("predictum");
+			ApplicationContext context = new AnnotationConfigApplicationContext(PredictumBean.class);
+			PredictumBean pd = (PredictumBean) context.getBean("predictumBean");
+			predictum = pd.getPredictum();
+//			predictum = new Predictum();
+			
 			
 			int[] dims1 = { 1, predictConditionCount }; // the x input parameters of machine learning
 			x = MWNumericArray.newInstance(dims1, MWClassID.DOUBLE,MWComplexity.REAL); // x input matrix
@@ -78,6 +82,8 @@ public class MachineLearningPredict {
 				medicineListByMachine.add(sortedmedicine[i]);
 			}
 		}
+		predictum = null;
+		System.gc();
 		return medicineListByMachine;
 	}
 	

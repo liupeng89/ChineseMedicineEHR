@@ -116,8 +116,8 @@ public class CWDiagStatisController {
 		westernDiagMap = DiagMedicineProcess.sortMapByValue(westernDiagMap);
 		
 		ModelAndView mv = new ModelAndView("statisticsByCWClassify");
-		List<String> batchList = DiagMedicineProcess.getBatchString();
-		mv.addObject("batchList", batchList);
+//		List<String> batchList = DiagMedicineProcess.getBatchString();
+//		mv.addObject("batchList", batchList);
 		mv.addObject("chineseDiagnostics", chineseDiagMap);
 		mv.addObject("westernDiagnostics", westernDiagMap);
 		mv.addObject("classMapping", classMap);

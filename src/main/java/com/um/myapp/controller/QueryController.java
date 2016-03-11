@@ -39,8 +39,9 @@ public class QueryController {
 	@RequestMapping(value="recordquery",method=RequestMethod.GET)
 	public ModelAndView queryRecord(String batch, String pname){
 		if( pname == "" || pname.equals("")){
-			List<String> batchList = DiagMedicineProcess.getBatchString();
-        	return new ModelAndView("dquery").addObject("batchList", batchList);
+//			List<String> batchList = DiagMedicineProcess.getBatchString();
+//        	return new ModelAndView("dquery").addObject("batchList", batchList);
+			return new ModelAndView("dquery");
 		}
 		
 		// get batch records
@@ -73,8 +74,8 @@ public class QueryController {
 	public ModelAndView detailRecrod(String ehealthregno){
 		
 		if ("".equals(ehealthregno)) {
-			List<String> batchList = DiagMedicineProcess.getBatchString();
-        	return new ModelAndView("dquery").addObject("batchList", batchList);
+//			List<String> batchList = DiagMedicineProcess.getBatchString();
+        	return new ModelAndView("dquery");
 		}
 		
 		EHealthRecord eHealthRecord = null;
@@ -99,9 +100,7 @@ public class QueryController {
             mv.addObject("allWeMedicines", eHealthRecord.getWesternMedicines());
 //            mv.addObject("conditions", conditionMap);
      	}else {
-     		List<String> batchList = DiagMedicineProcess.getBatchString();
      		mv = new ModelAndView("dquery");
-     		mv.addObject("batchList", batchList);
      	}
      			
      	return mv;
@@ -118,8 +117,7 @@ public class QueryController {
 		
 		EHealthRecord eHealthRecord = null;
 		if("".equals(ehealthregno)){
-			List<String> batchList = DiagMedicineProcess.getBatchString();
-        	return new ModelAndView("dquery").addObject("batchList", batchList);
+        	return new ModelAndView("dquery");
 		}else{
 			
 			List<EHealthRecord> allRecordsList = MedicineByDescription.getAllRecords();
@@ -137,8 +135,7 @@ public class QueryController {
             	mv.addObject("allWeMedicines", eHealthRecord.getWesternMedicines());
             	return mv;
             }else{
-            	List<String> batchList = DiagMedicineProcess.getBatchString();
-	        	return new ModelAndView("dquery").addObject("batchList", batchList);
+	        	return new ModelAndView("dquery");
             }
 		}
 	}
@@ -159,8 +156,7 @@ public class QueryController {
 		String chinesediagString = request.getParameter("chinesediag");
 		
 		if("".equals(regnoString)){
-			List<String> batchList = DiagMedicineProcess.getBatchString();
-        	return new ModelAndView("dquery").addObject("batchList", batchList);
+        	return new ModelAndView("dquery");
 		}else{
 			
 			MongoClient client = new MongoClient(DataBaseSetting.host,DataBaseSetting.port);
@@ -190,8 +186,7 @@ public class QueryController {
 	        // Close client
 	        client.close();
 	        
-	        List<String> batchList = DiagMedicineProcess.getBatchString();
-        	return new ModelAndView("dquery").addObject("batchList", batchList);
+        	return new ModelAndView("dquery");
 		}
 	}
 }

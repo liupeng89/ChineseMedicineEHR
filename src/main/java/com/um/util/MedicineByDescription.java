@@ -10,105 +10,113 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.bson.Document;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.mongodb.Block;
+import com.mongodb.MongoClient;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import com.um.classify.CWRelationMapping;
 import com.um.dao.DataBaseBean;
+import com.um.data.DataBaseSetting;
 import com.um.data.DiagClassifyData;
 import com.um.model.EHealthRecord;
+import com.um.mongodb.converter.EhealthRecordConverter;
 
 public class MedicineByDescription {
 	
-	/**
-	 * 根据描述，生成处方
-	 * @param description
-	 * @return
-	 */
-	public static List<String> getMedicineByDesc(String description){
-		if(description == ""){
-			return null;
-		}
-		List<String> medicieList = new ArrayList<String>(); // 中药处方结果
-		
-		int threshold = 15; // 中药处方阈值：预计输出15味中药
-		int currentCount = 0; // 当前的中药处方数量
-
-		/**
-		 *  1. 统计所有的中药处方，并排序
-		 */
-		// 1.2、读取病例数据
-		List<EHealthRecord> allEHealthRecords = CWRelationMapping.queryEhealthData();
-		
-		// 所有的中药处方统计 <名称，数量>
-		Map<String, Integer> allMedicineMap = DiagMedicineProcess.statisEhealthMedicine(allEHealthRecords);
-		allMedicineMap = DiagMedicineProcess.sortMapByValue(allMedicineMap); // 统计结果排序
-		/**
-		 *  2. 找出出现概率大于90%的，作为结果 
-		 */
-		int allRecordLength = allEHealthRecords.size(); // 全部病历的数量
-		double percent = 0.9;
-		List<String> medicineWithNinePercent = DiagMedicineProcess.statisMedicineWithPercent(allMedicineMap, allRecordLength, percent);
-		medicieList.addAll(medicineWithNinePercent);
-		
-		// 去掉出现概率较大的
-		allMedicineMap = DiagMedicineProcess.removeMapInList(allMedicineMap, medicineWithNinePercent);
-		
-		/**
-		 * 	3. 累计后续中药，判断累加结果是否大于90%，根据判断规则输出
-		 * 		判断条件：
-		 * 				1）出现概率的并集大于90 ％
-		 * 				2）需要结合对病症描述的分析一起判断
-		 */
-		
-		// 3.1 基于病症描述，对病例进行统计，输出统计中药处方
-		// 按照关键字的并集
-		Set<String> cnmedicienSet = DiagMedicineProcess.getMedicinesByDescriptionMix(description, allEHealthRecords);
-		if(cnmedicienSet == null || cnmedicienSet.isEmpty()){
-			return null;
-		}
-		Set<String> cnmedicineSet = DiagMedicineProcess.getMedicinesByDescriptionUnion(description, allEHealthRecords);
-		
-		// 3.2 中药分组
-		double unionpercent = 0.9; // 并集的出现概率----0.9
-		currentCount = medicieList.size(); // 当前筛选出的中药处方数量
-		while(currentCount <= threshold){
-			// 中药处方数量不足threshold
-			// 1. 累计计算，得出一组中药(判断这组中药的并集的出现概率 大于90%)
-			List<String> accumulateList = DiagMedicineProcess.accumulateMedicines(allMedicineMap, allEHealthRecords, unionpercent); // 统计累计出现概率之和大于percent的多为中药
-			if(accumulateList == null || accumulateList.isEmpty()){
-				break; // 剩下的中药不足以构成分组
-			}
-			
-			Map<String, Integer> calculMap = new LinkedHashMap<String,Integer>(accumulateList.size()); // 改组中药的中药名称以及数量
-			for(String s : accumulateList){
-				calculMap.put(s, allMedicineMap.get(s)); // 暂存中药与出现次数 map
-			}
-			// 去掉已经选择的中药
-			allMedicineMap = DiagMedicineProcess.removeMapInList(allMedicineMap, accumulateList); 
-			// 2. 计算这些中药之间的相关性，并根据规则进行分析－－－对这些中药进行组合，确定组合的交集是否大于 50%，大于，则同时出现的概率很大－－暂定两两组合
-			List<String> combitationList = getMedicineByGroupRelation(accumulateList,allEHealthRecords);
-			accumulateList.addAll(combitationList); // 
-			// 3. 根据中医描述，对病例进行统计，
-			
-			// 4. 确定需要输出的中药，取与描述所统计的中医组合取并集
-			Set<String> unionSet = new HashSet<String>(); // 取两者之间的并集
-			
-			for(String s : accumulateList){
-				if(cnmedicineSet.contains(s) && cnmedicineSet != null){
-					unionSet.add(s); // 
-				}
-			}
-			
-			medicieList.addAll(unionSet);
-			currentCount = medicieList.size();
-		}
-		
-		/**
-		 * 	4. 整理结果，并输出最终结果
-		 */
-		return medicieList;
-	}
+//	/**
+//	 * 根据描述，生成处方
+//	 * @param description
+//	 * @return
+//	 */
+//	public static List<String> getMedicineByDesc(String description){
+//		if(description == ""){
+//			return null;
+//		}
+//		List<String> medicieList = new ArrayList<String>(); // 中药处方结果
+//		
+//		int threshold = 15; // 中药处方阈值：预计输出15味中药
+//		int currentCount = 0; // 当前的中药处方数量
+//
+//		/**
+//		 *  1. 统计所有的中药处方，并排序
+//		 */
+//		// 1.2、读取病例数据
+//		List<EHealthRecord> allEHealthRecords = CWRelationMapping.queryEhealthData();
+//		
+//		// 所有的中药处方统计 <名称，数量>
+//		Map<String, Integer> allMedicineMap = DiagMedicineProcess.statisEhealthMedicine(allEHealthRecords);
+//		allMedicineMap = DiagMedicineProcess.sortMapByValue(allMedicineMap); // 统计结果排序
+//		/**
+//		 *  2. 找出出现概率大于90%的，作为结果 
+//		 */
+//		int allRecordLength = allEHealthRecords.size(); // 全部病历的数量
+//		double percent = 0.9;
+//		List<String> medicineWithNinePercent = DiagMedicineProcess.statisMedicineWithPercent(allMedicineMap, allRecordLength, percent);
+//		medicieList.addAll(medicineWithNinePercent);
+//		
+//		// 去掉出现概率较大的
+//		allMedicineMap = DiagMedicineProcess.removeMapInList(allMedicineMap, medicineWithNinePercent);
+//		
+//		/**
+//		 * 	3. 累计后续中药，判断累加结果是否大于90%，根据判断规则输出
+//		 * 		判断条件：
+//		 * 				1）出现概率的并集大于90 ％
+//		 * 				2）需要结合对病症描述的分析一起判断
+//		 */
+//		
+//		// 3.1 基于病症描述，对病例进行统计，输出统计中药处方
+//		// 按照关键字的并集
+//		Set<String> cnmedicienSet = DiagMedicineProcess.getMedicinesByDescriptionMix(description, allEHealthRecords);
+//		if(cnmedicienSet == null || cnmedicienSet.isEmpty()){
+//			return null;
+//		}
+//		Set<String> cnmedicineSet = DiagMedicineProcess.getMedicinesByDescriptionUnion(description, allEHealthRecords);
+//		
+//		// 3.2 中药分组
+//		double unionpercent = 0.9; // 并集的出现概率----0.9
+//		currentCount = medicieList.size(); // 当前筛选出的中药处方数量
+//		while(currentCount <= threshold){
+//			// 中药处方数量不足threshold
+//			// 1. 累计计算，得出一组中药(判断这组中药的并集的出现概率 大于90%)
+//			List<String> accumulateList = DiagMedicineProcess.accumulateMedicines(allMedicineMap, allEHealthRecords, unionpercent); // 统计累计出现概率之和大于percent的多为中药
+//			if(accumulateList == null || accumulateList.isEmpty()){
+//				break; // 剩下的中药不足以构成分组
+//			}
+//			
+//			Map<String, Integer> calculMap = new LinkedHashMap<String,Integer>(accumulateList.size()); // 改组中药的中药名称以及数量
+//			for(String s : accumulateList){
+//				calculMap.put(s, allMedicineMap.get(s)); // 暂存中药与出现次数 map
+//			}
+//			// 去掉已经选择的中药
+//			allMedicineMap = DiagMedicineProcess.removeMapInList(allMedicineMap, accumulateList); 
+//			// 2. 计算这些中药之间的相关性，并根据规则进行分析－－－对这些中药进行组合，确定组合的交集是否大于 50%，大于，则同时出现的概率很大－－暂定两两组合
+//			List<String> combitationList = getMedicineByGroupRelation(accumulateList,allEHealthRecords);
+//			accumulateList.addAll(combitationList); // 
+//			// 3. 根据中医描述，对病例进行统计，
+//			
+//			// 4. 确定需要输出的中药，取与描述所统计的中医组合取并集
+//			Set<String> unionSet = new HashSet<String>(); // 取两者之间的并集
+//			
+//			for(String s : accumulateList){
+//				if(cnmedicineSet.contains(s) && cnmedicineSet != null){
+//					unionSet.add(s); // 
+//				}
+//			}
+//			
+//			medicieList.addAll(unionSet);
+//			currentCount = medicieList.size();
+//		}
+//		
+//		/**
+//		 * 	4. 整理结果，并输出最终结果
+//		 */
+//		return medicieList;
+//	}
 	
 	/**
 	 * 	Predict medicines based on the diagnose and description info
@@ -182,84 +190,84 @@ public class MedicineByDescription {
 		return medicineList;
 	}
 	
-	/**
-	 * 根据诊断和中医病症描述－－－预测处方
-	 * @param batch
-	 * @param diagnose
-	 * @param description
-	 * @return 预测处方
-	 */
-	public static List<String> getMedicineByDiagAndDesc(String diagnose,String description){
-		if(diagnose == "" || description == ""){
-			return null;
-		}
-		List<String> medicineList = new ArrayList<String>(); // 中医list
-		
-		int threshold = 15; // 中药处方阈值：预计输出15味中药
-
-		/**
-		 * 1. 对中医处方进行统计，选择出现概率大于90%的中药作为结果输出；
-		 */
-		// 1.1 读取数据库种病例数据
-		List<EHealthRecord> eHealthRecordsByBatch = CWRelationMapping.queryEhealthData();
-		
-		// 1.2 选取批次
-		
-		// 1.3 统计所有的中药处方统计－－－－ <名称，数量>
-		Map<String, Integer> allMedicineMap = DiagMedicineProcess.statisEhealthMedicine(eHealthRecordsByBatch);
-		
-		// 1.4  找出出现概率大于90%的，作为结果 
-		int allRecordLength = eHealthRecordsByBatch.size(); // 本批次病历的数量
-		double percent = 0.9; // 中药出现概率
-		
-		List<String> medicineWithNinePercent = DiagMedicineProcess.statisMedicineWithPercent(allMedicineMap, allRecordLength, percent);
-		if(medicineWithNinePercent != null && medicineWithNinePercent.size() > 0){
-			medicineList.addAll(medicineWithNinePercent); //出现概率大于90%的中药名称
-		}
-		
-		// 1.5 去掉出现概率较大的，后续分析
-		allMedicineMap = DiagMedicineProcess.removeMapInList(allMedicineMap, medicineWithNinePercent);
-		
-		// 1.6 若满足数量，则直接输出
-		if(medicineList.size() > threshold){
-			return medicineList;
-		}
-		
-		/**
-		 * 2. 对中药进行按照并集进行分组，在根据各个组内的相关性和诊断＋描述，进行分析
-		 */
-		// 2.1 根据中医诊断，对病例进行分类，取出符合该诊断类型的病例（假设用户输入－－空格分割：肺癌 气虚 互结）
-		String[] diagkeywords = diagnose.split(" ");
-		if( diagkeywords.length == 0 ){
-			return medicineList; // 返回已经查到的中药 
-		}
-		
-		// 2.2 根据诊断，对病例数据进行分类
-		List<EHealthRecord> classifiedRecords = DiagMedicineProcess.getRecordsByDiagnose(diagkeywords, eHealthRecordsByBatch);
-		
-		// 2.3 分析用户输入描述，并提取关键字
-		Set<String> cnmedicineSet = DiagMedicineProcess.getMedicinesByDesc(description, classifiedRecords);
-		
-		// 2.4 对关键字按照or关系，分别统计该关键字下的中药处方（去除必然出现的中药）
-		if(cnmedicineSet != null && cnmedicineSet.size() > 0){
-			for(String s : cnmedicineSet){
-				if(!medicineList.contains(s)){
-					medicineList.add(s);
-				}
-			}
-		}
-		
-		
-		if(medicineList.size() > threshold){
-			return medicineList.subList(0, 15);
-		}
-		
-		/**
-		 * 3. 若统计的中药还是不足，在根据起一些人工规则，继续推导
-		 */
-		
-		return medicineList;
-	}
+//	/**
+//	 * 根据诊断和中医病症描述－－－预测处方
+//	 * @param batch
+//	 * @param diagnose
+//	 * @param description
+//	 * @return 预测处方
+//	 */
+//	public static List<String> getMedicineByDiagAndDesc(String diagnose,String description){
+//		if(diagnose == "" || description == ""){
+//			return null;
+//		}
+//		List<String> medicineList = new ArrayList<String>(); // 中医list
+//		
+//		int threshold = 15; // 中药处方阈值：预计输出15味中药
+//
+//		/**
+//		 * 1. 对中医处方进行统计，选择出现概率大于90%的中药作为结果输出；
+//		 */
+//		// 1.1 读取数据库种病例数据
+//		List<EHealthRecord> eHealthRecordsByBatch = CWRelationMapping.queryEhealthData();
+//		
+//		// 1.2 选取批次
+//		
+//		// 1.3 统计所有的中药处方统计－－－－ <名称，数量>
+//		Map<String, Integer> allMedicineMap = DiagMedicineProcess.statisEhealthMedicine(eHealthRecordsByBatch);
+//		
+//		// 1.4  找出出现概率大于90%的，作为结果 
+//		int allRecordLength = eHealthRecordsByBatch.size(); // 本批次病历的数量
+//		double percent = 0.9; // 中药出现概率
+//		
+//		List<String> medicineWithNinePercent = DiagMedicineProcess.statisMedicineWithPercent(allMedicineMap, allRecordLength, percent);
+//		if(medicineWithNinePercent != null && medicineWithNinePercent.size() > 0){
+//			medicineList.addAll(medicineWithNinePercent); //出现概率大于90%的中药名称
+//		}
+//		
+//		// 1.5 去掉出现概率较大的，后续分析
+//		allMedicineMap = DiagMedicineProcess.removeMapInList(allMedicineMap, medicineWithNinePercent);
+//		
+//		// 1.6 若满足数量，则直接输出
+//		if(medicineList.size() > threshold){
+//			return medicineList;
+//		}
+//		
+//		/**
+//		 * 2. 对中药进行按照并集进行分组，在根据各个组内的相关性和诊断＋描述，进行分析
+//		 */
+//		// 2.1 根据中医诊断，对病例进行分类，取出符合该诊断类型的病例（假设用户输入－－空格分割：肺癌 气虚 互结）
+//		String[] diagkeywords = diagnose.split(" ");
+//		if( diagkeywords.length == 0 ){
+//			return medicineList; // 返回已经查到的中药 
+//		}
+//		
+//		// 2.2 根据诊断，对病例数据进行分类
+//		List<EHealthRecord> classifiedRecords = DiagMedicineProcess.getRecordsByDiagnose(diagkeywords, eHealthRecordsByBatch);
+//		
+//		// 2.3 分析用户输入描述，并提取关键字
+//		Set<String> cnmedicineSet = DiagMedicineProcess.getMedicinesByDesc(description, classifiedRecords);
+//		
+//		// 2.4 对关键字按照or关系，分别统计该关键字下的中药处方（去除必然出现的中药）
+//		if(cnmedicineSet != null && cnmedicineSet.size() > 0){
+//			for(String s : cnmedicineSet){
+//				if(!medicineList.contains(s)){
+//					medicineList.add(s);
+//				}
+//			}
+//		}
+//		
+//		
+//		if(medicineList.size() > threshold){
+//			return medicineList.subList(0, 15);
+//		}
+//		
+//		/**
+//		 * 3. 若统计的中药还是不足，在根据起一些人工规则，继续推导
+//		 */
+//		
+//		return medicineList;
+//	}
 	
 	/**
 	 *  Get the similar EHR records based the batch, diagnose and description info
@@ -573,10 +581,11 @@ public class MedicineByDescription {
 		if("".equals(batch)) return null;
 		List<EHealthRecord> eHealthRecordsByBatch = new ArrayList<EHealthRecord>();
 		// built the conditions structure of batch
-		ApplicationContext context = new AnnotationConfigApplicationContext(DataBaseBean.class);
-		DataBaseBean dataBaseBean = (DataBaseBean)context.getBean("dataBaseBean");
-		
-		for (EHealthRecord eRecord : dataBaseBean.geteHealthRecords()) {
+//		ApplicationContext context = new AnnotationConfigApplicationContext(DataBaseBean.class);
+//		DataBaseBean dataBaseBean = (DataBaseBean)context.getBean("dataBaseBean");
+//		System.out.println(dataBaseBean);
+		List<EHealthRecord> allList = getAllRecords();
+		for (EHealthRecord eRecord : allList) {
 			if (eRecord.getBatchString().equals(batch.substring(0, 4))) {
 				eHealthRecordsByBatch.add(eRecord);
 			}
@@ -589,9 +598,37 @@ public class MedicineByDescription {
 	 * @return
 	 */
 	public static List<EHealthRecord> getAllRecords(){
-		ApplicationContext context = new AnnotationConfigApplicationContext(DataBaseBean.class);
-		DataBaseBean dataBaseBean = (DataBaseBean)context.getBean("dataBaseBean");
-		return dataBaseBean.geteHealthRecords();
+//		ApplicationContext context = new AnnotationConfigApplicationContext(DataBaseBean.class);
+//		DataBaseBean dataBaseBean = (DataBaseBean)context.getBean("dataBaseBean");
+		
+		final List<EHealthRecord> eHealthRecords = new ArrayList<EHealthRecord>();
+		
+		MongoClient client = new MongoClient(DataBaseSetting.host,DataBaseSetting.port);
+		MongoDatabase db = client.getDatabase(DataBaseSetting.database);
+		MongoCollection<Document> ehealthRecordCollection = db.getCollection(DataBaseSetting.ehealthcollection);
+		
+		// List of ehealth record
+		FindIterable<Document> iterable = ehealthRecordCollection.find();
+		
+		iterable.forEach(new Block<Document>() {
+
+			@Override
+			public void apply(Document document) {
+				// TODO Auto-generated method stub
+				EHealthRecord eHealthRecord = EhealthRecordConverter.toEHealthRecord(document);
+	        	
+	        	if(eHealthRecord != null){
+	        		eHealthRecords.add(eHealthRecord);
+	        	}
+			}
+		});
+		
+		client.close();
+		return eHealthRecords;
+//		ApplicationContext context = new ClassPathXmlApplicationContext("file:src/main/webapp/WEB-INF/spring/root-context.xml");
+//		DataBaseBean dataBaseBean = (DataBaseBean)context.getBean("dataBaseBean");
+//		return dataBaseBean.geteHealthRecords();
+		
 	}
 	
 	/**

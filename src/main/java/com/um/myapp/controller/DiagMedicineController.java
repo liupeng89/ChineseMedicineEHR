@@ -90,8 +90,8 @@ public class DiagMedicineController {
 		/**
 		 * 5. Return the batch and other info
 		 */
-		List<String> batchList = DiagMedicineProcess.getBatchString(); // batch info
-		mv.addObject("batchList", batchList);
+//		List<String> batchList = DiagMedicineProcess.getBatchString(); // batch info
+//		mv.addObject("batchList", batchList);
 		mv.addObject("batch", batch);
 		mv.addObject("medicineListByStatis", medicineListByStatisticSorted);
 		mv.addObject("medicineListByMachine",medicineListByMachine);
@@ -116,6 +116,7 @@ public class DiagMedicineController {
 	public String predictByCaseController(HttpServletRequest request,Model model){
 		// 1. get the input parameters
 		String countString = request.getParameter("count"); // the order number of records
+		
 		int count = 0; // record order number
 		double threshold = Double.valueOf(request.getParameter("threshold").trim()); // threshold of machine learning
 		// 2. find all records with batch 2012
@@ -124,8 +125,11 @@ public class DiagMedicineController {
 //		
 //		List<EHealthRecord> allList = EhealthUtil.getEhealthRecordListByConditions(conditions); // all records with batch 2012
 		List<EHealthRecord> allList = MedicineByDescription.getRecordsByBatch("2012");
-		int allcount = allList.size(); // the count of batch 2012 records
-		
+//		int allcount = allList.size(); // the count of batch 2012 records
+		if ("".equals(countString)) {
+//			model.addAttribute("allcount",allcount);
+			return "casePredictMedicine";
+		}
 		// 3. find the target record based on the conditions
 		EHealthRecord targetRecord = null;
 		
@@ -147,7 +151,8 @@ public class DiagMedicineController {
 		}
 		
 		if(targetRecord == null){
-			model.addAttribute("allcount",allcount);
+//			model.addAttribute("allcount",allcount);
+			return "casePredictMedicine";
 		}
 		//4. the diagnose and description info of target record
 		String diag = targetRecord.getChinesediagnostics();
@@ -205,7 +210,7 @@ public class DiagMedicineController {
 		mechineLearningPercent = 1.0 * index / orignMedicines.size(); // the accuracy of machine learning
 		
 		// 9. return result
-		model.addAttribute("allcount",allcount);
+//		model.addAttribute("allcount",allcount);
 		model.addAttribute("orignMedicines",sortedList);
 		model.addAttribute("medicineListByStatis",sortedList);
 		model.addAttribute("medicineListByMachine",medicineListByMachine);
