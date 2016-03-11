@@ -30,7 +30,6 @@ public class CNmedicinesController {
 			eHealthRecordsByBatch = MedicineByDescription.getRecordsByBatch(batch);
 		}
 		
-		
 		int length = eHealthRecordsByBatch.size(); //病例数量
 		
 		List<String> medicineNamesList = new ArrayList<String>(); //中药名称í

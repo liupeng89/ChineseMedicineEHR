@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.um.model.EHealthRecord;
 import com.um.util.DiagMedicineProcess;
 import com.um.util.MedicineByDescription;
 
@@ -52,7 +51,6 @@ public class FrameController {
 	public ModelAndView displayDiagMedicine(){
 		ModelAndView mv = new ModelAndView("predictMedicine");
 		List<String> batchList = DiagMedicineProcess.getBatch();
-//		int allcount = CWRelationMapping.queryEhealthData().size();
 		int allcount = MedicineByDescription.getRecordsByBatch("2012").size();
 		mv.addObject("allcount",allcount);
 		mv.addObject("batchList", batchList);
@@ -64,22 +62,8 @@ public class FrameController {
 	public ModelAndView displayDiagMedicineByCase(){
 		ModelAndView mv = new ModelAndView("casePredictMedicine");
 		List<String> batchList = DiagMedicineProcess.getBatch();
-			
-		List<EHealthRecord> aList = MedicineByDescription.getRecordsByBatch("2012");
-			
-//		for(EHealthRecord e:allEHealthRecords){
-//			String batchString = "";
-//			if(e.getBatchString().contains(".")){
-//				batchString = e.getBatchString().substring(0, 4).trim();
-//			}else{
-//				batchString = e.getBatchString().trim();
-//			}
-//			if(batchString.equals("2012") || batchString == "2012"){
-//				aList.add(e);
-//			}
-//		}
-			
-		int allcount = aList.size(); // the number of all records
+		
+		int allcount = MedicineByDescription.getRecordsByBatch("2012").size(); // the number of all records
 		mv.addObject("allcount",allcount);
 		mv.addObject("batchList", batchList);
 		return mv;
