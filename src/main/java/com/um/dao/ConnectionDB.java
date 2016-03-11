@@ -29,7 +29,7 @@ public class ConnectionDB {
 			client.close();
 		}
 	}
-	
+		
 	/**
 	 *  Get the collection
 	 * @param collection
