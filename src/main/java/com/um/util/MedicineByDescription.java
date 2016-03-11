@@ -10,8 +10,11 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.bson.Document;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 import com.um.classify.CWRelationMapping;
+import com.um.dao.DataBaseBean;
 import com.um.data.DiagClassifyData;
 import com.um.model.EHealthRecord;
 
@@ -126,7 +129,7 @@ public class MedicineByDescription {
 		 * 1. statistics all records to choice the percent of medicines large than 90% as predict result
 		 */
 		// 1.1 get all records with same batch
-		List<EHealthRecord> eHealthRecordsByBatch = getRecordsByBatch(batch); // all record with same batch
+		List<EHealthRecord> eHealthRecordsByBatch = MedicineByDescription.getRecordsByBatch(batch); // all record with same batch
 		
 		// 1.3 statistics name and number of medicines in this batch records
 		Map<String, Integer> allMedicineMap = DiagMedicineProcess.statisEhealthMedicine(eHealthRecordsByBatch);
@@ -567,16 +570,28 @@ public class MedicineByDescription {
 	 */
 	public static List<EHealthRecord> getRecordsByBatch(String batch){
 		
-		if( batch.equals("") ) return null;
+		if("".equals(batch)) return null;
+		List<EHealthRecord> eHealthRecordsByBatch = new ArrayList<EHealthRecord>();
 		// built the conditions structure of batch
-		Document conditons = new Document();
-		if(!batch.equals("")){
-			// get the four char
-			conditons.append("ehealthrecord.batch", batch.substring(0, 4));
+		ApplicationContext context = new AnnotationConfigApplicationContext(DataBaseBean.class);
+		DataBaseBean dataBaseBean = (DataBaseBean)context.getBean("dataBaseBean");
+		
+		for (EHealthRecord eRecord : dataBaseBean.geteHealthRecords()) {
+			if (eRecord.getBatchString().equals(batch.substring(0, 4))) {
+				eHealthRecordsByBatch.add(eRecord);
+			}
 		}
-		// 1.2 选取批次
-		List<EHealthRecord> eHealthRecordsByBatch = EhealthUtil.getEhealthRecordListByConditions(conditons);
 		return eHealthRecordsByBatch;
+	}
+	
+	/**
+	 * Get all records 
+	 * @return
+	 */
+	public static List<EHealthRecord> getAllRecords(){
+		ApplicationContext context = new AnnotationConfigApplicationContext(DataBaseBean.class);
+		DataBaseBean dataBaseBean = (DataBaseBean)context.getBean("dataBaseBean");
+		return dataBaseBean.geteHealthRecords();
 	}
 	
 	/**

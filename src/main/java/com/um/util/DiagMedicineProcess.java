@@ -14,10 +14,13 @@ import java.util.TreeSet;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 import com.um.classify.CMDescriptionClassify;
 import com.um.classify.CWRelationMapping;
 import com.um.classify.DiagnosticsClassify;
-import com.um.data.DataBaseSetting;
+import com.um.dao.DataBaseBean;
 import com.um.data.DiagClassifyData;
 import com.um.model.ChineseMedicine;
 import com.um.model.EHealthRecord;
@@ -55,26 +58,12 @@ public class DiagMedicineProcess {
 	 *  Get the batch info of all records
 	 * @return
 	 */
-	public static List<String> getBatch(){
-		List<EHealthRecord> eHealthRecords = CWRelationMapping.queryEhealthDataByCollection(DataBaseSetting.ehealthcollection);
+	public static List<String> getBatchString(){
 		
-		Set<String> batchSet = new HashSet<String>();
+		ApplicationContext context = new AnnotationConfigApplicationContext(DataBaseBean.class);
+		DataBaseBean dataBaseBean = (DataBaseBean)context.getBean("dataBaseBean");
 		
-		for(EHealthRecord e : eHealthRecords){
-			batchSet.add(e.getBatchString());
-		}
-		List<String> resultList = new ArrayList<String>();
-		for(String s : batchSet){
-			if(s.contains(".")){
-				resultList.add(s.substring(0, 4).trim());
-			}else{
-				resultList.add(s);
-			}
-		}
-		Collections.sort(resultList);
-		Collections.reverse(resultList);
-		
-		return resultList;
+		return dataBaseBean.getBatchList();
 	}
 	
 	/**
@@ -913,14 +902,12 @@ public class DiagMedicineProcess {
 			HashMap<String, ArrayList<String>> descMap = new HashMap<String, ArrayList<String>>();
 			for(String s : descriptions){
 				String[] desc = s.split(":");
-//				System.out.println(desc[1]);
 				String[] descKey = desc[1].split("\\|");
 				ArrayList<String> descList = (ArrayList<String>) DiagMedicineProcess.arrayToList(descKey);
 				descMap.put(desc[0], descList);
 			}
 			keyMap.put(projects[0], descMap);
 		}
-//		System.out.println(keyMap);
 		// 2. 解析
 		String conditionString = eRecord.getConditionsdescribed(); // 病症描述
 		// 3.返回结果
@@ -1523,13 +1510,12 @@ public class DiagMedicineProcess {
 			return null;
 		}
 		
-		CWRelationMapping cwRelationMapping = new CWRelationMapping();
 		// 1.   读取病历信息
 		List<EHealthRecord> eHealthList = CWRelationMapping.queryEhealthData();
 		// 2. 诊断类型构建
-		List<DiagnosticsClassify> chineseDiagnostics = cwRelationMapping.createDiagnostics(DiagClassifyData.cnDiagClassify); // 中医诊断分类
+		List<DiagnosticsClassify> chineseDiagnostics = CWRelationMapping.createDiagnostics(DiagClassifyData.cnDiagClassify); // 中医诊断分类
 		// 3. 中医诊断分类
-		cwRelationMapping.chineseDiagnosticsClassify(eHealthList,chineseDiagnostics);//中医诊断分类
+		CWRelationMapping.chineseDiagnosticsClassify(eHealthList,chineseDiagnostics);//中医诊断分类
 		// 4. 病症描述相似度计算
 		double maxSimilarity = -1.0; //最大相似度
 		String maxRegNo = ""; // 最大相似度病历的挂号号

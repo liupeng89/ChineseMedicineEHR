@@ -23,7 +23,6 @@ public class CWDiagStatisController {
 	@RequestMapping(value="cwdiagstatis",method=RequestMethod.GET)
 	public ModelAndView cwDiagStatis(String batch) throws IOException{
 		
-		CWRelationMapping cwRelationMapping = new CWRelationMapping();
 		/**
 		 * 1. 读取病历信息
 		 */
@@ -34,8 +33,8 @@ public class CWDiagStatisController {
 		/**
 		 * 2.诊断分类
 		 */
-		List<DiagnosticsClassify> chineseDiagnostics = cwRelationMapping.createDiagnostics(DiagClassifyData.cnDiagClassify);
-		List<DiagnosticsClassify> westernDiagnostics = cwRelationMapping.createDiagnostics(DiagClassifyData.wnDiagClassify);
+		List<DiagnosticsClassify> chineseDiagnostics = CWRelationMapping.createDiagnostics(DiagClassifyData.cnDiagClassify);
+		List<DiagnosticsClassify> westernDiagnostics = CWRelationMapping.createDiagnostics(DiagClassifyData.wnDiagClassify);
 		
 		/**
 		 * 3. 对病历进行分类处理
@@ -43,8 +42,8 @@ public class CWDiagStatisController {
 		 *      3.2 西医诊断分类
 		 */
 		
-		cwRelationMapping.chineseDiagnosticsClassify(eHealthRecordsByBatch,chineseDiagnostics);//中医诊断分类		
-		cwRelationMapping.westernDiagnosticsClassify(eHealthRecordsByBatch, westernDiagnostics);//西医诊断分类
+		CWRelationMapping.chineseDiagnosticsClassify(eHealthRecordsByBatch,chineseDiagnostics);//中医诊断分类		
+		CWRelationMapping.westernDiagnosticsClassify(eHealthRecordsByBatch, westernDiagnostics);//西医诊断分类
 		
 		/**
 		 *  4. 对中西医诊断mapping统计
@@ -80,7 +79,7 @@ public class CWDiagStatisController {
 		
 		Map<String, Integer> classMap = new HashMap<String, Integer>(); //分类统计
 		
-		List<String> copyOfclassStatisList = cwRelationMapping.copyList(classStatisList);
+		List<String> copyOfclassStatisList = CWRelationMapping.copyList(classStatisList);
 		
 		classMap.put(copyOfclassStatisList.get(0).trim(), 1);
 		
@@ -117,7 +116,7 @@ public class CWDiagStatisController {
 		westernDiagMap = DiagMedicineProcess.sortMapByValue(westernDiagMap);
 		
 		ModelAndView mv = new ModelAndView("statisticsByCWClassify");
-		List<String> batchList = DiagMedicineProcess.getBatch();
+		List<String> batchList = DiagMedicineProcess.getBatchString();
 		mv.addObject("batchList", batchList);
 		mv.addObject("chineseDiagnostics", chineseDiagMap);
 		mv.addObject("westernDiagnostics", westernDiagMap);

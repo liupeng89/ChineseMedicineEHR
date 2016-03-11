@@ -9,12 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.um.classify.CWRelationMapping;
-import com.um.data.DataBaseSetting;
 import com.um.model.ChineseMedicine;
 import com.um.model.EHealthRecord;
 import com.um.mongodb.converter.MedicineStatics;
 import com.um.util.DiagMedicineProcess;
+import com.um.util.MedicineByDescription;
 
 @Controller
 public class CNmedicinesController {
@@ -22,28 +21,14 @@ public class CNmedicinesController {
 	@RequestMapping(value="cnmedicinestatis",method=RequestMethod.GET)
 	public ModelAndView cnMedicineStatis(String batch){
 		
-		List<EHealthRecord> allRecords = CWRelationMapping.queryEhealthDataByCollection(DataBaseSetting.ehealthcollection);
-		
 		// 年度
 		// 1.2 选取批次
 		List<EHealthRecord> eHealthRecordsByBatch = null; // 符合某一批次的全部病历
 		if(batch.equals("null")){
-			eHealthRecordsByBatch = allRecords; // 全部病历，不区分批次
+			eHealthRecordsByBatch = MedicineByDescription.getAllRecords();
 		}else{
-			eHealthRecordsByBatch = new ArrayList<EHealthRecord>(); // 某一批次病历
-			for(EHealthRecord e:allRecords){
-				String batchString = "";
-				if(e.getBatchString().contains(".")){
-					batchString = e.getBatchString().substring(0, 4).trim();
-				}else{
-					batchString = e.getBatchString().trim();
-				}
-				if(batchString.equals(batch) || batchString == batch){
-					eHealthRecordsByBatch.add(e);
-				}
-			}
+			eHealthRecordsByBatch = MedicineByDescription.getRecordsByBatch(batch);
 		}
-		
 		
 		int length = eHealthRecordsByBatch.size(); //病例数量
 		
@@ -61,7 +46,7 @@ public class CNmedicinesController {
         HashMap<String, Integer> rHashMaps = MedicineStatics.staticsChineseMedicine(medicineNamesList);
         
         ModelAndView mv = new ModelAndView("statisticsByCM");
-        List<String> batchList = DiagMedicineProcess.getBatch();
+        List<String> batchList = DiagMedicineProcess.getBatchString();
 		mv.addObject("batchList", batchList);
         mv.addObject("medicinestatics", rHashMaps);
         mv.addObject("patientCount", length);

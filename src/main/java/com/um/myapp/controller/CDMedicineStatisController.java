@@ -26,7 +26,6 @@ public class CDMedicineStatisController {
 	@RequestMapping(value="CDMedicineStatis",method=RequestMethod.GET)
 	public ModelAndView cdMedicineStatis(String batch) throws IOException{
 		
-		CWRelationMapping cwRelationMapping = new CWRelationMapping();
 		/**
 		 * 1. 读取病历信息
 		 */
@@ -37,14 +36,14 @@ public class CDMedicineStatisController {
 		/**
 		 * 2.诊断分类
 		 */
-		List<DiagnosticsClassify> chineseDiagnostics = cwRelationMapping.createDiagnostics(DiagClassifyData.cnDiagClassify);
+		List<DiagnosticsClassify> chineseDiagnostics = CWRelationMapping.createDiagnostics(DiagClassifyData.cnDiagClassify);
 		
 		/**
 		 * 3. 对病历进行分类处理
 		 * 		3.1 中医诊断分类
 		 */
 		
-		cwRelationMapping.chineseDiagnosticsClassify(eHealthRecordsByBatch,chineseDiagnostics);//中医诊断分类
+		CWRelationMapping.chineseDiagnosticsClassify(eHealthRecordsByBatch,chineseDiagnostics);//中医诊断分类
 		
 		int numOfChineseDiag = chineseDiagnostics.size();
 		Map<String, List<String>> cnMedicineOfcnDiag = new HashMap<String, List<String>>();
@@ -73,10 +72,10 @@ public class CDMedicineStatisController {
 		//对中医诊断---中药处方进行统计
 		Map<String, HashMap<String, Integer>> cnClassifyStatistics = new HashMap<String, HashMap<String,Integer>>();
 		for(String key:cnKeySets){
-			cnlist = cwRelationMapping.copyList(cnMedicineOfcnDiag.get(key));
+			cnlist = CWRelationMapping.copyList(cnMedicineOfcnDiag.get(key));
 			if(cnlist != null && cnlist.size() > 0){
 				// 对中药处方进行统计
-				HashMap<String, Integer> cnStatistic = cwRelationMapping.cnMedicineStatistics(cnlist);
+				HashMap<String, Integer> cnStatistic = CWRelationMapping.cnMedicineStatistics(cnlist);
 				cnStatistic = (HashMap<String, Integer>) DiagMedicineProcess.sortMapByValue(cnStatistic);
 				cnClassifyStatistics.put(key, cnStatistic);
 			}
