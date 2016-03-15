@@ -1,6 +1,0 @@
-{"_id":{"$oid":"55152f7bc3ca60cbbfb201ae"},"doctorinfo":{"password":"123","username":"lp"}}
-{"_id":{"$oid":"55152f7bc3ca60cbbfb201af"},"doctorinfo":{"password":"123","username":"peter"}}
-{"_id":{"$oid":"55152f7bc3ca60cbbfb201b0"},"doctorinfo":{"password":"123","username":"lp"}}
-{"_id":{"$oid":"55152f7bc3ca60cbbfb201b1"},"doctorinfo":{"password":"123","username":"liu"}}
-{"_id":{"$oid":"55152f7bc3ca60cbbfb201b2"},"doctorinfo":{"password":"123","username":"admin"}}
-{"_id":{"$oid":"55152f7bc3ca60cbbfb201b3"},"doctorinfo":{"password":"123","username":"abc"}}
