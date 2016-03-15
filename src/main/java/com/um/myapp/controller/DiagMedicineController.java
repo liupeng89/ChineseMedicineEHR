@@ -17,7 +17,6 @@ import com.um.data.DiagClassifyData;
 import com.um.model.ChineseMedicine;
 import com.um.model.EHealthRecord;
 import com.um.util.BasedOnRulePredict;
-import com.um.util.DiagMedicineProcess;
 import com.um.util.MachineLearningPredict;
 import com.um.util.MedicineByDescription;
 
@@ -90,8 +89,6 @@ public class DiagMedicineController {
 		/**
 		 * 5. Return the batch and other info
 		 */
-//		List<String> batchList = DiagMedicineProcess.getBatchString(); // batch info
-//		mv.addObject("batchList", batchList);
 		mv.addObject("batch", batch);
 		mv.addObject("medicineListByStatis", medicineListByStatisticSorted);
 		mv.addObject("medicineListByMachine",medicineListByMachine);
@@ -120,14 +117,8 @@ public class DiagMedicineController {
 		int count = 0; // record order number
 		double threshold = Double.valueOf(request.getParameter("threshold").trim()); // threshold of machine learning
 		// 2. find all records with batch 2012
-//		Document conditions = new Document();
-//		conditions.append("ehealthrecord.batch", "2012"); // the find conditions
-//		
-//		List<EHealthRecord> allList = EhealthUtil.getEhealthRecordListByConditions(conditions); // all records with batch 2012
 		List<EHealthRecord> allList = MedicineByDescription.getRecordsByBatch("2012");
-//		int allcount = allList.size(); // the count of batch 2012 records
 		if ("".equals(countString)) {
-//			model.addAttribute("allcount",allcount);
 			return "casePredictMedicine";
 		}
 		// 3. find the target record based on the conditions
@@ -151,7 +142,6 @@ public class DiagMedicineController {
 		}
 		
 		if(targetRecord == null){
-//			model.addAttribute("allcount",allcount);
 			return "casePredictMedicine";
 		}
 		//4. the diagnose and description info of target record
@@ -166,7 +156,6 @@ public class DiagMedicineController {
 		}
 		// format the description of target record
 		String formattedDescription = MedicineByDescription.formattedDescriptionByCount(description);
-		System.out.println(formattedDescription);
 		// 5. the origin medicines in target record            
 		List<String> orignMedicines = new ArrayList<String>();
 		if( targetRecord.getChineseMedicines() != null && targetRecord.getChineseMedicines().size() > 0 ){
@@ -210,7 +199,6 @@ public class DiagMedicineController {
 		mechineLearningPercent = 1.0 * index / orignMedicines.size(); // the accuracy of machine learning
 		
 		// 9. return result
-//		model.addAttribute("allcount",allcount);
 		model.addAttribute("orignMedicines",sortedList);
 		model.addAttribute("medicineListByStatis",sortedList);
 		model.addAttribute("medicineListByMachine",medicineListByMachine);

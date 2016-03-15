@@ -38,6 +38,7 @@ public class MachineLearningPredict {
 		if( inputcode == null || inputcode.size() == 0 ){
 			return null;
 		}
+		List<String> medicineListByMachine = new ArrayList<String>();
 		// Machine learning object
 		Predictum predictum = null;
 		int predictConditionCount = inputcode.size(); // the number of machine learning input parameters
@@ -46,11 +47,10 @@ public class MachineLearningPredict {
 		
 		try {
 			// predict bean
-			ApplicationContext context = new AnnotationConfigApplicationContext(PredictumBean.class);
-			PredictumBean pd = (PredictumBean) context.getBean("predictumBean");
-			predictum = pd.getPredictum();
-//			predictum = new Predictum();
-			
+//			ApplicationContext context = new AnnotationConfigApplicationContext(PredictumBean.class);
+//			PredictumBean pd = (PredictumBean) context.getBean("predictumBean");
+//			predictum = pd.getPredictum();
+			predictum = new Predictum();
 			
 			int[] dims1 = { 1, predictConditionCount }; // the x input parameters of machine learning
 			x = MWNumericArray.newInstance(dims1, MWClassID.DOUBLE,MWComplexity.REAL); // x input matrix
@@ -61,29 +61,31 @@ public class MachineLearningPredict {
 			// machine learning predict medicines
 			y = predictum.newpredictum(1, x, threshold);
 			
+			if(y == null) return null;
+			
+			MWLogicalArray yy = (MWLogicalArray) y[0];
+			
+			if(yy == null || yy.numberOfElements() == 0) return null;
+			
+			int count = yy.numberOfElements(); // output variable count
+			
+			// sort the predict result
+			String[] sortedmedicine = DiagClassifyData.machineMedicine;
+			
+			for( int i = 0; i < count; i++ ){
+				if( (Boolean) yy.get(i + 1) ){
+					medicineListByMachine.add(sortedmedicine[i]);
+				}
+			}
+			
+			
 		} catch (MWException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
-		
-		if(y == null) return null;
-		
-		MWLogicalArray yy = (MWLogicalArray) y[0];
-		
-		if(yy == null || yy.numberOfElements() == 0) return null;
-		
-		int count = yy.numberOfElements(); // output variable count
-		
-		// sort the predict result
-		String[] sortedmedicine = DiagClassifyData.machineMedicine;
-		List<String> medicineListByMachine = new ArrayList<String>();
-		for( int i = 0; i < count; i++ ){
-			if( (Boolean) yy.get(i + 1) ){
-				medicineListByMachine.add(sortedmedicine[i]);
-			}
+		} finally {
+			System.gc();
+			predictum = null;
 		}
-		predictum = null;
-		System.gc();
 		return medicineListByMachine;
 	}
 	

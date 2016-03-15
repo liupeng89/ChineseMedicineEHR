@@ -25,7 +25,7 @@
 			width:60%;
 		}
 	</style>
-	<title>Insert title here</title>
+	<title>case predict medicines</title>
 </head>
 <body>
 	

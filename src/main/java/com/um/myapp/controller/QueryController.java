@@ -19,12 +19,9 @@ import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.um.dao.ConnectionDB;
 import com.um.dao.DataBaseBean;
 import com.um.data.DataBaseSetting;
 import com.um.model.EHealthRecord;
-import com.um.util.DiagMedicineProcess;
-import com.um.util.EhealthUtil;
 import com.um.util.MedicineByDescription;
 
 @Controller
@@ -39,8 +36,6 @@ public class QueryController {
 	@RequestMapping(value="recordquery",method=RequestMethod.GET)
 	public ModelAndView queryRecord(String batch, String pname){
 		if( pname == "" || pname.equals("")){
-//			List<String> batchList = DiagMedicineProcess.getBatchString();
-//        	return new ModelAndView("dquery").addObject("batchList", batchList);
 			return new ModelAndView("dquery");
 		}
 		
@@ -74,7 +69,6 @@ public class QueryController {
 	public ModelAndView detailRecrod(String ehealthregno){
 		
 		if ("".equals(ehealthregno)) {
-//			List<String> batchList = DiagMedicineProcess.getBatchString();
         	return new ModelAndView("dquery");
 		}
 		
@@ -94,11 +88,9 @@ public class QueryController {
      	if( eHealthRecord != null){
      		mv =  new ModelAndView("detail");
                  	
-//     		Map<String, HashMap<String, String>> conditionMap = DiagMedicineProcess.getConditionDescription(eHealthRecord);
             mv.addObject("ehealthrecordss",eHealthRecord);
             mv.addObject("allCnMedicines", eHealthRecord.getChineseMedicines());
             mv.addObject("allWeMedicines", eHealthRecord.getWesternMedicines());
-//            mv.addObject("conditions", conditionMap);
      	}else {
      		mv = new ModelAndView("dquery");
      	}

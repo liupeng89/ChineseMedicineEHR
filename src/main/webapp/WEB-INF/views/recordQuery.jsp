@@ -14,7 +14,7 @@
         <meta enctype="multipart/form-data">
         <link rel="stylesheet" href="css/bootstrap.min.css">
 		<link rel="stylesheet" href="css/style.css">
-        <title>JSP Page</title>
+        <title>query result</title>
     </head>
     <body>
         <table class="table table-bordered">

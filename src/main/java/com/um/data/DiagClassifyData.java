@@ -1234,14 +1234,14 @@ public class DiagClassifyData {
 	/**
 	 * The main description key words
 	 */
-	public final static String[] mainDescriptionStrings = {"okdefecate","baddefecate","worsedefecate","xiexie","badurinate","worseurinate","bloodurinate",
-			"okxonglei","badxonglei","worsexonglei","li                                      ttlesputumamount","muchsputumamount","yellowsputumcolor","whitesputumcolor","redlittlesputumcolor","slimpulse","floatpulse","sinkpulse",
-			"roughpulse","latepulse","numberpulse","chordpulse","slidepulse","badna","anorexiana","worsena",
-			"redmuchsputumcolor","redmoresputumcolor","badcough","worsecough","worstcough" }; // 主要症状
+	public final static String[] mainDescriptionStrings = {"littlesputumamount","muchsputumamount","yellowsputumcolor","whitesputumcolor",
+			"slimpulse","floatpulse","sinkpulse","roughpulse","latepulse","numberpulse","chordpulse","slidepulse",
+			"redlittlesputumcolor","redmuchsputumcolor","redmoresputumcolor","badcough","worsecough","worstcough" }; // 主要症状
 	/**
 	 * The second description key words
 	 */
-	public final static String[] seconddescriptionStrings = {"okfutong","badfutong","worsefutong","yaotong","wantong","toutong","touyun","xinji","xiongmen","fuzhang","wanzhang","shenzhong","erming","muxuan","mamu","whitetonguecolor","redtonguecolor","jiangtonguecolor","purpletonguecolor","cyantonguecolor","bluetonguecolor","yellowcoatedtongue",
+	public final static String[] seconddescriptionStrings = {"badna","anorexiana","worsena","okdefecate","baddefecate","worsedefecate","xiexie","badurinate","worseurinate","bloodurinate",
+			"okxonglei","badxonglei","worsexonglei","okfutong","badfutong","worsefutong","yaotong","wantong","toutong","touyun","xinji","xiongmen","fuzhang","wanzhang","shenzhong","erming","muxuan","mamu","whitetonguecolor","redtonguecolor","jiangtonguecolor","purpletonguecolor","cyantonguecolor","bluetonguecolor","yellowcoatedtongue",
 			"purplecoatedtongue","blackcoatedtongue","nitaicoatedtongue","houtaicoatedtongue","badenergy","worseenergy","badsleep","worsesleep","worstsleep","somnolencesleep",
 			"hanqing","hanzhong","rewu","reqing","rezhong","hanre","sweat","zihan","daohan","dahan","badthirst","worsethirst","acidtaste","bittertaste" }; // 次要症状
 	

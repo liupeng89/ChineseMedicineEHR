@@ -23,8 +23,6 @@ public class CnMedicineStatisController {
 	public ModelAndView cnMedicineStatis(String batch,String medicines){
 		ModelAndView mv = new ModelAndView("cnmedicproba");
 		if(medicines == ""){
-//			List<String> batchList = DiagMedicineProcess.getBatchString();
-//			mv.addObject("batchList", batchList);
 			return mv;
 		}
 		/**
@@ -42,8 +40,6 @@ public class CnMedicineStatisController {
 		
 		if(eHealthRecordsByBatch == null || eHealthRecordsByBatch.size() == 0){
 			
-//			List<String> batchList = DiagMedicineProcess.getBatchString();
-//			mv.addObject("batchList", batchList);
 			return mv;
 		}
 		
@@ -55,8 +51,6 @@ public class CnMedicineStatisController {
 		
 		if(resultMap.isEmpty() || resultMap == null){
 			
-//			List<String> batchList = DiagMedicineProcess.getBatchString();
-//			mv.addObject("batchList", batchList);
 			return mv;
 		}
 		
@@ -101,9 +95,6 @@ public class CnMedicineStatisController {
 				result.put(s, valueList);
 			}
 		}
-		
-//		List<String> batchList = DiagMedicineProcess.getBatchString();
-//		mv.addObject("batchList", batchList);
 		
 		mv.addObject("results", result);
 		mv.addObject("medicines", medicines);

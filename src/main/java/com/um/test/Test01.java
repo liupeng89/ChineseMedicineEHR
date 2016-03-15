@@ -57,6 +57,7 @@ public class Test01 {
 		// Tanslation
 		Map<String, String> descTableMap = MedicineByDescription.convertArraysToMap(DiagClassifyData.descriptionStrings);
 		Map<String, String> normalTableMap = MedicineByDescription.convertArraysToMap(DiagClassifyData.normalAndBaddescription);
+		
 		Set<String> formattedSet = formattedMap.keySet();
 		if( formattedSet == null || formattedSet.size() == 0 ){
 			return "";

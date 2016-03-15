@@ -41,7 +41,6 @@ public class DataBaseBean {
 
 	// init the list
 	public DataBaseBean() {
-		
 		eHealthRecords = new ArrayList<EHealthRecord>();
 		batchList = new ArrayList<String>();
 		
@@ -84,8 +83,53 @@ public class DataBaseBean {
 		
 		// close database
 		client.close();
+		System.out.println("--------------database bean created---------");
 	}
 	
-	
+	public void init() {
+		eHealthRecords = new ArrayList<EHealthRecord>();
+		batchList = new ArrayList<String>();
+		
+		MongoClient client = new MongoClient(DataBaseSetting.host,DataBaseSetting.port);
+		MongoDatabase db = client.getDatabase(DataBaseSetting.database);
+		MongoCollection<Document> ehealthRecordCollection = db.getCollection(DataBaseSetting.ehealthcollection);
+		
+		// List of ehealth record
+		FindIterable<Document> iterable = ehealthRecordCollection.find();
+		
+		iterable.forEach(new Block<Document>() {
+
+			@Override
+			public void apply(Document document) {
+				// TODO Auto-generated method stub
+				EHealthRecord eHealthRecord = EhealthRecordConverter.toEHealthRecord(document);
+	        	
+	        	if(eHealthRecord != null){
+	        		eHealthRecords.add(eHealthRecord);
+	        	}
+			}
+		});
+		
+		// List of batch
+		Set<String> batchSet = new HashSet<String>();
+		
+		for(EHealthRecord e : eHealthRecords){
+			batchSet.add(e.getBatchString());
+		}
+		batchList = new ArrayList<String>();
+		for(String s : batchSet){
+			if(s.contains(".")){
+				batchList.add(s.substring(0, 4).trim());
+			}else{
+				batchList.add(s);
+			}
+		}
+		Collections.sort(batchList);
+		Collections.reverse(batchList);
+		
+		// close database
+		client.close();
+		System.out.println("--------------init methods---------");
+	}
 	
 }

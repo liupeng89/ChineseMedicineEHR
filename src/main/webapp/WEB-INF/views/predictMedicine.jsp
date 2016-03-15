@@ -8,7 +8,7 @@
  
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Insert title here</title>
+	<title>predict medicine</title>
    	<link rel="stylesheet" href="css/bootstrap.min.css">
    	<link rel="stylesheet" href="css/style.css">
    	<script src="js/bootstrap.min.js"></script>
@@ -152,17 +152,6 @@
 								</td>
 							</tr>
 							<tr>
-								<td class="danger"><label>纳：</label></td>
-								<td>
-								<select name="na">
-									<option value="okna" selected>正常</option>
-									<option value="badna">纳差</option>
-									<option value="anorexiana">厌食</option>
-									<option value="worsena">食欲减退</option>
-								</select>
-								</td>
-							</tr>
-							<tr>
 								<td class="danger"><label>脉：</label></td>
 								<td>
 									<label><input name="pulse" type="checkbox" value="slimpulse" checked/>细</label>&nbsp;&nbsp;
@@ -175,9 +164,21 @@
 									<label><input name="pulse" type="checkbox" value="slidepulse"/>滑</label>
 								</td>
 							</tr>
+							<tr>
+								<td class="success"><label>纳：</label></td>
+								<td>
+								<select name="na">
+									<option value="okna" selected>正常</option>
+									<option value="badna">纳差</option>
+									<option value="anorexiana">厌食</option>
+									<option value="worsena">食欲减退</option>
+								</select>
+								</td>
+							</tr>
+							
 							
 							<tr>
-								<td class="danger"><label>大便：</label></td>
+								<td class="success"><label>大便：</label></td>
 								<td>
 									<select name="defecate" >
 										<option value="defaultdefecate" selected>正常</option>
@@ -189,7 +190,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td class="danger"><label>小便：</label></td>
+								<td class="success"><label>小便：</label></td>
 								<td>
 									<select name="urinate" >
 										<option value="okurinate" selected>正常</option>
@@ -200,7 +201,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td class="danger"><label>胸肋痛：</label></td>
+								<td class="success"><label>胸肋痛：</label></td>
 								<td>
 									<select name="xonglei">
 										<option value="noxonglei" selected>正常</option>
@@ -368,16 +369,22 @@
 				<p>
 					<c:forEach items="${medicineListByStatis }" var="item">
 						<%-- ${item } --%>
-						<c:if test="${medicineListByMachine.contains(item) }">
+						<c:if test="${medicineListByMachine.contains(item) && medicineListByRules.contains(item)}">
 							<font color="black">
 								${item }，
 							</font>
 						</c:if>
-						<c:if test="${!medicineListByMachine.contains(item) }">
+						<c:if test="${!medicineListByMachine.contains(item) && medicineListByRules.contains(item) || medicineListByMachine.contains(item) && !medicineListByRules.contains(item) }">
+							<font color="blue">
+								${item }，
+							</font>
+						</c:if>
+						<c:if test="${!medicineListByMachine.contains(item) && !medicineListByRules.contains(item) }">
 							<font color="red">
 								${item }，
 							</font>
 						</c:if>
+						
 					</c:forEach>
 				</p>
 			</div>
@@ -390,12 +397,17 @@
 				<p>
 					<c:forEach items="${medicineListByMachine }" var="item">
 						<%-- ${item } --%>
-						<c:if test="${medicineListByStatis.contains(item) }">
+						<c:if test="${medicineListByStatis.contains(item) && medicineListByRules.contains(item)}">
 							<font color="black">
 								${item }，
 							</font>
 						</c:if>
-						<c:if test="${!medicineListByStatis.contains(item) }">
+						<c:if test="${!medicineListByStatis.contains(item) && medicineListByRules.contains(item) || medicineListByStatis.contains(item) && !medicineListByRules.contains(item) }">
+							<font color="blue">
+								${item }，
+							</font>
+						</c:if>
+						<c:if test="${!medicineListByStatis.contains(item) && !medicineListByRules.contains(item) }">
 							<font color="red">
 								${item }，
 							</font>
@@ -413,13 +425,18 @@
 				<p>
 					<c:forEach items="${medicineListByRules }" var="item">
 						<%-- ${item } --%>
-						<c:if test="${medicineListByStatis.contains(item) }">
+						<c:if test="${medicineListByStatis.contains(item) && medicineListByMachine.contains(item) }">
 							<font color="black">
 								${item }，
 							</font>
 						</c:if>
-						<c:if test="${!medicineListByStatis.contains(item) }">
+						<c:if test="${!medicineListByStatis.contains(item) && medicineListByMachine.contains(item) || medicineListByStatis.contains(item) && !medicineListByMachine.contains(item) }">
 							<font color="blue">
+								${item }，
+							</font>
+						</c:if>
+						<c:if test="${!medicineListByStatis.contains(item) && !medicineListByMachine.contains(item) }">
+							<font color="red">
 								${item }，
 							</font>
 						</c:if>

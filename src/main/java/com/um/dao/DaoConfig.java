@@ -2,8 +2,6 @@ package com.um.dao;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
-
 import com.mathworks.toolbox.javabuilder.MWException;
 
 /**
@@ -12,19 +10,17 @@ import com.mathworks.toolbox.javabuilder.MWException;
  * @author heermaster
  *
  */
-@Configuration
+//@Configuration
 public class DaoConfig {
 	
 	
 //	@Bean
 //	public DataBaseBean dataBaseBean() {
-//		System.out.println("data base bean");
 //		return new DataBaseBean();
 //	}
 	
-	@Bean
-	public PredictumBean predictumBean() throws MWException {
-		System.out.println("predict bean built!");
-		return new PredictumBean();
-	}
+//	@Bean
+//	public PredictumBean predictumBean() throws MWException {
+//		return new PredictumBean();
+//	}
 }
