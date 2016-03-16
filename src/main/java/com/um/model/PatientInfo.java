@@ -36,15 +36,6 @@ public class PatientInfo {
 	 */
 	private String address;
 	
-//	public PatientInfo(String nameString,String ageString,String genderString,String prof,String phone,String cont,String addr){
-//		this.name = nameString;
-//		this.age = ageString;
-//		this.gender = genderString;
-//		this.profession = prof;
-//		this.phoneNumber = phone;
-//		this.contact = cont;
-//		this.address = addr;
-//	}
 	public PatientInfo(){
 		
 	}

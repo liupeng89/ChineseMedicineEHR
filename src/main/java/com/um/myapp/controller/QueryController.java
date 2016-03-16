@@ -3,12 +3,11 @@ package com.um.myapp.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.bson.Document;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,9 +18,9 @@ import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.um.dao.DataBaseBean;
 import com.um.data.DataBaseSetting;
 import com.um.model.EHealthRecord;
+import com.um.util.EhealthUtil;
 import com.um.util.MedicineByDescription;
 
 @Controller
@@ -53,6 +52,11 @@ public class QueryController {
 		}
 		
 		ModelAndView mv = new ModelAndView("recordQuery");
+		
+		// Keep privacy
+		for (EHealthRecord eHealthRecord : ehealthList) {
+			eHealthRecord = EhealthUtil.encryptionRecord(eHealthRecord);
+		}
         
 		if(ehealthList != null && ehealthList.size() > 0){
     	   mv.addObject("ehealthrecrods", ehealthList);
@@ -76,12 +80,12 @@ public class QueryController {
         ModelAndView mv = null;
         
         // all record data
-     	ApplicationContext context = new AnnotationConfigApplicationContext(DataBaseBean.class);
-     	DataBaseBean dataBaseBean = (DataBaseBean)context.getBean("dataBaseBean");
+        List<EHealthRecord> allList = MedicineByDescription.getAllRecords();
      	
-     	for (EHealthRecord e : dataBaseBean.geteHealthRecords()) {
+     	for (EHealthRecord e : allList) {
      		if (e.getRegistrationno().equals(ehealthregno)) {
-     			eHealthRecord = e;
+     			
+     			eHealthRecord = EhealthUtil.encryptionRecord(e);
      		}
      	}
      			

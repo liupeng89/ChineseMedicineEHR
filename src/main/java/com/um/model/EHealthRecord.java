@@ -60,14 +60,6 @@ public class EHealthRecord {
 	 *病症描述 
 	 */
 	private String conditionsdescribed;
-//	/*
-//	 *  主要病症（肺癌）
-//	 */
-//	private String primaryDisease;
-//	/*
-//	 *  次要病症 （更加具体的病症）
-//	 */
-//	private String secondaryDisease;
 	
 	/*
 	 *中西医诊断 
@@ -90,10 +82,6 @@ public class EHealthRecord {
 	 * 医师
 	 */
 	private String doctor;
-	
-	public EHealthRecord(){
-//		patientInfo = new PatientInfo(nameString, ageString, genderString, prof, phone, cont, addr)
-	}
 	
 	public String getChineseMedicinesToString(){
 		if( chineseMedicines == null || chineseMedicines.size() == 0 ){
@@ -145,13 +133,11 @@ public class EHealthRecord {
 			}
 		}
 		//   6.2 中药处方
-//		System.out.println("[chinese medicine size]:" + this.chineseMedicines.size());
 		if(this.chineseMedicines != null && this.chineseMedicines.size() > 0){
 			result += "[中药处方]:"+separator;
 			for(ChineseMedicine c : this.chineseMedicines){
 				if(c != null){
 					result += c.toString() + separator;
-//					System.out.println(c.toString());
 				}
 			}
 		}
@@ -196,7 +182,6 @@ public class EHealthRecord {
 			}
 		}
 		//   6.2 中药处方
-//		System.out.println("[chinese medicine size]:" + this.chineseMedicines.size());
 		if(this.chineseMedicines != null && this.chineseMedicines.size() > 0){
 			result += "[中药处方]:\n";
 			for(ChineseMedicine c : this.chineseMedicines){
@@ -208,7 +193,6 @@ public class EHealthRecord {
 		}
 		
 		// 7、中药处方操作
-//		result += "中药处理:" + this.chineseProcess + "   ";
 		
 		// 8. doctor
 		result += "医师: " + this.doctor;	

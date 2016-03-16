@@ -1,9 +1,6 @@
 package com.um.dao;
 
 import org.bson.Document;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -30,22 +27,22 @@ public class ConnectionDB {
 		}
 	}
 		
-	/**
-	 *  Get the collection
-	 * @param collection
-	 * @return
-	 */
-	public static MongoCollection<Document> getCollections(String collection){
-		if(collection.equals("")){
-			return null;
-		}
-		
-		ApplicationContext context = new AnnotationConfigApplicationContext(DaoConnectionBean.class);
-		DaoConnectionBean daoConnectionBean = (DaoConnectionBean)context.getBean("daoConnectionBean");
-		// data operation
-		
-		MongoCollection<Document> coll = daoConnectionBean.getCollections(collection);
-		return coll;
-	}
+//	/**
+//	 *  Get the collection
+//	 * @param collection
+//	 * @return
+//	 */
+//	public static MongoCollection<Document> getCollections(String collection){
+//		if(collection.equals("")){
+//			return null;
+//		}
+//		
+//		ApplicationContext context = new AnnotationConfigApplicationContext(DaoConnectionBean.class);
+//		DaoConnectionBean daoConnectionBean = (DaoConnectionBean)context.getBean("daoConnectionBean");
+//		// data operation
+//		
+//		MongoCollection<Document> coll = daoConnectionBean.getCollections(collection);
+//		return coll;
+//	}
 	
 }

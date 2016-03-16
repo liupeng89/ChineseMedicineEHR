@@ -374,17 +374,20 @@
 								${item }，
 							</font>
 						</c:if>
+					</c:forEach>
+					<c:forEach items="${medicineListByStatis }" var="item">
 						<c:if test="${!medicineListByMachine.contains(item) && medicineListByRules.contains(item) || medicineListByMachine.contains(item) && !medicineListByRules.contains(item) }">
 							<font color="blue">
 								${item }，
 							</font>
 						</c:if>
+					</c:forEach>
+					<c:forEach items="${medicineListByStatis }" var="item">
 						<c:if test="${!medicineListByMachine.contains(item) && !medicineListByRules.contains(item) }">
 							<font color="red">
 								${item }，
 							</font>
 						</c:if>
-						
 					</c:forEach>
 				</p>
 			</div>
@@ -402,11 +405,15 @@
 								${item }，
 							</font>
 						</c:if>
+					</c:forEach>
+					<c:forEach items="${medicineListByMachine }" var="item">
 						<c:if test="${!medicineListByStatis.contains(item) && medicineListByRules.contains(item) || medicineListByStatis.contains(item) && !medicineListByRules.contains(item) }">
 							<font color="blue">
 								${item }，
 							</font>
 						</c:if>
+					</c:forEach>
+					<c:forEach items="${medicineListByMachine }" var="item">
 						<c:if test="${!medicineListByStatis.contains(item) && !medicineListByRules.contains(item) }">
 							<font color="red">
 								${item }，
@@ -430,12 +437,48 @@
 								${item }，
 							</font>
 						</c:if>
+					</c:forEach>
+					<c:forEach items="${medicineListByRules }" var="item">
 						<c:if test="${!medicineListByStatis.contains(item) && medicineListByMachine.contains(item) || medicineListByStatis.contains(item) && !medicineListByMachine.contains(item) }">
 							<font color="blue">
 								${item }，
 							</font>
 						</c:if>
+					</c:forEach>
+					<c:forEach items="${medicineListByRules }" var="item">
 						<c:if test="${!medicineListByStatis.contains(item) && !medicineListByMachine.contains(item) }">
+							<font color="red">
+								${item }，
+							</font>
+						</c:if>
+					</c:forEach>
+				</p>
+			</div>
+		</c:if>
+		
+		<!-- 综合预测结果 -->
+		<c:if test="${comprehensive != null && comprehensiveResultOrder != null }">
+			<div style="width:100%">
+				<hr>
+				<h3>综合预测结果：（共${comprehensive.size() }味）</h3>
+				<p>
+					<c:forEach items="${comprehensiveResultOrder }" var="item">
+						<%-- ${item } --%>
+						<c:if test="${comprehensive.get(item) == 3}">
+							<font color="black">
+								${item }，
+							</font>
+						</c:if>
+					</c:forEach>
+					<c:forEach items="${comprehensiveResultOrder }" var="item">
+						<c:if test="${comprehensive.get(item) == 2 }">
+							<font color="blue">
+								${item }，
+							</font>
+						</c:if>
+					</c:forEach>
+					<c:forEach items="${comprehensiveResultOrder }" var="item">
+						<c:if test="${comprehensive.get(item) == 1 }">
 							<font color="red">
 								${item }，
 							</font>

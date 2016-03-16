@@ -1,8 +1,10 @@
 package com.um.myapp.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -62,10 +64,8 @@ public class DiagMedicineController {
 		// 2.2 Sort the medicine with same order with machine learning result
 		List<String> medicineListByStatisticSorted = new ArrayList<String>();
 		for( String s : DiagClassifyData.machineMedicine ){
-			for( String o : medicineListByStatis ){
-				if( s.equals(o) ){ 
-					medicineListByStatisticSorted.add(s); 
-				}
+			if (medicineListByStatis.contains(s)) {
+				medicineListByStatisticSorted.add(s);
 			}
 		}
 		
@@ -87,15 +87,52 @@ public class DiagMedicineController {
 		List<String> medicineListByRules = BasedOnRulePredict.predictBasedOnRules(descriptionString);
 		
 		/**
+		 * 5. all the predict result
+		 */
+		Map<String, Integer> comprehensiveResult = new HashMap<String, Integer>();
+		List<String> comprehensiveResultOrder = new ArrayList<String>();
+		for (String string : medicineListByStatisticSorted) {
+			comprehensiveResult.put(string, 1);
+		}
+		for (String string : medicineListByMachine) {
+			if (comprehensiveResult.get(string) != null) {
+				int num = comprehensiveResult.get(string);
+				comprehensiveResult.remove(string);
+				comprehensiveResult.put(string, num+1);
+			}else{
+				comprehensiveResult.put(string, 1);
+			}
+		}
+		for (String string : medicineListByRules) {
+			if (comprehensiveResult.get(string) != null) {
+				int num = comprehensiveResult.get(string);
+				comprehensiveResult.remove(string);
+				comprehensiveResult.put(string, num+1);
+			}else {
+				comprehensiveResult.put(string, 1);
+			}
+		}
+		// sort the comprehensive
+		Set<String> compKeySet = comprehensiveResult.keySet();
+		for( String s : DiagClassifyData.machineMedicine ){
+			if (compKeySet.contains(s)) {
+				comprehensiveResultOrder.add(s);
+			}
+		}
+		
+		/**
 		 * 5. Return the batch and other info
 		 */
 		mv.addObject("batch", batch);
 		mv.addObject("medicineListByStatis", medicineListByStatisticSorted);
 		mv.addObject("medicineListByMachine",medicineListByMachine);
 		mv.addObject("medicineListByRules", medicineListByRules);
+		mv.addObject("comprehensive", comprehensiveResult);
+		mv.addObject("comprehensiveResultOrder", comprehensiveResultOrder);
 		mv.addObject("diagnose", diagnose);
 		mv.addObject("description", descconvertString);
 		mv.addObject("similaryRecords",similaryRecords);
+		
 		
 		return mv;
 	}

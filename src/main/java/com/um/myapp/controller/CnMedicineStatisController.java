@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.um.classify.CWRelationMapping;
 import com.um.model.EHealthRecord;
 import com.um.util.DiagMedicineProcess;
 import com.um.util.MedicineByDescription;
@@ -22,12 +21,9 @@ public class CnMedicineStatisController {
 	@RequestMapping(value="medicineProba",method=RequestMethod.GET)
 	public ModelAndView cnMedicineStatis(String batch,String medicines){
 		ModelAndView mv = new ModelAndView("cnmedicproba");
-		if(medicines == ""){
+		if("".equals(medicines)){
 			return mv;
 		}
-		/**
-		 * 1. 对中医处方进行统计，选择出现概率大于90%的中药作为结果输出；
-		 */
 		// 1.1 读取数据库种病例数据
 		// 1.2 选取批次
 		List<EHealthRecord> eHealthRecordsByBatch = null; // 符合某一批次的全部病历
@@ -46,8 +42,6 @@ public class CnMedicineStatisController {
 		// 1.3 统计中药
 		Map<String, String> resultMap = DiagMedicineProcess.statisMedicProbability(medicines,eHealthRecordsByBatch);
 		List<String> descriptionList = null;
-		
-		List<EHealthRecord> allRecrods = CWRelationMapping.queryEhealthData();
 		
 		if(resultMap.isEmpty() || resultMap == null){
 			
@@ -77,7 +71,7 @@ public class CnMedicineStatisController {
 					String[] vs = valueString.split("\\|"); // 区分交集和并集
 					valueList.add(vs[0]); // 并集
 					valueList.add(vs[1]); // 并集百分比
-					descriptionList = DiagMedicineProcess.getDescriptionByMedicine(medicines, allRecrods);
+					descriptionList = DiagMedicineProcess.getDescriptionByMedicine(medicines, eHealthRecordsByBatch);
 				}
 				result.put(s, valueList);
 			}

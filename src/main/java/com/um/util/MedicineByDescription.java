@@ -10,16 +10,11 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.bson.Document;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
 import com.mongodb.Block;
 import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.um.dao.DaoConfig;
-import com.um.dao.DataBaseBean;
 import com.um.data.DataBaseSetting;
 import com.um.data.DiagClassifyData;
 import com.um.model.EHealthRecord;
@@ -371,9 +366,6 @@ public class MedicineByDescription {
 		if("".equals(batch)) return null;
 		List<EHealthRecord> eHealthRecordsByBatch = new ArrayList<EHealthRecord>();
 		// built the conditions structure of batch
-//		ApplicationContext context = new AnnotationConfigApplicationContext(DataBaseBean.class);
-//		DataBaseBean dataBaseBean = (DataBaseBean)context.getBean("dataBaseBean");
-//		System.out.println(dataBaseBean);
 		List<EHealthRecord> allList = getAllRecords();
 		for (EHealthRecord eRecord : allList) {
 			if (eRecord.getBatchString().equals(batch.substring(0, 4))) {
@@ -388,12 +380,6 @@ public class MedicineByDescription {
 	 * @return
 	 */
 	public static List<EHealthRecord> getAllRecords(){
-//		@SuppressWarnings("resource")
-//		ApplicationContext context = new AnnotationConfigApplicationContext(DataBaseBean.class);
-//		System.out.println(context.getId());
-//		DataBaseBean dataBaseBean = (DataBaseBean)context.getBean("dataBaseBean");
-//		return dataBaseBean.geteHealthRecords();
-		
 		
 		final List<EHealthRecord> eHealthRecords = new ArrayList<EHealthRecord>();
 		
@@ -403,7 +389,6 @@ public class MedicineByDescription {
 		
 		// List of ehealth record
 		FindIterable<Document> iterable = ehealthRecordCollection.find();
-		
 		
 		iterable.forEach(new Block<Document>() {
 
@@ -420,10 +405,6 @@ public class MedicineByDescription {
 		
 		client.close();
 		return eHealthRecords;
-//		ApplicationContext context = new ClassPathXmlApplicationContext("file:src/main/webapp/WEB-INF/spring/root-context.xml");
-//		DataBaseBean dataBaseBean = (DataBaseBean)context.getBean("dataBaseBean");
-//		return dataBaseBean.geteHealthRecords();
-		
 	}
 	
 	/**

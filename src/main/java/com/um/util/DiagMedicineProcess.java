@@ -1,6 +1,5 @@
 package com.um.util;
 
-import java.awt.TexturePaint;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -204,7 +203,7 @@ public class DiagMedicineProcess {
 				secondInputCodeMap.put(s, inputCodeMap.get(s));
 			}
 		}
-		
+		// find the records 
 		for (EHealthRecord eHealthRecord : eHealthRecords) {
 			
 			boolean isMainMatched = false;
@@ -214,14 +213,12 @@ public class DiagMedicineProcess {
 			if (mainInputCodeMap.size() > 0) {
 				// main description need 100% match
 				int size = mainInputCodeMap.size();
-				System.out.println(mainInputCodeMap.size());
 				isMainMatched = checkMatchBasedOnDescription(eHealthRecord, mainInputCodeMap, size);
 			}
 			// second description match
 			if (secondInputCodeMap.size() > 0) {
 				// Second description need 50% match
 				int size = secondInputCodeMap.size() / 2 + 1;
-				System.out.println(secondInputCodeMap.size());
 				isSecondMatched = checkMatchBasedOnDescription(eHealthRecord, secondInputCodeMap, size);
 			}
 			// based on the main description without second description
@@ -233,7 +230,6 @@ public class DiagMedicineProcess {
 				similarRecords.add(eHealthRecord);
 			}
 		}
-		
 		return similarRecords;
 	}
 	
@@ -270,9 +266,6 @@ public class DiagMedicineProcess {
 		}else {
 			return false;
 		}
-//		if (statusmatchnum >= (size > 1 ? size-1 : 1))  return true; 
-//		
-//		return false;
 	}
 	
 	/**
