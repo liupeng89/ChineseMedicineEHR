@@ -148,7 +148,6 @@ public class DiagMedicineProcess {
 			return null;
 		}
 		List<EHealthRecord> similarRecords = new ArrayList<EHealthRecord>(); // 同种描述的病历
-		System.out.println(description);
 		// 1. 处理description
 		String[] descriptionSplits = description.split(",");
 		if( descriptionSplits == null || descriptionSplits.length == 0 ) return null;
