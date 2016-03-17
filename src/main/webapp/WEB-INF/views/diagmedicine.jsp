@@ -145,9 +145,6 @@
 					<p>
 	    				年度：
 	    				<select name="batch">  
-        					<%-- <c:forEach items="${batchList }" var="item">  
-            					<option value="${item }">${item }</option>  
-        					</c:forEach>   --%>
         					<option value="null">全部</option>
                         	<option value="2012" selected>2012</option>
                         	<option value="2011">2011</option>

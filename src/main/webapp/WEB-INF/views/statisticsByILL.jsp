@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>statistics by ill</title>
 <link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/style.css">
 </head>
@@ -25,9 +25,6 @@
 	        			<div class="col-lg-12">
 	        			年度：
 	    				<select name="batch">  
-        					<%-- <c:forEach items="${batchList }" var="item">  
-            					<option value="${item }" <c:if test="${item == '2012'}">selected</c:if>>${item == 'null'? '全部' : item }</option>  
-        					</c:forEach>  --%>
         					<option value="null">全部</option>
                         	<option value="2012" selected>2012</option>
                         	<option value="2011">2011</option>
@@ -36,7 +33,6 @@
     					</select> 
     					<input type="text" name="ills" />
         				<input type="submit" class="btn btn-success btn-xs" value="统计中药处方" />
-	        			
 	        			</div>
 	        		</div>
         		</form>
@@ -67,6 +63,5 @@
 		        </table>
 			</div>
 		</div>
-	</div>
 </body>
 </html>

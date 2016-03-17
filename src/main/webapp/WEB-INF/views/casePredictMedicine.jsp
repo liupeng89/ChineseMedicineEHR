@@ -39,7 +39,6 @@
 	            </div>
 	        </div>
 			<form name="form" method="post">
-
 				<div id="left_rigth">
 					<p class="text-danger">
 						<label>请入病例序号(1-1130) 或挂号号</label>

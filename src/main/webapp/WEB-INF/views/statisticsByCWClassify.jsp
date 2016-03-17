@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>statistics by CW</title>
 <link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/style.css">
 </head>
@@ -23,14 +23,11 @@
 			<form action="cwdiagstatis" method="get">
 	        	年度：
 		    	<select name="batch">  
-	  				<%-- <c:forEach items="${batchList }" var="item">  
-	          			<option value="${item }" <c:if test="${item == '2012'}">selected</c:if>>${item == 'null'? '全部' : item }</option>  
-	        		</c:forEach>  --%>
 	        		<option value="null">全部</option>
-                        	<option value="2012" selected>2012</option>
-                        	<option value="2011">2011</option>
-                        	<option value="2010">2010</option>
-                        	<option value="2009">2009</option> 
+                    <option value="2012" selected>2012</option>
+                    <option value="2011">2011</option>
+                    <option value="2010">2010</option>
+                    <option value="2009">2009</option> 
 	    		</select>
 			    <input type="submit" class="btn btn-success btn-xs" value="中西医诊断统计分类" /> 
 	        </form>
