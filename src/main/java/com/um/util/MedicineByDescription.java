@@ -72,6 +72,7 @@ public class MedicineByDescription {
 		
 		// 2.2 classify the records based on the diagnose info
 		List<EHealthRecord> classifiedRecords = DiagMedicineProcess.getRecordsByDiagnose(diagkeywords, eHealthRecordsByBatch);
+		
 		// 2.3 statistics medicines based on the description info
 		Set<String> cnmedicineSet = DiagMedicineProcess.getMedicinesByDescription(description, classifiedRecords);
 		

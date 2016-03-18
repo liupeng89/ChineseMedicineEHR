@@ -48,7 +48,7 @@
 					</p>
 					<p class="text-danger">
 						机器学习阈值(0~1):<br>
-						<input type="text" name="threshold" value="0.5" />
+						<input type="text" name="threshold" value="0.3" />
 					</p>
 					<p>
 						<input type="submit" class="btn btn-success btn-xs" value="根据病例预测处方" onclick="javascript: form.action='predicetByCase';" />

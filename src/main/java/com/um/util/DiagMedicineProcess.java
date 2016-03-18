@@ -112,7 +112,7 @@ public class DiagMedicineProcess {
 	
 	
 	/**
-	 * 根据描述，得出中药处方
+	 * Return predict medicines based on the description
 	 * @param description
 	 * @param eHealthRecords
 	 * @return
@@ -137,8 +137,7 @@ public class DiagMedicineProcess {
 	
 	
 	/**
-	 *  Get the similiar ehrs based on the description
-	 *  
+	 *  Get the similar records based on the description
 	 * @param description
 	 * @param eHealthRecords
 	 * @return
@@ -147,14 +146,14 @@ public class DiagMedicineProcess {
 		if( description.equals("") || eHealthRecords == null || eHealthRecords.size() == 0){
 			return null;
 		}
-		List<EHealthRecord> similarRecords = new ArrayList<EHealthRecord>(); // 同种描述的病历
-		// 1. 处理description
+		List<EHealthRecord> similarRecords = new ArrayList<EHealthRecord>(); // similar records
+		// 1. split the descriptions
 		String[] descriptionSplits = description.split(",");
 		if( descriptionSplits == null || descriptionSplits.length == 0 ) return null;
 		
 		// 2. 生成关键字编码表  <部位， < 状态：［k1,k2,k3.....］>>
 		Map<String, String> normalTableMap = MedicineByDescription.convertArraysToMap(DiagClassifyData.normalAndBaddescription); // normal table
-		Map<String, ArrayList<String>> descTableMap = MedicineByDescription.convertArraysToMapList(DiagClassifyData.descKeywords); // descrition keyword list
+		Map<String, ArrayList<String>> descTableMap = MedicineByDescription.convertArraysToMapList(DiagClassifyData.descKeywords); // description keyword list
 		
 		// 去掉正常的status
 		Set<String> descriptionSet = new HashSet<String>(); // 输入描述中的关键字
