@@ -162,7 +162,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td class="success"><label>纳：</label></td>
+								<td class="danger"><label>纳：</label></td>
 								<td>
 								<select name="na">
 									<option value="okna" selected>正常</option>
@@ -175,7 +175,7 @@
 							
 							
 							<tr>
-								<td class="success"><label>大便：</label></td>
+								<td class="danger"><label>大便：</label></td>
 								<td>
 									<select name="defecate" >
 										<option value="defaultdefecate" selected>正常</option>
@@ -187,7 +187,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td class="success"><label>小便：</label></td>
+								<td class="danger"><label>小便：</label></td>
 								<td>
 									<select name="urinate" >
 										<option value="okurinate" selected>正常</option>
@@ -198,7 +198,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td class="success"><label>胸肋痛：</label></td>
+								<td class="danger"><label>胸肋痛：</label></td>
 								<td>
 									<select name="xonglei">
 										<option value="noxonglei" selected>正常</option>
@@ -210,7 +210,7 @@
 							</tr>
 							
 							<tr>
-								<td class="success"><label>腹痛：</label></td>
+								<td class="danger"><label>腹痛：</label></td>
 								<td>
 									<select name="futong">
 										<option value="nofutong" selected>正常</option>

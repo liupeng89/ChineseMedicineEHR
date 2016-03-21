@@ -134,6 +134,40 @@ public class MedicineByDescription {
 		return result;
 	}
 	
+	/**
+	 * Get all similar records based on the description
+	 * @param eHealthRecords
+	 * @param description
+	 * @return
+	 */
+	public static List<EHealthRecord> getSimilaryEHealthRecords(List<EHealthRecord> eHealthRecordsByBatch, String diagnose,String description){
+		if ("".equals(description) || eHealthRecordsByBatch.size() == 0 || eHealthRecordsByBatch == null) {
+			return null;
+		}
+		// 1.2 split the diagnose
+		String[] diagkeywords = diagnose.split(" ");
+		if(diagkeywords.length == 0 || diagkeywords == null){
+			return null; 
+		}
+		// 1.3 classify the records based on diagnose info
+		List<EHealthRecord> classifiedRecords = DiagMedicineProcess.getRecordsByDiagnose(diagkeywords, eHealthRecordsByBatch);
+				
+		// 1.4 get the similar records based on the description info
+		List<EHealthRecord> similarRecords = DiagMedicineProcess.getEhealthRecordByDescription(description, classifiedRecords);
+				
+		// 1.5 remove the repeat records
+		Set<EHealthRecord> eSet = new HashSet<EHealthRecord>();
+				
+		if( similarRecords != null && similarRecords.size() > 0 ){
+			for( EHealthRecord e : similarRecords ){
+				eSet.add(e);
+			}
+		}
+		// 1.6 return the similar records
+		List<EHealthRecord> result = new ArrayList<EHealthRecord>();
+		result.addAll(eSet);
+		return result;
+	}
 	
 	
 	/**

@@ -1141,16 +1141,16 @@ public class DiagClassifyData {
 		"erming%1:erming",
 		"qili%0:okenergy#1:badenergy#2:worseenergy",
 		"tanse%1:yellowsputumcolor#2:whitesputumcolor#3:redlittlesputumcolor#4:redmuchsputumcolor#5:redmoresputumcolor",
-		"maixi%1:maixi",
+		"maixi%1:slimpulse",
 		"tanliang%0:oksputumamount#1:littlesputumamount#2:muchsputumamount",
 		"hann%0:hanwu#1:hanqing#2:hanzhong",
 		"futong%0:nofutong#1:okfutong#2:badfutong#3:worsefutong",
 		"wantong%1:wantong",
 		"shenzhong%1:shenzhong",
-		"maifu%1:maifu",
+		"maifu%1:floatpulse",
 		"han%0:nosweat#1:sweat#2:zihan#3:daohan#4:dahan",
-		"maishu%1:maishu",
-		"shetai%1:whitecoatedtongue#2:yellowcoatedtongue#3:purplecoatedtongue#4:blackcoatedtongue#5:nitaicoatedtongue#6:houtaicoatedtongue",
+		"maishu%1:numberpulse",
+		"shetai%0:whitecoatedtongue#1:yellowcoatedtongue#2:purplecoatedtongue#3:blackcoatedtongue#4:nitaicoatedtongue#5:houtaicoatedtongue",
 		"xiaobian%0:okurinate#1:badurinate#2:worseurinate#3:bloodurinate",
 		"xiongleitong%0:noxonglei#1:okxonglei#2:badxonglei#3:worsexonglei",
 		"xinji%1:xinji",
@@ -1158,26 +1158,26 @@ public class DiagClassifyData {
 		"xuetan%1:redlittlesputumcolor#2:redmuchsputumcolor#3:redmoresputumcolor",
 		"mian%0:oksleep#1:badsleep#2:worsesleep#3:worstsleep#4:somnolencesleep",
 		"kesou%0:okcough#1:badcough#2:worsecough#3:worstcough",
-		"maichi%1:maichi",
+		"maichi%1:latepulse",
 		"touyun%1:touyun",
 		"toutong%1:toutong",
 		"re%0:rewu#1:reqing#2:rezhong",
 		"xiongmen%1:xiongmen",
-		"maichen%1:maichen",
+		"maichen%1:sinkpulse",
 		"hanrewanglai%1:hanrewanglai",
-		"maixian%1:maixian",
+		"maixian%1:chordpulse",
 		"dabian%0:defaultdefecate#1:okdefecate#2:baddefecate#3:worsedefecate",
 		"na%0:okna#1:badna#2:anorexiana#3:worsena",
 		"muxuan%1:muxuan",
 		"shese%0:oktonguecolor#1:whitetonguecolor#2:redtonguecolor#3:jiangtonguecolor#4:purpletonguecolor#5:cyantonguecolor#6:bluetonguecolor",
 		"fuzhang%1:fuzhang",
 		"wanzhang%1:wanzhang",
-		"maihua%1:maihua",
+		"maihua%1:slidepulse",
 		"xiexie%1:xiexie",
-		"kouwei%1:lighttaste#2:acidtaste#3:bittertaste",
+		"kouwei%0:lighttaste#1:acidtaste#2:bittertaste",
 		"yaotong%1:yaotong",
-		"kouke%1:okthirst#2:badthirst#3:worsethirst",
-		"maicu%1:maicu"
+		"kouke%0:okthirst#1:badthirst#2:worsethirst",
+		"maicu%1:roughpulse"
 	};
 	
 	/**
@@ -1232,16 +1232,26 @@ public class DiagClassifyData {
 	};
 	
 	/**
+	 * Main project strings
+	 */
+	public final static String[] mainProjectStrings = {"tanliang","tanse","kesou","maicu","maihua","maixian","maichen","maichi","maishu","maifu","maixi","na","dabian","xiexie","xiaobian","xiongleitong","futong"};
+	
+	/**
+	 * Second project strings
+	 */
+	public final static String[] secondProjectStrings = {"yaotong","wantong","toutong","touyun","xinji","xiongmen","fuzhang","wanzhang","shenzhong","erming","muxuan","mamu","shese","shetai","qili","mian","hanrewanglai","re","hann","han","kouke","kouwei"};
+	
+	/**
 	 * The main description key words
 	 */
-	public final static String[] mainDescriptionStrings = {"littlesputumamount","muchsputumamount","yellowsputumcolor","whitesputumcolor",
+	public final static String[] mainDescriptionStrings = {"badna","anorexiana","worsena","okdefecate","baddefecate","worsedefecate","badurinate","worseurinate","bloodurinate","okxonglei","badxonglei","worsexonglei","okfutong","badfutong","worsefutong","littlesputumamount","muchsputumamount","yellowsputumcolor","whitesputumcolor",
 			"slimpulse","floatpulse","sinkpulse","roughpulse","latepulse","numberpulse","chordpulse","slidepulse",
 			"redlittlesputumcolor","redmuchsputumcolor","redmoresputumcolor","badcough","worsecough","worstcough" }; // 主要症状
 	/**
 	 * The second description key words
 	 */
-	public final static String[] seconddescriptionStrings = {"badna","anorexiana","worsena","okdefecate","baddefecate","worsedefecate","xiexie","badurinate","worseurinate","bloodurinate",
-			"okxonglei","badxonglei","worsexonglei","okfutong","badfutong","worsefutong","yaotong","wantong","toutong","touyun","xinji","xiongmen","fuzhang","wanzhang","shenzhong","erming","muxuan","mamu","whitetonguecolor","redtonguecolor","jiangtonguecolor","purpletonguecolor","cyantonguecolor","bluetonguecolor","yellowcoatedtongue",
+	public final static String[] seconddescriptionStrings = {"xiexie",
+			"yaotong","wantong","toutong","touyun","xinji","xiongmen","fuzhang","wanzhang","shenzhong","erming","muxuan","mamu","whitetonguecolor","redtonguecolor","jiangtonguecolor","purpletonguecolor","cyantonguecolor","bluetonguecolor","yellowcoatedtongue",
 			"purplecoatedtongue","blackcoatedtongue","nitaicoatedtongue","houtaicoatedtongue","badenergy","worseenergy","badsleep","worsesleep","worstsleep","somnolencesleep",
 			"hanqing","hanzhong","rewu","reqing","rezhong","hanre","sweat","zihan","daohan","dahan","badthirst","worsethirst","acidtaste","bittertaste" }; // 次要症状
 	

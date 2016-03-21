@@ -19,6 +19,7 @@ import com.um.data.DiagClassifyData;
 import com.um.model.ChineseMedicine;
 import com.um.model.EHealthRecord;
 import com.um.util.BasedOnRulePredict;
+import com.um.util.DiagMedicineProcess;
 import com.um.util.MachineLearningPredict;
 import com.um.util.MedicineByDescription;
 
@@ -55,13 +56,54 @@ public class DiagMedicineController {
 		String descconvertString = MedicineByDescription.getFormatedDescirption(description);
 		String descriptionString = diagnose + descconvertString;
 		
+		List<String> medicineListByStatis = new ArrayList<String>(); // predict medicines result
 		/**
 		 * 2. Case-base statistics to predict medicines
 		 */
-		// 2.1 predict the medicines based on the user input
-		List<String> medicineListByStatis = MedicineByDescription.getMedicineByDiagAndDesc(batch,diagnose,description);
+		// 2.1 statistics medicines larger than 90% records
+		int outputnumber = 15; // the number of output medicine
+		int similarnumber = 6; // similar record number
 		
-		// 2.2 Sort the medicine with same order with machine learning result
+		// 2.2 get all records with same batch
+		List<EHealthRecord> eHealthRecordsByBatch = MedicineByDescription.getRecordsByBatch(batch); // all record with same batch
+		
+		// 2.3 statistics name and number of medicines in this batch records
+		Map<String, Integer> allMedicineMap = DiagMedicineProcess.statisEhealthMedicine(eHealthRecordsByBatch);
+		
+		// 2.4  find the medicines with percent larger than 90% 
+		int allRecordsNum = eHealthRecordsByBatch.size(); // the number of this batch records
+		double percent = 0.9; // the percent 
+		
+		List<String> medicineWithInevitable = DiagMedicineProcess.statisMedicineWithPercent(allMedicineMap, allRecordsNum, percent);
+		if(medicineWithInevitable != null && medicineWithInevitable.size() > 0){
+			medicineListByStatis.addAll(medicineWithInevitable); //the medicine with percent large than 90%
+		}
+		
+		// 2.6 get similar records based on the description
+		List<EHealthRecord> similaryRecords = MedicineByDescription.getSimilaryEHealthRecords(eHealthRecordsByBatch, diagnose, description);
+		
+		if (similaryRecords != null && similaryRecords.size() > 0) {
+			// 2.7 statistic the medicines in the similar records
+			Set<String> cnmedicineSet = DiagMedicineProcess.getMedicinesByDescription(description, similaryRecords);
+			for (String med : medicineListByStatis) {
+				if (!cnmedicineSet.contains(med)) {
+					// remove the medicine from medicine list not in the cnmedicine set
+					medicineListByStatis.remove(med);
+				}
+			}
+			for (String cn : cnmedicineSet) {
+				if (!medicineListByStatis.contains(cn)) {
+					// add to result list
+					medicineListByStatis.add(cn);
+				}
+			}
+		}
+		
+		if (medicineListByStatis.size() > outputnumber) {
+			medicineListByStatis = medicineListByStatis.subList(0, outputnumber);
+		}
+		
+		// 2.7 Sort the medicine with same order with machine learning result
 		List<String> medicineListByStatisticSorted = new ArrayList<String>();
 		for( String s : DiagClassifyData.machineMedicine ){
 			if (medicineListByStatis.contains(s)) {
@@ -69,9 +111,8 @@ public class DiagMedicineController {
 			}
 		}
 		
-		// 2.3 get the similar records based on the input info, no more than 6 records
-		List<EHealthRecord> similaryRecords = MedicineByDescription.getSimilaryEHealthRecords(batch, diagnose, description);
-		if (similaryRecords.size() > 6)  similaryRecords = similaryRecords.subList(0, 6); 
+		// 2.8 get the similar records based on the input info, no more than 6 records
+		if (similaryRecords.size() > similarnumber)  similaryRecords = similaryRecords.subList(0, similarnumber);
 		
 		/**
 		 *  3. Machine learning to predict the medicines

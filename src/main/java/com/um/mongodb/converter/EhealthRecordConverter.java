@@ -12,7 +12,9 @@ import org.bson.BSONObject;
 import org.bson.Document;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.bson.types.ObjectId;
 
@@ -93,19 +95,19 @@ public class EhealthRecordConverter {
             }
         }
         
-        List<ChineseMedicine> chineseMedicinesList = null;// 中药处方
+        List<ChineseMedicine> chineseMedicinesList = new ArrayList<ChineseMedicine>();;// 中药处方
+        Set<String> chineseMedicinesSet = new HashSet<String>(); // remove repeat medicines
         List<WesternMedicine> westernMedicinesList = null; // 西药处方
         PatientInfo patientInfo = null; //病人信息
         //中药处方
         if(chineseMedicines != null){
             if(cMedicineList != null && cMedicineList.size() > 0){
         	
-        	chineseMedicinesList = new ArrayList<ChineseMedicine>();
-        	
         	for(Document doc : cMedicineList){
                     ChineseMedicine c = listToChineseMedicine(doc);
-                    if(c != null){
-            		chineseMedicinesList.add(c);
+                    if(c != null && !chineseMedicinesSet.contains(c.getNameString())){
+                    	chineseMedicinesList.add(c);
+                    	chineseMedicinesSet.add(c.getNameString());
                     }
                 }
             }
