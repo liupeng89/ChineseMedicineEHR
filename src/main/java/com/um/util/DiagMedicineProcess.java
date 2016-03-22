@@ -206,6 +206,7 @@ public class DiagMedicineProcess {
 		// 3. input description information format and initial
 		Map<String, String> inputMainInfo = new HashMap<String, String>(); // Main description information
 		Map<String, String> inputSecondInfo = new HashMap<String, String>(); // Second description information
+		int matchOfRange = 0;
 		for (String string : DiagClassifyData.mainProjectStrings) {
 			inputMainInfo.put(string, "0");
 		}
@@ -223,6 +224,9 @@ public class DiagMedicineProcess {
 					HashMap<String, String> valueMap = projectReferenceTable.get(project);
 					if (valueMap.get(desc) != null) {
 						String value = valueMap.get(desc);
+						if (!"0".equals(value)) {
+							matchOfRange++;
+						}
 						inputMainInfo.remove(project);
 						inputMainInfo.put(project, value);
 					}
@@ -242,104 +246,118 @@ public class DiagMedicineProcess {
 		System.out.println(inputSecondInfo);
 		
 		// 4. Search the match record 
-		for (EHealthRecord eHealthRecord : eHealthRecords) {
-			// 4.1 built record map and initial
-			Map<String, String> recordMainMap = new HashMap<String, String>();
-			Map<String, String> recordSecondMap = new HashMap<String, String>();
-			for (String string : DiagClassifyData.mainProjectStrings) {
-				recordMainMap.put(string, "0");
-			}
-			for (String string : DiagClassifyData.secondProjectStrings) {
-				recordSecondMap.put(string, "0");
-			}
-			
-			// 4.2 built record description key words list
-			List<String> recordDescList = new ArrayList<String>();
-			Set<String> recordDescSet = new HashSet<String>();
-			Set<String> descKeywordMapKeySet = descKeywordMap.keySet();
-			for (String desc : descKeywordMapKeySet) {
-				ArrayList<String> valueList = descKeywordMap.get(desc);
-				for (String vString : valueList) {
-					if (eHealthRecord.getConditionsdescribed().contains(vString)) {
-						// match description
-						recordDescSet.add(desc);
-						break;
-					}
-				}
-			}
-			recordDescList.addAll(recordDescSet);
-			System.out.println(recordDescList);
-			// 4.3 create the main and second description map
-			for (String record : recordDescList) {
-				// project
-				projectKeySet = projectReferenceTable.keySet();
-				for (String project : projectKeySet) {
-					
-					if (mainProjectList.contains(project)) {
-						// main project
-						HashMap<String, String> valueMap = projectReferenceTable.get(project);
-						if (valueMap.get(record) != null) {
-							String value = valueMap.get(record);
-							recordMainMap.remove(project);
-							recordMainMap.put(project, value);
-						}
-					}else if (secondProjectList.contains(project)) {
-						// second project
-						HashMap<String, String> valueMap = projectReferenceTable.get(project);
-						if (valueMap.get(record) != null) {
-							String value = valueMap.get(record);
-							recordSecondMap.remove(project);
-							recordSecondMap.put(project, value);
-						}
-					}
-				}
-			}
-			System.out.println(eHealthRecord.getRegistrationno());
-			System.out.println(recordMainMap);
-			System.out.println(recordSecondMap);
-			// 4.4 find the match record, main description match 100% and second match 50%
-			boolean isMainMatched = false, isSecondMatched = false;
-			// main description match
-			if (inputMainInfo.size() > 0) {
-				isMainMatched = true;
-				Set<String> inputMainInfoKeySet = inputMainInfo.keySet();
-				for (String in : inputMainInfoKeySet) {
-					// match project value
-					if (!inputMainInfo.get(in).equals(recordMainMap.get(in))) {
-						isMainMatched = false;
-						break;
-					}
-				}
-			}else{
-				isMainMatched = true;
-			}
-			
-			// second description match
-			if (inputSecondInfo.size() != 0) {
-				// second description match 50%
-				int matchNum = 0;
-				Set<String> inputSecondInfoKeySet = inputSecondInfo.keySet();
-				for (String in : inputSecondInfoKeySet) {
-					// match project value
-					if (inputSecondInfo.get(in).equals(recordSecondMap.get(in))) {
-						matchNum++;
-					}
-				}
-				
-				if (matchNum > inputSecondInfo.size() / 2) {
-					isSecondMatched = true;
-				}else{
-					isSecondMatched = false;
-				}
-				
-			}else{
-				isSecondMatched = false;
-			}
-			// 4.5 return the result
-			if (isMainMatched && isSecondMatched) {
-				similarRecords.add(eHealthRecord);
-			}
+		while(similarRecords.size() == 0 && matchOfRange >=2){
+			similarRecords = getRecordsOnRangeOfMatchNumber(inputMainInfo, inputSecondInfo, eHealthRecords, matchOfRange);
+			matchOfRange--;
+			System.out.println("------" + matchOfRange);
 		}
+		
+		
+//		for (EHealthRecord eHealthRecord : eHealthRecords) {
+//			// 4.1 built record map and initial
+//			Map<String, String> recordMainMap = new HashMap<String, String>();
+//			Map<String, String> recordSecondMap = new HashMap<String, String>();
+//			for (String string : DiagClassifyData.mainProjectStrings) {
+//				recordMainMap.put(string, "0");
+//			}
+//			for (String string : DiagClassifyData.secondProjectStrings) {
+//				recordSecondMap.put(string, "0");
+//			}
+//			
+//			// 4.2 built record description key words list
+//			List<String> recordDescList = new ArrayList<String>();
+//			Set<String> recordDescSet = new HashSet<String>();
+//			Set<String> descKeywordMapKeySet = descKeywordMap.keySet();
+//			for (String desc : descKeywordMapKeySet) {
+//				ArrayList<String> valueList = descKeywordMap.get(desc);
+//				for (String vString : valueList) {
+//					if (eHealthRecord.getConditionsdescribed().contains(vString)) {
+//						// match description
+//						recordDescSet.add(desc);
+//						break;
+//					}
+//				}
+//			}
+//			recordDescList.addAll(recordDescSet);
+//			System.out.println(recordDescList);
+//			// 4.3 create the main and second description map
+//			for (String record : recordDescList) {
+//				// project
+//				projectKeySet = projectReferenceTable.keySet();
+//				for (String project : projectKeySet) {
+//					
+//					if (mainProjectList.contains(project)) {
+//						// main project
+//						HashMap<String, String> valueMap = projectReferenceTable.get(project);
+//						if (valueMap.get(record) != null) {
+//							String value = valueMap.get(record);
+//							recordMainMap.remove(project);
+//							recordMainMap.put(project, value);
+//						}
+//					}else if (secondProjectList.contains(project)) {
+//						// second project
+//						HashMap<String, String> valueMap = projectReferenceTable.get(project);
+//						if (valueMap.get(record) != null) {
+//							String value = valueMap.get(record);
+//							recordSecondMap.remove(project);
+//							recordSecondMap.put(project, value);
+//						}
+//					}
+//				}
+//			}
+//			System.out.println(eHealthRecord.getRegistrationno());
+//			System.out.println(recordMainMap);
+//			System.out.println(recordSecondMap);
+//			// 4.4 find the match record, main description match 100% and second match 50%
+//			boolean isMainMatched = false, isSecondMatched = false;
+//			// main description match
+//			if (inputMainInfo.size() > 0) {
+//				isMainMatched = true;
+//				Set<String> inputMainInfoKeySet = inputMainInfo.keySet();
+//				for (String in : inputMainInfoKeySet) {
+//					// match project value
+//					if (!inputMainInfo.get(in).equals(recordMainMap.get(in))) {
+//						isMainMatched = false;
+//						break;
+//					}
+//				}
+//			}else{
+//				isMainMatched = true;
+//			}
+//			
+//			// second description match
+//			if (inputSecondInfo.size() != 0) {
+//				// second description match 50%
+//				int matchNum = 0;
+//				Set<String> inputSecondInfoKeySet = inputSecondInfo.keySet();
+//				for (String in : inputSecondInfoKeySet) {
+//					// match project value
+//					if (inputSecondInfo.get(in).equals(recordSecondMap.get(in))) {
+//						matchNum++;
+//					}
+//				}
+//				
+//				if (matchNum > inputSecondInfo.size() / 2) {
+//					isSecondMatched = true;
+//				}else{
+//					isSecondMatched = false;
+//				}
+//				
+//			}else{
+//				isSecondMatched = false;
+//			}
+//			// 4.5 return the result
+//			if (isMainMatched && isSecondMatched) {
+//				similarRecords.add(eHealthRecord);
+//			}
+//		}
+//		
+//		//if similar records count is 0, re-find record based new condition
+//		
+//		if (similarRecords.size() == 0) {
+//			// 
+//		}
+		
 		
 		return similarRecords;
 		
@@ -427,6 +445,181 @@ public class DiagMedicineProcess {
 //			}
 //		}
 //		return similarRecords;
+	}
+	
+	/**
+	 * Get all records based on description in range of match number
+	 * @param inputMainInfo
+	 * @param inputSecondInfo
+	 * @param eHealthRecords
+	 * @param rangeOfMatch
+	 * @return
+	 */
+	public static List<EHealthRecord> getRecordsOnRangeOfMatchNumber(Map<String, String> inputMainInfo, Map<String, String> inputSecondInfo, List<EHealthRecord> eHealthRecords, int rangeOfMatch){
+		if (inputMainInfo == null || inputSecondInfo == null || eHealthRecords == null || rangeOfMatch == 0) {
+			return null;
+		}
+		// result
+		List<EHealthRecord> result = new ArrayList<EHealthRecord>();
+		
+		// 2. built project reference table
+		Map<String, HashMap<String, String>> projectReferenceTable = new HashMap<String, HashMap<String,String>>();
+		for (String string : DiagClassifyData.machineKeywords) {
+			if ("".equals(string)) {
+				continue;
+			}
+			String[] pro_contents = string.split("%");
+			if (pro_contents == null || pro_contents.length != 2) {
+				continue;
+			}
+			String[] con_value = pro_contents[1].split("#");
+			if (con_value == null || con_value.length == 0) {
+				continue;
+			}
+					
+			HashMap<String, String> key_value = new HashMap<String, String>();
+			for (String ks : con_value) {
+				String[] kv = ks.split(":");
+				if (kv == null || kv.length != 2) {
+					continue;
+				}
+				key_value.put(kv[1], kv[0]);
+			}
+			projectReferenceTable.put(pro_contents[0], key_value);
+		}
+		System.out.println(projectReferenceTable);
+		List<String> mainProjectList = new ArrayList<String>();
+		List<String> secondProjectList = new ArrayList<String>();
+				
+		for (String string : DiagClassifyData.mainProjectStrings) {
+			mainProjectList.add(string);
+		}
+		for (String string : DiagClassifyData.secondProjectStrings) {
+			secondProjectList.add(string);
+		}
+				
+		Map<String, ArrayList<String>> descKeywordMap = new HashMap<String, ArrayList<String>>();
+		for (String desc : DiagClassifyData.descKeywords) {
+			String[] splits = desc.split(":");
+			if (splits == null || splits.length != 2) {
+				continue;
+			}
+			String[] contents = splits[1].split("\\|");
+			ArrayList<String> list = new ArrayList<String>();
+			for (String con : contents) {
+				list.add(con);
+			}
+			descKeywordMap.put(splits[0], list);
+		}
+		System.out.println(descKeywordMap);
+
+		
+		for (EHealthRecord eHealthRecord : eHealthRecords) {
+			// 4.1 built record map and initial
+			Map<String, String> recordMainMap = new HashMap<String, String>();
+			Map<String, String> recordSecondMap = new HashMap<String, String>();
+			for (String string : DiagClassifyData.mainProjectStrings) {
+				recordMainMap.put(string, "0");
+			}
+			for (String string : DiagClassifyData.secondProjectStrings) {
+				recordSecondMap.put(string, "0");
+			}
+			
+			// 4.2 built record description key words list
+			List<String> recordDescList = new ArrayList<String>();
+			Set<String> recordDescSet = new HashSet<String>();
+			Set<String> descKeywordMapKeySet = descKeywordMap.keySet();
+			for (String desc : descKeywordMapKeySet) {
+				ArrayList<String> valueList = descKeywordMap.get(desc);
+				for (String vString : valueList) {
+					if (eHealthRecord.getConditionsdescribed().contains(vString)) {
+						// match description
+						recordDescSet.add(desc);
+						break;
+					}
+				}
+			}
+			recordDescList.addAll(recordDescSet);
+			System.out.println(recordDescList);
+			// 4.3 create the main and second description map
+			Set<String> projectKeySet = null;
+			for (String record : recordDescList) {
+				// project
+				projectKeySet = projectReferenceTable.keySet();
+				for (String project : projectKeySet) {
+					
+					if (mainProjectList.contains(project)) {
+						// main project
+						HashMap<String, String> valueMap = projectReferenceTable.get(project);
+						if (valueMap.get(record) != null) {
+							String value = valueMap.get(record);
+							recordMainMap.remove(project);
+							recordMainMap.put(project, value);
+						}
+					}else if (secondProjectList.contains(project)) {
+						// second project
+						HashMap<String, String> valueMap = projectReferenceTable.get(project);
+						if (valueMap.get(record) != null) {
+							String value = valueMap.get(record);
+							recordSecondMap.remove(project);
+							recordSecondMap.put(project, value);
+						}
+					}
+				}
+			}
+			System.out.println(eHealthRecord.getRegistrationno());
+			System.out.println(recordMainMap);
+			System.out.println(recordSecondMap);
+			// 4.4 find the match record, main description match 100% and second match 50%
+			boolean isMainMatched = false, isSecondMatched = false;
+			// main description match
+			if (inputMainInfo.size() > 0) {
+				isMainMatched = true;
+				int matchNum = 0;
+				Set<String> inputMainInfoKeySet = inputMainInfo.keySet();
+				for (String in : inputMainInfoKeySet) {
+					// match project value
+					if (inputMainInfo.get(in).equals(recordMainMap.get(in))) {
+						matchNum++;
+					}
+				}
+				
+				if (matchNum >= rangeOfMatch) {
+					isMainMatched = true;
+				}else{
+					isMainMatched = false;
+				}
+			}else{
+				isMainMatched = true;
+			}
+			
+			// second description match
+			if (inputSecondInfo.size() > 0) {
+				// second description match 50%
+				int matchNum = 0;
+				Set<String> inputSecondInfoKeySet = inputSecondInfo.keySet();
+				for (String in : inputSecondInfoKeySet) {
+					// match project value
+					if (inputSecondInfo.get(in).equals(recordSecondMap.get(in))) {
+						matchNum++;
+					}
+				}
+				
+				if (matchNum > inputSecondInfo.size() / 2) {
+					isSecondMatched = true;
+				}else{
+					isSecondMatched = false;
+				}
+				
+			}else{
+				isSecondMatched = false;
+			}
+			// 4.5 return the result
+			if (isMainMatched && isSecondMatched) {
+				result.add(eHealthRecord);
+			}
+		}
+		return result;
 	}
 	
 	/**
