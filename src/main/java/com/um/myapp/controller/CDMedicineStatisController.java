@@ -31,7 +31,6 @@ public class CDMedicineStatisController {
 		 */
 		List<EHealthRecord> eHealthRecordsByBatch = MedicineByDescription.getRecordsByBatch(batch); // 符合某一批次的全部病历
 		
-		
 		int ehealthCount = eHealthRecordsByBatch.size();
 		/**
 		 * 2.诊断分类
@@ -42,7 +41,7 @@ public class CDMedicineStatisController {
 		 * 3. 对病历进行分类处理
 		 * 		3.1 中医诊断分类
 		 */
-		
+		Map<String, Integer> cnClassifyNumber = new HashMap<String, Integer>();
 		CWRelationMapping.chineseDiagnosticsClassify(eHealthRecordsByBatch,chineseDiagnostics);//中医诊断分类
 		
 		int numOfChineseDiag = chineseDiagnostics.size();
@@ -51,6 +50,9 @@ public class CDMedicineStatisController {
 			
 			DiagnosticsClassify cndiag = chineseDiagnostics.get(i);
 			List<String> cnMedicines = new ArrayList<String>();
+			
+			// 每一类中病例的数量
+			cnClassifyNumber.put(cndiag.getDiagString(), cndiag.geteHealthRecords().size());
 			
 			if(cndiag != null && cndiag.geteHealthRecords() != null && cndiag.geteHealthRecords().size() > 0){
 				for(EHealthRecord eRecord:cndiag.geteHealthRecords()){
@@ -81,9 +83,10 @@ public class CDMedicineStatisController {
 			}
 		}
 		
-		ModelAndView mv = new ModelAndView("cdmedicine");
+		ModelAndView mv = new ModelAndView("statisticsByCNDiagnose");
 		mv.addObject("cnClassifyStatistics", cnClassifyStatistics);
 		mv.addObject("ehealthCount", ehealthCount);
+		mv.addObject("cnClassifyNumber", cnClassifyNumber);
 		return mv;
 	}
 }

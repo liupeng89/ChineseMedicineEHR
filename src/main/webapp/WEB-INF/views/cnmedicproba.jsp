@@ -46,8 +46,7 @@
 				<h4>输入中药：</h4> ${medicines }
 			</p>
 		</div>
-	</div>
-	<div>
+		<div>
 		<table class="table table-striped " border="0px">
 			<c:if test="${results.size() == 1 }">
 				<c:if test="${medicines.trim().contains(' ') }">
@@ -137,5 +136,7 @@
 				${item }
 			</c:forEach>
 		</div>
+	</div>
+	
 </body>
 </html>

@@ -85,4 +85,10 @@ public class FrameController {
 		return mv;
 	}
 	
+	@RequestMapping(value="findRecordByCMName", method=RequestMethod.GET)
+	public ModelAndView findRecordByCMName(){
+		ModelAndView mv = new ModelAndView("findRecordByCMName");
+		return mv;
+	}
+	
 }

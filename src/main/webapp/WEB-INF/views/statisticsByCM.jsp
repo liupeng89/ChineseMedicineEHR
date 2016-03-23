@@ -16,7 +16,7 @@
 				<div class="row">
 	                    <div class="col-lg-12">
 	                        <h1 class="page-header">
-	                            中药处方统计
+	                            统计中药处方
 	                        </h1>
 	                    </div>
 	                </div>
@@ -29,8 +29,12 @@
                         	<option value="2010">2010</option>
                         	<option value="2009">2009</option> 
     					</select> &nbsp;&nbsp;
-        			<input type="submit" class="btn btn-success btn-xs" value="统计中药处方" />
+        			<input type="submit" class="btn btn-success btn-xs" value="统计" />
         		</form>
+			</div>
+			<div>
+				<h3>病例数量：<font color="red">${patientCount }</font></h3>
+				
 			</div>
 			<p></p>
 			<div>
@@ -38,8 +42,8 @@
 		           <thead>
 		           		<tr class="info">
 			                <th>编号</th>
-			                <th>名称</th>
-			                <th>数量</th>
+			                <th>中药名称</th>
+			                <th>数量(百分百)</th>
 		           		</tr>
 		           </thead>
 		            <tbody>

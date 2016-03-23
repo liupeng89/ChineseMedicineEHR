@@ -38,13 +38,16 @@
 				<a href="maincnmedicine" target="showme">中药关系统计</a>
 			</li>
 			<li class="list-group-item">
-				<a href="statisByCN" target="showme">中药处方统计</a>
+				<a href="statisByCN" target="showme">统计中药处方</a>
 			</li>
 			<li class="list-group-item">
-				<a href="statisByCWCassify" target="showme">中西医诊断分类统计</a>
+				<a href="statisByCWCassify" target="showme">基于中医诊断的统计</a>
 			</li>
 			<li class="list-group-item">
 				<a href="statisByCNDiagnose" target="showme">中医诊断统计</a>
+			</li>
+			<li class="list-group-item">
+				<a href="findRecordByCMName" target="showme">基于中医名称查找处方</a>
 			</li>
 			
 		</ul>

@@ -97,7 +97,7 @@ public class CWDiagStatisController {
 		}
 		
 		Map<String, Integer> chineseDiagMap = new HashMap<String, Integer>();
-		Map<String, Integer> westernDiagMap = new HashMap<String, Integer>();
+//		Map<String, Integer> westernDiagMap = new HashMap<String, Integer>();
 		
 		for(DiagnosticsClassify d : chineseDiagnostics ){
 			if( d.geteHealthRecords().size() > 0 ){
@@ -105,19 +105,19 @@ public class CWDiagStatisController {
 			}
 		}
 		
-		for( DiagnosticsClassify d: westernDiagnostics){
-			if( d.geteHealthRecords().size() > 0 ){
-				westernDiagMap.put(d.getDiagString(), d.geteHealthRecords().size());
-			}
-		}
+//		for( DiagnosticsClassify d: westernDiagnostics){
+//			if( d.geteHealthRecords().size() > 0 ){
+//				westernDiagMap.put(d.getDiagString(), d.geteHealthRecords().size());
+//			}
+//		}
 		
 		// 排序
 		chineseDiagMap = DiagMedicineProcess.sortMapByValue(chineseDiagMap);
-		westernDiagMap = DiagMedicineProcess.sortMapByValue(westernDiagMap);
+//		westernDiagMap = DiagMedicineProcess.sortMapByValue(westernDiagMap);
 		
 		ModelAndView mv = new ModelAndView("statisticsByCWClassify");
 		mv.addObject("chineseDiagnostics", chineseDiagMap);
-		mv.addObject("westernDiagnostics", westernDiagMap);
+//		mv.addObject("westernDiagnostics", westernDiagMap);
 		mv.addObject("classMapping", classMap);
 		mv.addObject("count",totalCount);
 		return mv;

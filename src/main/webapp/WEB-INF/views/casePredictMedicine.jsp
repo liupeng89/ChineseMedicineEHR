@@ -25,6 +25,13 @@
 			width:60%;
 		}
 	</style>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("p").click(function(){
+		        alert("The paragraph was clicked.");
+		    });
+		});
+</script>
 	<title>case predict medicines</title>
 </head>
 <body>
@@ -38,7 +45,7 @@
 	            </h1>
 	            </div>
 	        </div>
-			<form name="form" method="post">
+			<form name="form1" method="post" action='predicetByCase'>
 				<div id="left_rigth">
 					<p class="text-danger">
 						<label>请入病例序号(1-1130) 或挂号号</label>
@@ -51,7 +58,7 @@
 						<input type="text" name="threshold" value="0.3" />
 					</p>
 					<p>
-						<input type="submit" class="btn btn-success btn-xs" value="根据病例预测处方" onclick="javascript: form.action='predicetByCase';" />
+						<input name="sub" type="submit" class="btn btn-success btn-xs" value="根据病例预测处方"  />
 					</p>
 				</div>
 			</form>
@@ -73,6 +80,8 @@
 			<h3>描述：</h3>
 			<p>${description }</p>
 			<hr>
+		</div>
+		<div id="result">
 		</div>
 		<!-- 案例统计预测结果 -->
 		<c:if test="${medicineListByStatis != null }">
@@ -137,4 +146,5 @@
 	</div>
 
 </body>
+
 </html>

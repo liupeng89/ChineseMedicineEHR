@@ -157,11 +157,11 @@ body {
 	}
 	#left {
 		float:left;
-		width:55%;
+		width:100%;
 	}
 	#right {
 		float:right;
-		width:45%;
+		width:100%;
 	}
 	#left_left {
 		float:left;

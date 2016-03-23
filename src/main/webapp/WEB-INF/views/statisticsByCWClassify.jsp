@@ -16,8 +16,9 @@
 			<div class="row">
 	        	<div class="col-lg-12">
 	            <h1 class="page-header">
-	           中西医诊断统计分类
+	           	基于中医诊断的统计
 	            </h1>
+	           
 	            </div>
 	        </div>
 			<form action="cwdiagstatis" method="get">
@@ -29,19 +30,23 @@
                     <option value="2010">2010</option>
                     <option value="2009">2009</option> 
 	    		</select>
-			    <input type="submit" class="btn btn-success btn-xs" value="中西医诊断统计分类" /> 
+			    <input type="submit" class="btn btn-success btn-xs" value="统计" /> 
 	        </form>
 		</div>
 		<div>
 			<%
 			int count = (Integer) request.getAttribute("count");
 			%>
-			<h2>中医诊断统计</h2>
+			<h4>总病例数:
+				<font color="red">
+					 ${count }
+				</font>
+			</h4>
 			<table class="table table-bordered">
-				<tr>
+				<tr class="info">
 					<th>序号</th>
-					<th>描述</th>
-					<th>数量</th>
+					<th>中医诊断描述</th>
+					<th>数量(百分百)</th>
 				</tr>
 				<c:forEach var="item" items="${chineseDiagnostics }" varStatus="status">
 					<tr>
@@ -58,7 +63,7 @@
 			
 			<br>
 			<br>
-			<h2>西医诊断统计</h2>
+			<%-- <h2>西医诊断统计</h2>
 			<table class="table table-bordered">
 				<tr>
 					<th>序号</th>
@@ -77,7 +82,7 @@
 						</td>
 					</tr>
 				</c:forEach>
-			</table>
+			</table> --%>
 			<br>
 			<br>
 		</div>
