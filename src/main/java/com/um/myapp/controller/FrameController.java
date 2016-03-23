@@ -85,9 +85,24 @@ public class FrameController {
 		return mv;
 	}
 	
+	// 根据中药名称查找病例
 	@RequestMapping(value="findRecordByCMName", method=RequestMethod.GET)
 	public ModelAndView findRecordByCMName(){
 		ModelAndView mv = new ModelAndView("findRecordByCMName");
+		return mv;
+	}
+	
+	// 根据输入症状查找病例
+	@RequestMapping(value="findRecordByInputDescription", method=RequestMethod.GET)
+	public ModelAndView findRecordByInputDescription(){
+		ModelAndView mv = new ModelAndView("findRecordByInputDescription");
+		return mv;
+	}
+	
+	// new 根据输入预测中药处方
+	@RequestMapping(value="framePredictInput", method=RequestMethod.GET)
+	public ModelAndView predictInput(){
+		ModelAndView mv = new ModelAndView("predictInput");
 		return mv;
 	}
 	

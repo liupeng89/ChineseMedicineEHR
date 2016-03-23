@@ -47,7 +47,13 @@
 				<a href="statisByCNDiagnose" target="showme">中医诊断统计</a>
 			</li>
 			<li class="list-group-item">
-				<a href="findRecordByCMName" target="showme">基于中医名称查找处方</a>
+				<a href="findRecordByCMName" target="showme">基于中药名称查找处方</a>
+			</li>
+			<li class="list-group-item">
+				<a href="findRecordByInputDescription" target="showme">基于输入症状查找处方</a>
+			</li>
+			<li class="list-group-item">
+				<a href="framePredictInput" target="showme">预测处方</a>
 			</li>
 			
 		</ul>
