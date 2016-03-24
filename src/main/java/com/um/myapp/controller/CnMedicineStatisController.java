@@ -35,15 +35,13 @@ public class CnMedicineStatisController {
 		}
 		
 		if(eHealthRecordsByBatch == null || eHealthRecordsByBatch.size() == 0){
-			
 			return mv;
 		}
 		
 		// 1.3 统计中药
 		Map<String, String> resultMap = DiagMedicineProcess.statisMedicProbability(medicines,eHealthRecordsByBatch);
-		List<String> descriptionList = null;
 		
-		if(resultMap.isEmpty() || resultMap == null){
+		if(resultMap == null || resultMap.size() == 0){
 			
 			return mv;
 		}
@@ -71,7 +69,7 @@ public class CnMedicineStatisController {
 					String[] vs = valueString.split("\\|"); // 区分交集和并集
 					valueList.add(vs[0]); // 并集
 					valueList.add(vs[1]); // 并集百分比
-					descriptionList = DiagMedicineProcess.getDescriptionByMedicine(medicines, eHealthRecordsByBatch);
+//					descriptionList = DiagMedicineProcess.getDescriptionByMedicine(medicines, eHealthRecordsByBatch);
 				}
 				result.put(s, valueList);
 			}
@@ -90,9 +88,14 @@ public class CnMedicineStatisController {
 			}
 		}
 		
+		//中药交集的症状描述统计
+		List<EHealthRecord> eHealthRecordsWithSameMedicines = DiagMedicineProcess.getEhealthRecordsByCMNames(medicines, eHealthRecordsByBatch);
+		List<String> descriptionWithSameMedicines = DiagMedicineProcess.getDescriptionWithSameMedicines(eHealthRecordsWithSameMedicines);
+		
+		
 		mv.addObject("results", result);
 		mv.addObject("medicines", medicines);
-		mv.addObject("descriptionlist", descriptionList);
+		mv.addObject("descriptionlist", descriptionWithSameMedicines);
 		return mv;
 	}
 }

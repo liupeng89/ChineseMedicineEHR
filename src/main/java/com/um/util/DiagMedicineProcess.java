@@ -10,7 +10,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import java.util.Set;
 
 import com.um.data.DiagClassifyData;
@@ -602,6 +601,81 @@ public class DiagMedicineProcess {
 			
 		}
 		return resultMap;
+	}
+	
+	/**
+	 * Get all record by medicine names
+	 * @param names
+	 * @param eHealthRecords
+	 * @return
+	 */
+	public static List<EHealthRecord> getEhealthRecordsByCMNames(String names, List<EHealthRecord> eHealthRecords){
+		if ("".equals(names) || eHealthRecords==null || eHealthRecords.size()==0) {
+			return null;
+		}
+		// medicines
+		String[] mStrings = names.split(" ");
+		List<String> nameStrings = new ArrayList<String>();
+		for (String string : mStrings) {
+			nameStrings.add(string);
+		}
+		// resutl list
+		List<EHealthRecord> result = new ArrayList<EHealthRecord>();
+		
+		for (EHealthRecord eHealthRecord : eHealthRecords) {
+			if (eHealthRecord.getChineseMedicines() == null || eHealthRecord.getChineseMedicines().size() == 0) {
+				continue;
+			}
+			//all medicine in a record
+			Set<String> recordMedicinesSet = new HashSet<String>();
+			for (ChineseMedicine c : eHealthRecord.getChineseMedicines()) {
+				recordMedicinesSet.add(c.getNameString());
+			}
+			// check match
+			int count = 0;
+			if (nameStrings.size() == 1) {
+				if (recordMedicinesSet.contains(nameStrings.get(0))) {
+					result.add(eHealthRecord);
+				}
+			}else if (nameStrings.size() > 1){
+				for (String na : nameStrings) {
+					if (recordMedicinesSet.contains(na)) {
+						count++;
+					}else{
+						break;
+					}
+					if (count == nameStrings.size()-1) {
+						result.add(eHealthRecord);
+					}
+				}
+			}
+			
+		}
+		
+		return result;
+	}
+	/**
+	 * 
+	 * @param eHealthRecords
+	 * @return
+	 */
+	public static List<String> getDescriptionWithSameMedicines(List<EHealthRecord> eHealthRecords){
+		if (eHealthRecords == null || eHealthRecords.size() == 0) {
+			return null;
+		}
+		
+		List<String> list = new ArrayList<String>();
+		Set<String> set = new HashSet<String>();
+		for (EHealthRecord eHealthRecord : eHealthRecords) {
+			String formattedDescription = MedicineByDescription.formattedDescriptionByCount(eHealthRecord.getConditionsdescribed());
+			String[] formatStrings = formattedDescription.split(",");
+			for (String fString : formatStrings) {
+				set.add(fString);
+			}
+		}
+		
+		list.addAll(set);
+		return list;
 	}
 	
 	
