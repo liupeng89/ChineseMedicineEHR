@@ -132,9 +132,19 @@
 				</tbody>
 			</c:if>
 		</table>
-			<c:forEach var="item" items="${descriptionlist}" varStatus="status">
+		<div>
+			<div class="row">
+	        	<div class="col-lg-12">
+	            <h3 class="page-header">
+	           		相同症状
+	            </h3>
+	            </div>
+	        </div>
+	        <c:forEach var="item" items="${descriptionlist}" varStatus="status">
 				${item }
 			</c:forEach>
+		</div>
+			
 		</div>
 	</div>
 	

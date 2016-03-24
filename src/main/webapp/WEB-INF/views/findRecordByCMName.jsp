@@ -14,7 +14,7 @@
 			<div class="row">
 	        	<div class="col-lg-12">
 	            <h1 class="page-header">
-	           		输入中药查找病例
+	           		输入中药查找病历
 	            </h1>
 	            </div>
 	        </div>
@@ -31,7 +31,8 @@
     					</select>  
 	    		</p>
 			 	<input type="text" name="medicines" />
-			 	<input type="submit" class="btn btn-success btn-xs" value="查询" />	
+			 	<input type="submit" class="btn btn-success btn-xs" value="查询" />
+			 	<label>(多味中药空格分割)</label>	
 			</form>
 			<hr>
 			<p class="text-danger">
@@ -52,6 +53,12 @@
             	 	</tr>
             	</c:forEach>
         </table>
+        <!-- page -->
+       <%--  <div>
+        	<c:forEach var="i" begin="1" end="${pagenum }">
+        		<a href="pages/${i }" >${i }</a>
+        	</c:forEach>
+        </div> --%>
 			
 		</div>
 

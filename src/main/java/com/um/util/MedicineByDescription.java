@@ -181,7 +181,6 @@ public class MedicineByDescription {
 		Map<String, String> resultMap = new HashMap<String, String>();
 		// 1. parse the request parameters
 		String batch = request.getParameter("batch").trim(); // batch 
-		String threshold = request.getParameter("threshold").trim(); // threshold of machine learning
 		
 		// Time status
 		String timeStatusString = request.getParameter("timestatus").trim();
@@ -251,7 +250,6 @@ public class MedicineByDescription {
 		resultMap.put("batch", batch); 
 		resultMap.put("diagnose", diagnoseString);
 		resultMap.put("description", descriptionString);
-		resultMap.put("threshold", threshold);
 //		resultMap.put("timeStatus", timeStatus);
 		return resultMap;
 	}

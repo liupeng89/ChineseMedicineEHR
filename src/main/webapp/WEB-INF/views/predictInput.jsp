@@ -23,8 +23,12 @@
 				    data:str,
 				    url:'predictMedicineByInput',
 				    success: function(msg){
-				       $('#result').html(msg);
-				    }
+				       
+				    },
+				    error: function (xhr, ajaxOptions, thrownError) {
+				        alert(xhr.status);
+				        alert(thrownError);
+				      }
 				});  
 			});
 		});

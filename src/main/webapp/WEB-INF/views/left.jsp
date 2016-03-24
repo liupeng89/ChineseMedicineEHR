@@ -20,7 +20,7 @@
 		<h3>功能</h3>
 		<ul  class="list-group">
 			<li class="list-group-item">
-				<a href="mainquery" target="showme">病历查询</a>
+				<a href="mainquery" target="showme">基于病人信息查询病历</a>
 			</li>
 			<!-- <li class="list-group-item">
 				<a href="mainstatis" target="showme">数据统计</a>
@@ -47,14 +47,14 @@
 				<a href="statisByCNDiagnose" target="showme">中医诊断统计</a>
 			</li>
 			<li class="list-group-item">
-				<a href="findRecordByCMName" target="showme">基于中药名称查找处方</a>
+				<a href="findRecordByCMName" target="showme">基于中药名称查询病历</a>
 			</li>
 			<li class="list-group-item">
-				<a href="findRecordByInputDescription" target="showme">基于输入症状查找处方</a>
+				<a href="findRecordByInputDescription" target="showme">基于输入症状查询病历</a>
 			</li>
-			<li class="list-group-item">
+			<!-- <li class="list-group-item">
 				<a href="framePredictInput" target="showme">预测处方</a>
-			</li>
+			</li> -->
 			
 		</ul>
 	</div>

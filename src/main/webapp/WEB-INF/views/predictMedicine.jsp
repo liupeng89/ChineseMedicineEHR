@@ -181,9 +181,10 @@
 										<option value="defaultdefecate" selected>正常</option>
 										<option value="okdefecate">便秘（轻）</option>
 										<option value="baddefecate">便秘（中）</option>
-										<option value="worsedefecate">便秘（重）</option>					
+										<option value="worsedefecate">便秘（重）</option>
+										<option value="blooddefecate">便血</option>					
 									</select>
-									&nbsp;&nbsp;&nbsp;&nbsp;<label><input name="constipation" type="checkbox" value="xiexie"/>泄泻</label>
+									&nbsp;&nbsp;&nbsp;&nbsp;<label><input name="constipation" type="checkbox" value="xiexie"/>腹泻</label>
 								</td>
 							</tr>
 							<tr>
