@@ -764,7 +764,7 @@ public class DiagClassifyData {
 
 			"defecate%defaultdefecate:二便可|无便秘#okdefecate:便秘缓解|大便次数多|大便尚可|大便次多|大便不畅|大便可|大便欠通畅#baddefecate:大便（中）#worsedefecate:二便失禁|大便欠通畅|大便难解|时便溏|便溏|便溏缓解|便烂|大便难排|大便时腹痛|大便不畅",
 
-			"xiexie%ok:，腹泻已止，|无腹泻#xiexie:泄泻|，腹泻（|，腹泻，",
+			"xiexie%ok:，腹泻已止，|无腹泻#xiexie:泻泄|，腹泻（|因腹泻严重|，腹泻，|因腹泻、|，腹泻好转，|时腹泻，|时有腹泻|腹泻缓解|近腹泻，|皮疹腹泻|腹泻减少|，腹泻。|腹泻轻微|、腹泻，",
 
 			"urinate%okurinate:二便调|小便调#badurinate:小便次多|小便量少|夜尿多缓解|，夜尿减少#worseurinate:尿频|二便失禁|，夜尿多|现夜尿多，#bloodurinate:尿血",
 
@@ -858,6 +858,7 @@ public class DiagClassifyData {
 		"okdefecate:便秘（轻）",
 		"baddefecate:便秘（中）",
 		"worsedefecate:便秘（重）",
+		"blooddefecate:便血",
 		"xiexie:腹泻",
 		"okurinate:小便正常",
 		"badurinate:小便次多",
@@ -965,6 +966,7 @@ public class DiagClassifyData {
 		"okdefecate:1",
 		"baddefecate:2",
 		"worsedefecate:3",
+		"blooddefecate:4",
 		"xiexie:1",
 		"okurinate:0",
 		"badurinate:1",
@@ -1063,7 +1065,8 @@ public class DiagClassifyData {
 		"okdefecate:便秘缓解|大便次数多|大便尚可|大便次多|大便不畅|大便可|大便欠通畅",
 		"baddefecate:大便（中）",
 		"worsedefecate:二便失禁|大便欠通畅|大便难解|时便溏|，便溏，|便溏缓解|便烂|大便难排|大便时腹痛|大便不畅|，便秘，|大便时腹痛",
-		"xiexie:泻泄|，腹泻（",
+		"blooddefecate:，便血，",
+		"xiexie:泻泄|，腹泻（|因腹泻严重|，腹泻，|因腹泻、|，腹泻好转，|时腹泻，|时有腹泻|腹泻缓解|近腹泻，|皮疹腹泻|腹泻减少|，腹泻。|腹泻轻微|、腹泻，",
 		"okurinate:二便调|小便调",
 		"badurinate:小便次多|小便量少|夜尿多缓解|，夜尿减少",
 		"worseurinate:尿频|二便失禁|，夜尿多|现夜尿多，",
